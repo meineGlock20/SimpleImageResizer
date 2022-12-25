@@ -51,7 +51,7 @@ public static class Draw
            pixelsPerDip);
 
         // Build the geometry object that represents the text.
-        Geometry textGeometry = formattedText.BuildGeometry(new System.Windows.Point(20, 5));
+        Geometry textGeometry = formattedText.BuildGeometry(new System.Windows.Point(20, 10));
 
         // Draw a rounded rectangle under the text that is slightly larger than the text.
         Rect rect = new(new Size(formattedText.Width + 50, formattedText.Height + 10));
@@ -60,7 +60,7 @@ public static class Draw
         // Draw the outline based on the properties that are set.
         drawingContext.DrawGeometry(Brushes.LightBlue, new Pen(Brushes.SteelBlue, 1.5), textGeometry);
 
-        drawingContext.DrawText(formattedText2, new Point(80, 45));
+        drawingContext.DrawText(formattedText2, new Point(80, 40));
 
         // Return the updated DrawingGroup content to be used by the control.
         return drawingGroup;

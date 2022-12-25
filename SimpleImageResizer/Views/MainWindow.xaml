@@ -6,6 +6,7 @@
         xmlns:vm="clr-namespace:SimpleImageResizer.ViewModels"
         xmlns:local="clr-namespace:SimpleImageResizer.Views"
         mc:Ignorable="d"
+        ResizeMode="CanResizeWithGrip"
         Title="SIR! Simple Image Resizer" Height="450" Width="800">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -109,11 +110,118 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="GhostWhite"/>
+                </Style>
+                <Style TargetType="CheckBox">
+                    <Setter Property="Foreground" Value="GhostWhite"/>
+                </Style>
+            </Grid.Resources>
 
             <Grid Grid.Column="0" Background="#3E78B3">
-                <Grid Margin="10">
-                    <TextBlock Text="OPTIONS HERE"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+               
+                <Border Grid.Row="0" Background="LightSteelBlue">
+                    <TextBlock Text="Advanced Output Mode" Margin="5,2" Foreground="Black"/>
+                </Border>
+
+                <Grid Grid.Row="1" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Column="0" Grid.Row="0" Content="Percentage"/>
+                    <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+                        <TextBox Width="40" MaxLength="3"/>
+                        <TextBlock Text="%" Margin="3,0,0,0"/>
+                    </StackPanel>
+
+                    <CheckBox Grid.Column="0" Grid.Row="2" Content="Absolute"/>
+                    <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
+                        <TextBox Width="40" MaxLength="8"/>
+                        <TextBlock Text="x" Margin="3,0"/>
+                        <TextBox Width="40" MaxLength="8"/>
+                    </StackPanel>
+
+                    <CheckBox Grid.Column="0" Grid.Row="4" Content="Aspect"/>
+                    <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal">
+                        <ComboBox />
+                        <TextBox Width="40" MaxLength="3" Margin="3,0,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Orientation="Horizontal">
+                        <TextBlock Text="Save as"/>
+                        <ComboBox Margin="3,0,0,0"/>
+                    </StackPanel>
                 </Grid>
+
+                <Border Grid.Row="3" Background="LightSteelBlue">
+                    <TextBlock Text="Options" Margin="5,2" Foreground="Black"/>
+                </Border>
+
+                <Grid Grid.Row="4" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0" Content="Overwrite existing"/>
+
+                    <CheckBox Grid.Row="2" Content="Add numeric suffix"/>
+
+                    <CheckBox Grid.Row="4" Content="Show message box on completion"/>
+                    
+                    <CheckBox Grid.Row="6" Content="Clear images on completion"/>
+
+                    <CheckBox Grid.Row="8" Content="Use all available processors"/>
+
+                    <StackPanel Grid.Row="10" Orientation="Horizontal">
+                        <TextBox Text="" d:Text="70" Width="40"/>
+                        <TextBlock Text="JPG quality" Margin="3,0"/>
+                        <Button ToolTip="Reset to default value.">
+                            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
+                                <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
+                                    <Canvas>
+                                        <Path Data="M12.5,8c-2.65,0,-5.05,0.99,-6.9,2.6L2,7v9h9l-3.62,-3.62c1.39,-1.16,3.16,-1.88,5.12,-1.88,3.54,0,6.55,2.31,7.6,5.5l2.37,-0.78C21.08,11.03,17.15,8,12.5,8z" Fill="#212121"/>
+                                    </Canvas>
+                                </Canvas>
+                            </Viewbox>
+                        </Button>
+                    </StackPanel>
+                    
+                </Grid>
+
             </Grid>
 
             <Grid Grid.Column="1" Background="{Binding BackgroundDrawingBrush}">
@@ -131,7 +239,28 @@
 
         <StatusBar Grid.Row="3">
             <StatusBarItem>
-                <TextBlock Text="Ready"/>
+                <Grid Width="200">
+                    <ProgressBar x:Name="ProgressBarResize" Background="LightSteelBlue" Foreground="#3E78B3" d:Value="20" Value="{Binding ImageProcessingProgress}" ToolTip="Tracks the progress of the image resizing process."/>
+                    <TextBlock x:Name="TextBlockProgress" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" d:Text="20 %" Text="{Binding ImageProcessingProgressText, TargetNullValue=0 %, FallbackValue=0 %}"/>
+                </Grid>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding ImageCount, TargetNullValue=0, FallbackValue=0, StringFormat={}{0:N0}}"/>
+                    <TextBlock Text="image(s)" Margin="5,0,0,0"/>
+                    <TextBlock Text="(" Margin="3,0,3,0"/>
+                    <TextBlock Text="{Binding ImagesSize, FallbackValue=0 bytes}"/>
+                    <TextBlock Text=")" Margin="3,0,3,0"/>
+                </StackPanel>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Use simple resizing" VerticalAlignment="Center"/>
+                    <Slider Width="100" TickFrequency="25" Maximum="75" IsSnapToTickEnabled="True"  Margin="5,0,0,0" Value="25" />
+                    <TextBlock Text="" d:Text="Medium" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
             </StatusBarItem>
         </StatusBar>
     </Grid>
