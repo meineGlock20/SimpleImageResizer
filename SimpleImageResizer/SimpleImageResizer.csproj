@@ -18,12 +18,43 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Models\" />
+	  <Page Remove="Resources\icons.messagebox.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <COMReference Include="Shell32">
+	    <VersionMinor>0</VersionMinor>
+	    <VersionMajor>1</VersionMajor>
+	    <Guid>50a7e9b0-70ef-11d1-b75a-00a0c90564fe</Guid>
+	    <Lcid>0</Lcid>
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>False</EmbedInteropTypes>
+	  </COMReference>
+	</ItemGroup>
+
+	<ItemGroup>
 		<Folder Include="Localize\" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Resource Include="Resources\ComicKings.ttf" />
+	  <Resource Include="Resources\icons.messagebox.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Settings.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Settings.settings</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
 	</ItemGroup>
 
 </Project>

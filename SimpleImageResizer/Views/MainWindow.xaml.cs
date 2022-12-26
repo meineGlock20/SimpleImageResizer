@@ -26,6 +26,8 @@ public partial class MainWindow : Window
         Core.MyApplication.DpiScale = VisualTreeHelper.GetDpi(this).PixelsPerDip;
 
         InitializeComponent();
+
+        ((ViewModels.MainWindowViewModel)DataContext).Window = this;
     }
 
     private void MenuItemExit_Click(object sender, RoutedEventArgs e)

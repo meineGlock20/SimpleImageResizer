@@ -51,7 +51,7 @@
                 </StackPanel>
             </Button>
             <Separator/>
-            <Button>
+            <Button Command="{Binding CommandSetDestination}">
                 <StackPanel Orientation="Vertical">
                     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -127,7 +127,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-               
+
                 <Border Grid.Row="0" Background="LightSteelBlue">
                     <TextBlock Text="Advanced Output Mode" Margin="5,2" Foreground="Black"/>
                 </Border>
@@ -201,7 +201,7 @@
                     <CheckBox Grid.Row="2" Content="Add numeric suffix"/>
 
                     <CheckBox Grid.Row="4" Content="Show message box on completion"/>
-                    
+
                     <CheckBox Grid.Row="6" Content="Clear images on completion"/>
 
                     <CheckBox Grid.Row="8" Content="Use all available processors"/>
@@ -219,7 +219,7 @@
                             </Viewbox>
                         </Button>
                     </StackPanel>
-                    
+
                 </Grid>
 
             </Grid>
@@ -231,7 +231,30 @@
 
                 <Border Grid.Row="0" Background="#3E78B3" CornerRadius="4" Margin="5" Padding="5,2">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Destination:" Foreground="WhiteSmoke"/>
+                        <TextBlock Text="Destination:" Foreground="WhiteSmoke" VerticalAlignment="Center"/>
+                        <Button Command="{Binding CommandOpenDestination}" Content="{Binding DestinationDirectory}" d:Content="C:\Images" Cursor="Hand" Foreground="Yellow" Margin="5,0">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="CornflowerBlue"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
                 </Border>
             </Grid>
