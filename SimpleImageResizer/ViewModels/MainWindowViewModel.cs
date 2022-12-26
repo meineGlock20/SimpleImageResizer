@@ -64,26 +64,11 @@ public sealed class MainWindowViewModel : Models.BaseModel
     {
         if (!Directory.Exists(DestinationDirectory))
         {
-            // TODO: Message box that the dir does not exist. Set up as a service.
             MessageService.ShowMessage("The specified directory does not exist.\r\nHowever, it will be created when images are resized.",
-                "Directory Does Not Exist!",
-                Views.MessageBoxWindow.MessageBoxButton.Ok,
-                Views.MessageBoxWindow.MessageBoxIcon.Information,
-                Window);
-
-            //if(MessageService.ShowMessage("The specified directory does not exist.\r\nHowever, it will be created when images are resized.",
-            //    "Directory Does Not Exist!",
-            //    Views.MessageBoxWindow.MessageBoxButton.Ok,
-            //    Views.MessageBoxWindow.MessageBoxIcon.Information,
-            //    Window))
-
-            //new Views.MessageBoxWindow(
-            //    "The specified directory does not exist.\r\nHowever, it will be created when images are resized.",
-            //    "Directory Does Not Exist!",
-            //    Views.MessageBoxWindow.MessageBoxButton.Ok,
-            //    Views.MessageBoxWindow.MessageBoxIcon.Information,
-            //    Window).ShowDialog();
-
+                       "Directory Does Not Exist!",
+                       Views.MessageBoxWindow.MessageBoxButton.Ok,
+                       Views.MessageBoxWindow.MessageBoxIcon.Information,
+                       Window);
             return;
         }
 
