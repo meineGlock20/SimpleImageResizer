@@ -66,8 +66,8 @@ public sealed class MainWindowViewModel : Models.BaseModel
         {
             MessageService.ShowMessage("The specified directory does not exist.\r\nHowever, it will be created when images are resized.",
                        "Directory Does Not Exist!",
-                       Views.MessageBoxWindow.MessageBoxButton.Ok,
-                       Views.MessageBoxWindow.MessageBoxIcon.Information,
+                       MessageBoxServiceButton.Ok,
+                       MessageBoxServiceIcon.Information,
                        Window);
             return;
         }
@@ -88,7 +88,7 @@ public sealed class MainWindowViewModel : Models.BaseModel
     /// </summary>
     /// <remarks>
     /// This is used to properly position another window such as the message box by owner. Example: WindowStartupLocation="CenterOwner".
-    /// This does not break MVVM because if its null it does not matter.
+    /// This does not break MVVM because if its null it does not matter - it does not rely on the View in any way.
     /// </remarks>
     public Window? Window { get; set; }
 
