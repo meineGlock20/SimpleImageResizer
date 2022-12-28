@@ -130,4 +130,19 @@ However, it will be created when images are resized.</value>
   <data name="SelectImagesSupportedTypes" xml:space="preserve">
     <value>All Supported Images | *.bmp; *.gif; *.jfif; *.jpg; *.png; *.tif"</value>
   </data>
+  <data name="SimpleImageResizeLarge" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="SimpleImageResizeMedium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="SimpleImageResizeSmall" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="SimpleImageResizeThumbnail" xml:space="preserve">
+    <value>Thumbnail</value>
+  </data>
+  <data name="SimpleImageResizeUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
 </root>

@@ -96,5 +96,50 @@ namespace SimpleImageResizer.Localize {
                 return ResourceManager.GetString("SelectImagesSupportedTypes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Large.
+        /// </summary>
+        internal static string SimpleImageResizeLarge {
+            get {
+                return ResourceManager.GetString("SimpleImageResizeLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        internal static string SimpleImageResizeMedium {
+            get {
+                return ResourceManager.GetString("SimpleImageResizeMedium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Small.
+        /// </summary>
+        internal static string SimpleImageResizeSmall {
+            get {
+                return ResourceManager.GetString("SimpleImageResizeSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thumbnail.
+        /// </summary>
+        internal static string SimpleImageResizeThumbnail {
+            get {
+                return ResourceManager.GetString("SimpleImageResizeThumbnail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        internal static string SimpleImageResizeUnknown {
+            get {
+                return ResourceManager.GetString("SimpleImageResizeUnknown", resourceCulture);
+            }
+        }
     }
 }

@@ -18,6 +18,14 @@ public sealed class MainWindowViewModel : Models.BaseModel
     private int imageCount;
     private string? imagesTotalSize;
     private bool showSettings;
+    private int imageProcessingProgress;
+    private string? imageProcessingProgressText;
+    private int simpleResizeSetting;
+    private string? simpleResizeSettingDisplay;
+    private bool useSimple;
+    private bool usePercentage;
+    private bool useAbsolute;
+    private bool useAspect;
 
     /// <summary>
     /// Constructor.
@@ -27,13 +35,17 @@ public sealed class MainWindowViewModel : Models.BaseModel
         MessageService = new MessageBoxService();
 
         DestinationDirectory = Properties.Settings.Default.DestinationDirectory;
+        SimpleResizeSetting = Properties.Settings.Default.SimpleResizeSetting;
+
+        // Default use to simple.
+        UseSimple = true;
 
         // Commands.
         CommandClearImages = new Commands.Relay(ClearImages, p => true);
         CommandSetDestination = new Commands.Relay(SetDestination, p => true);
         CommandSettings = new Commands.Relay(Settings, p => true);
         CommandBatchProcess = new Commands.Relay(BatchProcess, p => true);
-        CommandProcessImages = new Commands.Relay(ProcessImages, p => true);
+        CommandProcessImages = new Commands.RelayAsync(ProcessImages, p => true);
         CommandOpenDestination = new Commands.Relay(OpenDestination, p => true);
     }
 
@@ -79,8 +91,23 @@ public sealed class MainWindowViewModel : Models.BaseModel
         ShowSettings = !ShowSettings;
     }
 
-    private void BatchProcess(object o) { }
-    private void ProcessImages(object o) { }
+    /// <summary>
+    /// Opens the window responsible for performing a batch process.
+    /// </summary>
+    /// <param name="o">Command Parameter, not used.</param>
+    private void BatchProcess(object o)
+    {
+        // TODO: Open another window for the batch process.
+    }
+
+    /// <summary>
+    /// Processes the images selected for resizing.
+    /// </summary>
+    /// <param name="o">Command Parameter, not used.</param>
+    private async Task ProcessImages(object o)
+    {
+        await ProcessImagesAsync();
+    }
 
     /// <summary>
     /// Opens the destination directory for resized images.
@@ -113,6 +140,31 @@ public sealed class MainWindowViewModel : Models.BaseModel
     {
         Images ??= new();
         Images.Add(i);
+    }
+
+    private async Task ProcessImagesAsync()
+    {
+        if (string.IsNullOrWhiteSpace(DestinationDirectory) || Images is null)
+            throw new ArgumentNullException();
+
+        if (!Directory.Exists(DestinationDirectory))
+            Directory.CreateDirectory(DestinationDirectory);
+
+        // This allows progress to be reported back to the UI when a long running TASK is run on another thread in an await.
+        IProgress<int> progress = new Progress<int>(percentCompleted =>
+        {
+            ImageProcessingProgress = percentCompleted;
+            ImageProcessingProgressText = $"{percentCompleted} %";
+        });
+
+
+
+
+        await Task.Run(() => Parallel.ForEach(Images, new ParallelOptions { MaxDegreeOfParallelism = 0 }, image =>
+        {
+
+        }));
+
     }
 
     /* PROPERTIES */
@@ -193,6 +245,128 @@ public sealed class MainWindowViewModel : Models.BaseModel
         set
         {
             showSettings = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating the progress of the processing of images.
+    /// </summary>
+    public int ImageProcessingProgress
+    {
+        get => imageProcessingProgress;
+
+        set
+        {
+            if (imageProcessingProgress != value)
+            {
+                imageProcessingProgress = value;
+                NotifyPropertyChanged();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating the progress of the processing of images using percentage.
+    /// </summary>
+    public string? ImageProcessingProgressText
+    {
+        get => imageProcessingProgressText;
+
+        set
+        {
+            if (imageProcessingProgressText != value)
+            {
+                imageProcessingProgressText = value;
+                NotifyPropertyChanged();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating the value used to resize images using the simple method.
+    /// </summary>
+    public int SimpleResizeSetting
+    {
+        get => simpleResizeSetting;
+        set
+        {
+            simpleResizeSetting = value;
+            Properties.Settings.Default.SimpleResizeSetting = value;
+            Properties.Settings.Default.Save();
+            SimpleResizeSettingDisplay = value switch
+            {
+                0 => Localize.MainWindow.SimpleImageResizeThumbnail,
+                25 => Localize.MainWindow.SimpleImageResizeSmall,
+                50 => Localize.MainWindow.SimpleImageResizeMedium,
+                75 => Localize.MainWindow.SimpleImageResizeLarge,
+                _ => Localize.MainWindow.SimpleImageResizeUnknown,
+            };
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating the simple resize mode; thumbnail, small, medium, or large.
+    /// </summary>
+    public string? SimpleResizeSettingDisplay
+    {
+        get => simpleResizeSettingDisplay;
+        set
+        {
+            simpleResizeSettingDisplay = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating if Simple resizing should be used.
+    /// </summary>
+    public bool UseSimple
+    {
+        get => useSimple;
+        set
+        {
+            useSimple = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating if resizing by Percentage should be used.
+    /// </summary>
+    public bool UsePercentage
+    {
+        get => usePercentage;
+        set
+        {
+            usePercentage = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating if resizing by Absolute Size should be used.
+    /// </summary>
+    public bool UseAbsolute
+    {
+        get => useAbsolute;
+        set
+        {
+            useAbsolute = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating if resizing by Aspect Ratio should be used.
+    /// </summary>
+    public bool UseAspect
+    {
+        get => useAspect;
+        set
+        {
+            useAspect = value;
             NotifyPropertyChanged();
         }
     }

@@ -69,6 +69,32 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem x:Name="MenuToolsBatch" Header="Batch" Command="{Binding CommandBatchProcess}">
+                    <MenuItem.Icon>
+                        <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
+                            <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
+                                <Canvas>
+                                    <Path Data="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2,-0.9,2,-2V6C22,4.9,21.11,4,20,4zM20,18H4V8h16V18zM18,17h-6v-2h6V17zM7.5,17l-1.41,-1.41L8.67,13l-2.59,-2.59L7.5,9l4,4L7.5,17z" Fill="#E68055"/>
+                                </Canvas>
+                            </Canvas>
+                        </Viewbox>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="MeunToolsProcess" Header="Process" Command="{Binding CommandProcessImages}">
+                    <MenuItem.Icon>
+                        <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
+                            <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
+                                <Canvas>
+                                    <Polygon Points="20,7 20.94,4.94 23,4 20.94,3.06 20,1 19.06,3.06 17,4 19.06,4.94" Fill="#3E78B3" StrokeLineJoin="Miter"/>
+                                    <Polygon Points="8.5,7 9.44,4.94 11.5,4 9.44,3.06 8.5,1 7.56,3.06 5.5,4 7.56,4.94" Fill="#3E78B3" StrokeLineJoin="Miter"/>
+                                    <Polygon Points="20,12.5 19.06,14.56 17,15.5 19.06,16.44 20,18.5 20.94,16.44 23,15.5 20.94,14.56" Fill="#3E78B3" StrokeLineJoin="Miter"/>
+                                    <Path Data="M17.71,9.12l-2.83,-2.83C14.68,6.1,14.43,6,14.17,6c-0.26,0,-0.51,0.1,-0.71,0.29L2.29,17.46c-0.39,0.39,-0.39,1.02,0,1.41l2.83,2.83C5.32,21.9,5.57,22,5.83,22s0.51,-0.1,0.71,-0.29l11.17,-11.17C18.1,10.15,18.1,9.51,17.71,9.12zM14.17,8.42l1.41,1.41L14.41,11L13,9.59L14.17,8.42zM5.83,19.59l-1.41,-1.41L11.59,11L13,12.41L5.83,19.59z" Fill="#3E78B3"/>
+                                </Canvas>
+                            </Canvas>
+                        </Viewbox>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
@@ -115,7 +141,7 @@
                     <Style TargetType="Button">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ShowSettings}" Value="True">
-                                <Setter Property="Background" Value="LightSlateGray"/>
+                                <Setter Property="Background" Value="#C1D3E5"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -131,7 +157,7 @@
                     <TextBlock Text="Settings"/>
                 </StackPanel>
             </Button>
-            <Button>
+            <Button Command="{Binding CommandBatchProcess}">
                 <StackPanel Orientation="Vertical">
                     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -144,7 +170,7 @@
                 </StackPanel>
             </Button>
             <Separator/>
-            <Button>
+            <Button Command="{Binding CommandProcessImages}">
                 <StackPanel Orientation="Vertical">
                     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -173,6 +199,9 @@
                 <Style TargetType="CheckBox">
                     <Setter Property="Foreground" Value="GhostWhite"/>
                 </Style>
+                <Style TargetType="RadioButton">
+                    <Setter Property="Foreground" Value="GhostWhite"/>
+                </Style>
             </Grid.Resources>
 
             <!-- SETTINGS -->
@@ -195,6 +224,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
+                <!-- ADAVANCED OUTPUT MODE -->
                 <Border Grid.Row="0" Background="LightSteelBlue">
                     <TextBlock Text="Advanced Output Mode" Margin="5,2" Foreground="Black" HorizontalAlignment="Center"/>
                 </Border>
@@ -213,28 +243,32 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="5"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <CheckBox Grid.Column="0" Grid.Row="0" Content="Percentage"/>
-                    <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+                    <RadioButton IsChecked="{Binding UseSimple}" Grid.Column="0" Grid.Row="0" Content="Use simple resizing" GroupName="RadioButtonAdvanced" Grid.ColumnSpan="3"/>
+
+                    <RadioButton IsChecked="{Binding UsePercentage}" Grid.Column="0" Grid.Row="2" Content="Percentage" GroupName="RadioButtonAdvanced"/>
+                    <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
                         <TextBox Width="40" MaxLength="3"/>
                         <TextBlock Text="%" Margin="3,0,0,0"/>
                     </StackPanel>
 
-                    <CheckBox Grid.Column="0" Grid.Row="2" Content="Absolute"/>
-                    <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
+                    <RadioButton IsChecked="{Binding UseAbsolute}" Grid.Column="0" Grid.Row="4" Content="Absolute" GroupName="RadioButtonAdvanced"/>
+                    <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal">
                         <TextBox Width="40" MaxLength="8"/>
                         <TextBlock Text="x" Margin="3,0"/>
                         <TextBox Width="40" MaxLength="8"/>
                     </StackPanel>
 
-                    <CheckBox Grid.Column="0" Grid.Row="4" Content="Aspect"/>
-                    <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal">
+                    <RadioButton IsChecked="{Binding UseAspect}" Grid.Column="0" Grid.Row="6" Content="Aspect" GroupName="RadioButtonAdvanced"/>
+                    <StackPanel Grid.Column="2" Grid.Row="6" Orientation="Horizontal">
                         <ComboBox />
                         <TextBox Width="40" MaxLength="3" Margin="3,0,0,0"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <StackPanel Grid.Row="8" Grid.ColumnSpan="3" Orientation="Horizontal">
                         <TextBlock Text="Save as"/>
                         <ComboBox Margin="3,0,0,0"/>
                     </StackPanel>
@@ -394,9 +428,51 @@
             <Separator/>
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Use simple resizing" VerticalAlignment="Center"/>
-                    <Slider Width="100" TickFrequency="25" Maximum="75" IsSnapToTickEnabled="True"  Margin="5,0,0,0" Value="25" />
-                    <TextBlock Text="" d:Text="Medium" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                    <RadioButton IsChecked="{Binding UseSimple}" Content="Use simple resizing" VerticalAlignment="Center"/>
+                    <Slider Width="100" TickFrequency="25" Maximum="75" IsSnapToTickEnabled="True"  Margin="5,0,0,0" Value="{Binding SimpleResizeSetting}">
+                        <Slider.Style>
+                            <Style TargetType="Slider">
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UseSimple}" Value="True">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Slider.Style>
+                    </Slider>
+                    <TextBlock Text="{Binding SimpleResizeSettingDisplay}" d:Text="Medium" Margin="5,0,0,0" VerticalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="DimGray"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UseSimple}" Value="True">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <StackPanel Orientation="Horizontal" Margin="10,0" Background="#DFF6DD" d:Visibility="Visible">
+                        <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
+                            <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
+                                <Canvas>
+                                    <Path Data="M18,16v-5c0,-3.07,-1.64,-5.64,-4.5,-6.32V4c0,-0.83,-0.67,-1.5,-1.5,-1.5s-1.5,0.67,-1.5,1.5v0.68C7.63,5.36,6,7.92,6,11v5l-2,2v1h16v-1l-2,-2zm-5,0h-2v-2h2v2zm0,-4h-2V8h2v4zm-1,10c1.1,0,2,-0.9,2,-2h-4c0,1.1,0.89,2,2,2z" Fill="#4DA07D"/>
+                                </Canvas>
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock Text="Advanced Output Mode in use." Foreground="#4DA07D" FontWeight="Medium" />
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UseSimple}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

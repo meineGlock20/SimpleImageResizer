@@ -34,5 +34,17 @@ namespace SimpleImageResizer.Properties {
                 this["DestinationDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int SimpleResizeSetting {
+            get {
+                return ((int)(this["SimpleResizeSetting"]));
+            }
+            set {
+                this["SimpleResizeSetting"] = value;
+            }
+        }
     }
 }
