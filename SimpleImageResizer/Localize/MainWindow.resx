@@ -127,6 +127,36 @@ However, it will be created when images are resized.</value>
   <data name="DestinationDialogTitle" xml:space="preserve">
     <value>Select the destination directory for your resized images.</value>
   </data>
+  <data name="ImageTypeBitmap" xml:space="preserve">
+    <value>bmp</value>
+  </data>
+  <data name="ImageTypeGif" xml:space="preserve">
+    <value>gif</value>
+  </data>
+  <data name="ImageTypeJfif" xml:space="preserve">
+    <value>jfif</value>
+  </data>
+  <data name="ImageTypeJpg" xml:space="preserve">
+    <value>jpg</value>
+  </data>
+  <data name="ImageTypeOriginal" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="ImageTypePng" xml:space="preserve">
+    <value>png</value>
+  </data>
+  <data name="ImageTypeTif" xml:space="preserve">
+    <value>tif</value>
+  </data>
+  <data name="ScalingOptionHeight" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="ScalingOptionNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="ScalingOptionWidth" xml:space="preserve">
+    <value>Width</value>
+  </data>
   <data name="SelectImagesSupportedTypes" xml:space="preserve">
     <value>All Supported Images | *.bmp; *.gif; *.jfif; *.jpg; *.png; *.tif"</value>
   </data>

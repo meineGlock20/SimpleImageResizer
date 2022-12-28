@@ -13,8 +13,13 @@ public sealed class MainWindowViewModel : Models.BaseModel
     private readonly IMessageService MessageService;
 
     // Backing fields.
-    private string? destinationDirectory;
     private ObservableCollection<Models.Image>? images;
+    private ObservableCollection<Models.ScalingOption>? scalingOptions;
+    private Models.ScalingOption? selectedScalingOption;
+    private ObservableCollection<Models.ImageType>? imageTypes;
+    private Models.ImageType? selectedImageType;
+
+    private string? destinationDirectory;
     private int imageCount;
     private string? imagesTotalSize;
     private bool showSettings;
@@ -39,6 +44,23 @@ public sealed class MainWindowViewModel : Models.BaseModel
 
         // Default use to simple.
         UseSimple = true;
+
+        ScalingOptions = new()
+        {
+            new Models.ScalingOption() { Option = Core.Imaging.Resize.ScalingOption.Width, OptionDisplay = Localize.MainWindow.ScalingOptionWidth },
+            new Models.ScalingOption() { Option = Core.Imaging.Resize.ScalingOption.Height, OptionDisplay = Localize.MainWindow.ScalingOptionHeight },
+        };
+
+        ImageTypes = new()
+        {
+           new Models.ImageType(){Type= Core.Imaging.ImageTypes.ImageType.original, TypeName=Localize.MainWindow.ImageTypeOriginal},
+           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.bmp, TypeName=Localize.MainWindow.ImageTypeBitmap},
+           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.gif, TypeName=Localize.MainWindow.ImageTypeGif},
+           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.jfif, TypeName=Localize.MainWindow.ImageTypeJfif},
+           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.jpg, TypeName=Localize.MainWindow.ImageTypeJpg},
+           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.png, TypeName=Localize.MainWindow.ImageTypePng},
+           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.tif, TypeName=Localize.MainWindow.ImageTypeTif},
+        };
 
         // Commands.
         CommandClearImages = new Commands.Relay(ClearImages, p => true);
@@ -387,6 +409,46 @@ public sealed class MainWindowViewModel : Models.BaseModel
                 ImageCount = 0;
                 ImagesTotalSize = null;
             }
+        }
+    }
+
+    public ObservableCollection<Models.ScalingOption>? ScalingOptions
+    {
+        get => scalingOptions;
+        set
+        {
+            scalingOptions = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    public Models.ScalingOption? SelectedScalingOption
+    {
+        get => selectedScalingOption;
+        set
+        {
+            selectedScalingOption = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    public ObservableCollection<Models.ImageType>? ImageTypes
+    {
+        get => imageTypes;
+        set
+        {
+            imageTypes = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    public Models.ImageType? SelectedImageType
+    {
+        get => selectedImageType;
+        set
+        {
+            selectedImageType = value;
+            NotifyPropertyChanged();
         }
     }
 

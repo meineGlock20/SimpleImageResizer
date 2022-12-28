@@ -89,6 +89,96 @@ namespace SimpleImageResizer.Localize {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to bmp.
+        /// </summary>
+        internal static string ImageTypeBitmap {
+            get {
+                return ResourceManager.GetString("ImageTypeBitmap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to gif.
+        /// </summary>
+        internal static string ImageTypeGif {
+            get {
+                return ResourceManager.GetString("ImageTypeGif", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to jfif.
+        /// </summary>
+        internal static string ImageTypeJfif {
+            get {
+                return ResourceManager.GetString("ImageTypeJfif", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to jpg.
+        /// </summary>
+        internal static string ImageTypeJpg {
+            get {
+                return ResourceManager.GetString("ImageTypeJpg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Original.
+        /// </summary>
+        internal static string ImageTypeOriginal {
+            get {
+                return ResourceManager.GetString("ImageTypeOriginal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to png.
+        /// </summary>
+        internal static string ImageTypePng {
+            get {
+                return ResourceManager.GetString("ImageTypePng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tif.
+        /// </summary>
+        internal static string ImageTypeTif {
+            get {
+                return ResourceManager.GetString("ImageTypeTif", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Height.
+        /// </summary>
+        internal static string ScalingOptionHeight {
+            get {
+                return ResourceManager.GetString("ScalingOptionHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string ScalingOptionNone {
+            get {
+                return ResourceManager.GetString("ScalingOptionNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Width.
+        /// </summary>
+        internal static string ScalingOptionWidth {
+            get {
+                return ResourceManager.GetString("ScalingOptionWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All Supported Images | *.bmp; *.gif; *.jfif; *.jpg; *.png; *.tif&quot;.
         /// </summary>
         internal static string SelectImagesSupportedTypes {

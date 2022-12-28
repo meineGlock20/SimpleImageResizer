@@ -264,13 +264,20 @@
 
                     <RadioButton IsChecked="{Binding UseAspect}" Grid.Column="0" Grid.Row="6" Content="Aspect" GroupName="RadioButtonAdvanced"/>
                     <StackPanel Grid.Column="2" Grid.Row="6" Orientation="Horizontal">
-                        <ComboBox />
+                        <ComboBox ItemsSource="{Binding ScalingOptions}"
+                                  SelectedItem="{Binding SelectedScalingOption}"
+                                  SelectedIndex="0"
+                                  DisplayMemberPath="OptionDisplay"/>
                         <TextBox Width="40" MaxLength="3" Margin="3,0,0,0"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="8" Grid.ColumnSpan="3" Orientation="Horizontal">
                         <TextBlock Text="Save as"/>
-                        <ComboBox Margin="3,0,0,0"/>
+                        <ComboBox ItemsSource="{Binding ImageTypes}"
+                                  SelectedItem="{Binding SelectedImageType}"
+                                  SelectedIndex="0"
+                                  DisplayMemberPath="TypeName"
+                                  Margin="3,0,0,0"/>
                     </StackPanel>
                 </Grid>
 
