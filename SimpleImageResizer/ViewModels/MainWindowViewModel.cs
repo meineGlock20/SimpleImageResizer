@@ -17,6 +17,7 @@ public sealed class MainWindowViewModel : Models.BaseModel
     private ObservableCollection<Models.Image>? images;
     private int imageCount;
     private string? imagesTotalSize;
+    private bool showSettings;
 
     /// <summary>
     /// Constructor.
@@ -65,14 +66,26 @@ public sealed class MainWindowViewModel : Models.BaseModel
         {
             Properties.Settings.Default.DestinationDirectory = d;
             Properties.Settings.Default.Save();
-            DestinationDirectory= d;
+            DestinationDirectory = d;
         }
     }
 
-    private void Settings(object o) { }
+    /// <summary>
+    /// Shows/hides the settings pane.
+    /// </summary>
+    /// <param name="o">Command Parameter, not used.</param>
+    private void Settings(object o)
+    {
+        ShowSettings = !ShowSettings;
+    }
+
     private void BatchProcess(object o) { }
     private void ProcessImages(object o) { }
 
+    /// <summary>
+    /// Opens the destination directory for resized images.
+    /// </summary>
+    /// <param name="o">Command Parameter, not used.</param>
     private void OpenDestination(object o)
     {
         if (!Directory.Exists(DestinationDirectory))
@@ -167,6 +180,19 @@ public sealed class MainWindowViewModel : Models.BaseModel
         set
         {
             imagesTotalSize = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to show or hide the settings pane.
+    /// </summary>
+    public bool ShowSettings
+    {
+        get => showSettings;
+        set
+        {
+            showSettings = value;
             NotifyPropertyChanged();
         }
     }

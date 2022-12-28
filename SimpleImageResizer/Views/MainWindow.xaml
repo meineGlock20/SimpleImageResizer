@@ -58,6 +58,17 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem x:Name="MenuToolsSettings" Header="Settings" Command="{Binding CommandSettings}">
+                    <MenuItem.Icon>
+                        <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
+                            <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
+                                <Canvas>
+                                    <Path Data="M3,17v2h6v-2H3zM3,5v2h10V5H3zm10,16v-2h8v-2h-8v-2h-2v6h2zM7,9v2H3v2h4v2h2V9H7zm14,4v-2H11v2h10zm-6,-4h2V7h4V5h-4V3h-2v6z" Fill="#529FBE"/>
+                                </Canvas>
+                            </Canvas>
+                        </Viewbox>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
@@ -99,7 +110,16 @@
                     <TextBlock Text="Destination"/>
                 </StackPanel>
             </Button>
-            <Button>
+            <Button Command="{Binding CommandSettings}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ShowSettings}" Value="True">
+                                <Setter Property="Background" Value="LightSlateGray"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
                 <StackPanel Orientation="Vertical">
                     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -155,7 +175,18 @@
                 </Style>
             </Grid.Resources>
 
-            <Grid Grid.Column="0" Background="#3E78B3">
+            <!-- SETTINGS -->
+            <Grid Grid.Column="0" Background="#3E78B3" d:Visibility="Visible">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ShowSettings}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -165,7 +196,7 @@
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" Background="LightSteelBlue">
-                    <TextBlock Text="Advanced Output Mode" Margin="5,2" Foreground="Black"/>
+                    <TextBlock Text="Advanced Output Mode" Margin="5,2" Foreground="Black" HorizontalAlignment="Center"/>
                 </Border>
 
                 <Grid Grid.Row="1" Margin="5">
@@ -210,7 +241,7 @@
                 </Grid>
 
                 <Border Grid.Row="3" Background="LightSteelBlue">
-                    <TextBlock Text="Options" Margin="5,2" Foreground="Black"/>
+                    <TextBlock Text="Options" Margin="5,2" Foreground="Black" HorizontalAlignment="Center"/>
                 </Border>
 
                 <Grid Grid.Row="4" Margin="5">
