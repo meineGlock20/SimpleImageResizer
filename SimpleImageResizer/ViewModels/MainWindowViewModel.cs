@@ -1,4 +1,5 @@
 ﻿using SimpleImageResizer.Services;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -12,6 +13,8 @@ public sealed class MainWindowViewModel : Models.BaseModel
 
     // Backing fields.
     private string? destinationDirectory;
+    private ObservableCollection<Models.Image>? images;
+    private int imageCount;
 
     /// <summary>
     /// Constructor.
@@ -23,7 +26,6 @@ public sealed class MainWindowViewModel : Models.BaseModel
         DestinationDirectory = Properties.Settings.Default.DestinationDirectory;
 
         // Commands.
-        CommandSelectImages = new Commands.Relay(SelectImages, p => true);
         CommandClearImages = new Commands.Relay(ClearImages, p => true);
         CommandSetDestination = new Commands.Relay(SetDestination, p => true);
         CommandSettings = new Commands.Relay(Settings, p => true);
@@ -34,7 +36,6 @@ public sealed class MainWindowViewModel : Models.BaseModel
 
     /* COMMANDS */
 
-    public ICommand CommandSelectImages { get; set; }
     public ICommand CommandClearImages { get; set; }
     public ICommand CommandSetDestination { get; set; }
     public ICommand CommandSettings { get; set; }
@@ -42,18 +43,22 @@ public sealed class MainWindowViewModel : Models.BaseModel
     public ICommand CommandProcessImages { get; set; }
     public ICommand CommandOpenDestination { get; set; }
 
-    private void SelectImages(object o)
+    private void Images_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        // TODO: Select Images.
+        if (Images is not null)
+            ImageCount = Images.Count;
 
+        NotifyPropertyChanged(nameof(BackgroundDrawingBrush));
     }
 
-    private void ClearImages(object o) { }
+    private void ClearImages(object o)
+    {
+        Images = null;
+    }
 
     private void SetDestination(object o)
     {
-        string caption = "Select the destination directory for your resized images.";
-        DestinationDirectory = Core.DirectoryBrowser.GetDirectory(caption);
+        DestinationDirectory = Core.DirectoryBrowser.GetDirectory(Localize.MainWindow.DestinationDialogTitle);
     }
 
     private void Settings(object o) { }
@@ -64,8 +69,8 @@ public sealed class MainWindowViewModel : Models.BaseModel
     {
         if (!Directory.Exists(DestinationDirectory))
         {
-            MessageService.ShowMessage("The specified directory does not exist.\r\nHowever, it will be created when images are resized.",
-                       "Directory Does Not Exist!",
+            MessageService.ShowMessage(Localize.MainWindow.ButtonDestinationNotFoundMessage,
+                       Localize.MainWindow.ButtonDestinationNotFoundTitle,
                        MessageBoxServiceButton.Ok,
                        MessageBoxServiceIcon.Information,
                        Window);
@@ -79,6 +84,14 @@ public sealed class MainWindowViewModel : Models.BaseModel
         };
 
         Process.Start(psi);
+    }
+
+    /* METHODS */
+
+    public void AddImagesToCollection(Models.Image i)
+    {
+        Images ??= new();
+        Images.Add(i);
     }
 
     /* PROPERTIES */
@@ -96,18 +109,18 @@ public sealed class MainWindowViewModel : Models.BaseModel
     /// Gets a value to set the background of the element to show the Welcome message
     /// if there are no images to display.
     /// </summary>
-    public DrawingBrush BackgroundDrawingBrush
+    public DrawingBrush? BackgroundDrawingBrush
     {
         get
         {
-            return new DrawingBrush(Core.Draw.WelcomeText(Core.MyApplication.DpiScale));
-            //if (this.ImageCount == 0)
-            //{
-            //}
-            //else
-            //{
-            //    return null;
-            //}
+            if (Images is null || Images.Count == 0)
+            {
+                return new DrawingBrush(Core.Draw.WelcomeText(Core.MyApplication.DpiScale));
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
@@ -121,6 +134,33 @@ public sealed class MainWindowViewModel : Models.BaseModel
         {
             destinationDirectory = value;
             NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating the number of images in the collection.
+    /// </summary>
+    public int ImageCount
+    {
+        get => imageCount;
+        set
+        {
+            imageCount = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    /* COLLECTION PROPERTIES */
+
+    public ObservableCollection<Models.Image>? Images
+    {
+        get => images;
+        set
+        {
+            if (value is not null) value.CollectionChanged += Images_CollectionChanged;
+            images = value;
+            NotifyPropertyChanged();
+            NotifyPropertyChanged(nameof(BackgroundDrawingBrush));
         }
     }
 }

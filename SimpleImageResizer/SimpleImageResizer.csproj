@@ -34,20 +34,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Localize\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Resource Include="Resources\ComicKings.ttf" />
 	  <Resource Include="Resources\icons.messagebox.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Localize\MainWindow.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>MainWindow.resx</DependentUpon>
+	  </Compile>
 	  <Compile Update="Properties\Settings.Designer.cs">
 	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Settings.settings</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Localize\MainWindow.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>MainWindow.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>

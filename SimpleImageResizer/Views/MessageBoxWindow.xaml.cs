@@ -63,7 +63,7 @@ public partial class MessageBoxWindow : Window
                 break;
             case MessageBoxIcon.CheckMark:
                 ImageMessageBoxIcon.Content = myResourceDictionary["check-mark"];
-                System.Media.SystemSounds.Beep.Play();
+                // System.Media.SystemSounds.Beep.Play();
                 break;
             case MessageBoxIcon.Error:
                 ImageMessageBoxIcon.Content = myResourceDictionary["error"];
@@ -71,7 +71,7 @@ public partial class MessageBoxWindow : Window
                 break;
             case MessageBoxIcon.Information:
                 ImageMessageBoxIcon.Content = myResourceDictionary["information"];
-                System.Media.SystemSounds.Exclamation.Play();
+                // System.Media.SystemSounds.Exclamation.Play();
                 break;
             case MessageBoxIcon.NetworkConnectionError:
                 ImageMessageBoxIcon.Content = myResourceDictionary["network-connection-error"];
@@ -79,11 +79,11 @@ public partial class MessageBoxWindow : Window
                 break;
             case MessageBoxIcon.Question:
                 ImageMessageBoxIcon.Content = myResourceDictionary["question"];
-                System.Media.SystemSounds.Question.Play();
+                // System.Media.SystemSounds.Question.Play();
                 break;
             case MessageBoxIcon.Thinking:
                 ImageMessageBoxIcon.Content = myResourceDictionary["thinking-face"];
-                System.Media.SystemSounds.Exclamation.Play();
+                // System.Media.SystemSounds.Exclamation.Play();
                 break;
             case MessageBoxIcon.Warning:
                 ImageMessageBoxIcon.Content = myResourceDictionary["warning"];
@@ -91,7 +91,7 @@ public partial class MessageBoxWindow : Window
                 break;
             case MessageBoxIcon.Robot:
                 ImageMessageBoxIcon.Content = myResourceDictionary["robot"];
-                System.Media.SystemSounds.Exclamation.Play();
+                // System.Media.SystemSounds.Exclamation.Play();
                 break;
             default:
                 break;
