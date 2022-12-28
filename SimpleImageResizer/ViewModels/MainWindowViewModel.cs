@@ -1,6 +1,7 @@
 ﻿using SimpleImageResizer.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Xps;
@@ -15,6 +16,7 @@ public sealed class MainWindowViewModel : Models.BaseModel
     private string? destinationDirectory;
     private ObservableCollection<Models.Image>? images;
     private int imageCount;
+    private string? imagesTotalSize;
 
     /// <summary>
     /// Constructor.
@@ -42,14 +44,6 @@ public sealed class MainWindowViewModel : Models.BaseModel
     public ICommand CommandBatchProcess { get; set; }
     public ICommand CommandProcessImages { get; set; }
     public ICommand CommandOpenDestination { get; set; }
-
-    private void Images_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        if (Images is not null)
-            ImageCount = Images.Count;
-
-        NotifyPropertyChanged(nameof(BackgroundDrawingBrush));
-    }
 
     private void ClearImages(object o)
     {
@@ -150,6 +144,19 @@ public sealed class MainWindowViewModel : Models.BaseModel
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating the total size of all selected images to be processed.
+    /// </summary>
+    public string? ImagesTotalSize
+    {
+        get => imagesTotalSize;
+        set
+        {
+            imagesTotalSize = value;
+            NotifyPropertyChanged();
+        }
+    }
+
     /* COLLECTION PROPERTIES */
 
     public ObservableCollection<Models.Image>? Images
@@ -161,6 +168,25 @@ public sealed class MainWindowViewModel : Models.BaseModel
             images = value;
             NotifyPropertyChanged();
             NotifyPropertyChanged(nameof(BackgroundDrawingBrush));
+            if (value is null)
+            {
+                ImageCount = 0;
+                ImagesTotalSize = null;
+            }
         }
+    }
+
+    /* EVENTS */
+
+    private void Images_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        if (Images is not null)
+        {
+            ImageCount = Images.Count;
+            ImagesTotalSize = Core.Calculate.CalculateSpace(Images.Sum(x => x.ImageBytes),
+                CultureInfo.CurrentCulture.Name, Core.RoundToDecimalPlaces.One);
+        }
+
+        NotifyPropertyChanged(nameof(BackgroundDrawingBrush));
     }
 }
