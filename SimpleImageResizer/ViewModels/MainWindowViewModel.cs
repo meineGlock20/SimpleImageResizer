@@ -38,6 +38,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     private bool useAspect;
 
     private string? resizePercentage;
+    private string? resizeAbsoluteX;
+    private string? resizeAbsoluteY;
 
     /// <summary>
     /// Constructor.
@@ -414,6 +416,34 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating the width for an absolute resize.
+    /// </summary>
+    public string? ResizeAbsoluteX
+    {
+        get => resizeAbsoluteX;
+        set
+        {
+            resizeAbsoluteX = value;
+            ValidateProperties();
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating the height for an absolute resize.
+    /// </summary>
+    public string? ResizeAbsoluteY
+    {
+        get => resizeAbsoluteY;
+        set
+        {
+            resizeAbsoluteY = value;
+            ValidateProperties();
+            NotifyPropertyChanged();
+        }
+    }
+
     /* COLLECTION PROPERTIES */
 
     public ObservableCollection<Models.Image>? Images
@@ -508,9 +538,22 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         if (propertyName == nameof(ResizePercentage))
         {
             ClearErrors(propertyName);
-            if (!int.TryParse(ResizePercentage, out int rp) || rp < 1 || rp > 99)
+            if (!int.TryParse(ResizePercentage, out int i) || i < 1 || i > 99)
                 AddError(propertyName, "Percentage must be set between 1 and 99.");
+        }
 
+        if (propertyName == nameof(ResizeAbsoluteX))
+        {
+            ClearErrors(propertyName);
+            if (!int.TryParse(ResizeAbsoluteX, out int i) || i < 1 || i > 100000)
+                AddError(propertyName, "Percentage must be set between 1 and 100000.");
+        }
+
+        if (propertyName == nameof(ResizeAbsoluteY))
+        {
+            ClearErrors(propertyName);
+            if (!int.TryParse(ResizeAbsoluteY, out int i) || i < 1 || i > 100000)
+                AddError(propertyName, "Percentage must be set between 1 and 100000.");
         }
     }
 

@@ -253,7 +253,7 @@
                     <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
                         <TextBox Text="{Binding ResizePercentage, TargetNullValue=50, UpdateSourceTrigger=PropertyChanged}" 
                                  Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
-                                 x:Name="TextBoxPercentage" Width="40" MaxLength="2" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput">
+                                 Width="40" MaxLength="2" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
                                     <Setter Property="IsReadOnly" Value="True"/>
@@ -270,9 +270,36 @@
 
                     <RadioButton IsChecked="{Binding UseAbsolute}" Grid.Column="0" Grid.Row="4" Content="Absolute" GroupName="RadioButtonAdvanced"/>
                     <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal">
-                        <TextBox Width="40" MaxLength="8"/>
-                        <TextBlock Text="x" Margin="3,0"/>
-                        <TextBox Width="40" MaxLength="8"/>
+                        <TextBox Text="{Binding ResizeAbsoluteX, TargetNullValue=600, UpdateSourceTrigger=PropertyChanged}"
+                                 Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
+                                 Width="60" MaxLength="6" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding UseAbsolute}" Value="True">
+                                            <Setter Property="IsReadOnly" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBlock Text="x" Margin="3,0,5,0"/>
+                        <TextBox Text="{Binding ResizeAbsoluteY, TargetNullValue=800, UpdateSourceTrigger=PropertyChanged}"
+                                 Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
+                                 Width="60" MaxLength="6" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding UseAbsolute}" Value="True">
+                                            <Setter Property="IsReadOnly" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBlock Text="y" Margin="3,0,0,0"/>
                     </StackPanel>
 
                     <RadioButton IsChecked="{Binding UseAspect}" Grid.Column="0" Grid.Row="6" Content="Aspect" GroupName="RadioButtonAdvanced"/>
