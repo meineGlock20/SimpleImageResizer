@@ -45,14 +45,28 @@ public sealed class MainWindowViewModel : Models.BaseModel
     public ICommand CommandProcessImages { get; set; }
     public ICommand CommandOpenDestination { get; set; }
 
+    /// <summary>
+    /// Clears all images from the collection.
+    /// </summary>
+    /// <param name="o">Command Parameter, not used.</param>
     private void ClearImages(object o)
     {
         Images = null;
     }
 
+    /// <summary>
+    /// Sets the destination directory for the resized images.
+    /// </summary>
+    /// <param name="o">Command Parameter, not used.</param>
     private void SetDestination(object o)
     {
-        DestinationDirectory = Core.DirectoryBrowser.GetDirectory(Localize.MainWindow.DestinationDialogTitle);
+        string? d = Core.DirectoryBrowser.GetDirectory(Localize.MainWindow.DestinationDialogTitle);
+        if (!string.IsNullOrWhiteSpace(d))
+        {
+            Properties.Settings.Default.DestinationDirectory = d;
+            Properties.Settings.Default.Save();
+            DestinationDirectory= d;
+        }
     }
 
     private void Settings(object o) { }
