@@ -40,6 +40,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     private string? resizePercentage;
     private string? resizeAbsoluteX;
     private string? resizeAbsoluteY;
+    private string? resizeAspect;
 
     /// <summary>
     /// Constructor.
@@ -444,6 +445,20 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating the x or y value when resizing by aspect ratio.
+    /// </summary>
+    public string? ResizeAspect
+    {
+        get => resizeAspect;
+        set
+        {
+            resizeAspect = value;
+            ValidateProperties();
+            NotifyPropertyChanged();
+        }
+    }
+
     /* COLLECTION PROPERTIES */
 
     public ObservableCollection<Models.Image>? Images
@@ -546,14 +561,21 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         {
             ClearErrors(propertyName);
             if (!int.TryParse(ResizeAbsoluteX, out int i) || i < 1 || i > 100000)
-                AddError(propertyName, "Percentage must be set between 1 and 100000.");
+                AddError(propertyName, "Value must be set between 1 and 100000.");
         }
 
         if (propertyName == nameof(ResizeAbsoluteY))
         {
             ClearErrors(propertyName);
             if (!int.TryParse(ResizeAbsoluteY, out int i) || i < 1 || i > 100000)
-                AddError(propertyName, "Percentage must be set between 1 and 100000.");
+                AddError(propertyName, "Value must be set between 1 and 100000.");
+        }
+
+        if (propertyName == nameof(ResizeAspect))
+        {
+            ClearErrors(propertyName);
+            if (!int.TryParse(ResizeAspect, out int i) || i < 1 || i > 100000)
+                AddError(propertyName, "Value must be set between 1 and 100000.");
         }
     }
 

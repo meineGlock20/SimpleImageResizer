@@ -270,7 +270,7 @@
 
                     <RadioButton IsChecked="{Binding UseAbsolute}" Grid.Column="0" Grid.Row="4" Content="Absolute" GroupName="RadioButtonAdvanced"/>
                     <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal">
-                        <TextBox Text="{Binding ResizeAbsoluteX, TargetNullValue=600, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding ResizeAbsoluteX, TargetNullValue=800, UpdateSourceTrigger=PropertyChanged}"
                                  Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
                                  Width="60" MaxLength="6" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput">
                             <TextBox.Style>
@@ -285,7 +285,7 @@
                             </TextBox.Style>
                         </TextBox>
                         <TextBlock Text="x" Margin="3,0,5,0"/>
-                        <TextBox Text="{Binding ResizeAbsoluteY, TargetNullValue=800, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding ResizeAbsoluteY, TargetNullValue=600, UpdateSourceTrigger=PropertyChanged}"
                                  Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
                                  Width="60" MaxLength="6" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput">
                             <TextBox.Style>
@@ -308,7 +308,20 @@
                                   SelectedItem="{Binding SelectedScalingOption}"
                                   SelectedIndex="0"
                                   DisplayMemberPath="OptionDisplay"/>
-                        <TextBox Width="40" MaxLength="3" Margin="3,0,0,0"/>
+                        <TextBox Text="{Binding ResizeAspect, TargetNullValue=600, UpdateSourceTrigger=PropertyChanged}"
+                                 Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
+                                 Width="60" MaxLength="6" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput" Margin="3,0,0,0">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding UseAspect}" Value="True">
+                                            <Setter Property="IsReadOnly" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
                     </StackPanel>
 
                     <StackPanel Grid.Row="8" Grid.ColumnSpan="3" Orientation="Horizontal">
