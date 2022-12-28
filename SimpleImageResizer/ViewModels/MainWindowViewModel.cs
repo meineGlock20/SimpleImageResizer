@@ -1,15 +1,20 @@
 ﻿using SimpleImageResizer.Services;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Xps;
 
 namespace SimpleImageResizer.ViewModels;
 
-public sealed class MainWindowViewModel : Models.BaseModel
+public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 {
+    private readonly Dictionary<string, List<string>> errorList = new();
+
     private readonly IMessageService MessageService;
 
     // Backing fields.
@@ -31,6 +36,8 @@ public sealed class MainWindowViewModel : Models.BaseModel
     private bool usePercentage;
     private bool useAbsolute;
     private bool useAspect;
+
+    private string? resizePercentage;
 
     /// <summary>
     /// Constructor.
@@ -393,6 +400,20 @@ public sealed class MainWindowViewModel : Models.BaseModel
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating the amount to resize by percentage.
+    /// </summary>
+    public string? ResizePercentage
+    {
+        get => resizePercentage;
+        set
+        {
+            resizePercentage = value;
+            ValidateProperties();
+            NotifyPropertyChanged();
+        }
+    }
+
     /* COLLECTION PROPERTIES */
 
     public ObservableCollection<Models.Image>? Images
@@ -465,4 +486,87 @@ public sealed class MainWindowViewModel : Models.BaseModel
 
         NotifyPropertyChanged(nameof(BackgroundDrawingBrush));
     }
+
+    /* ERROR HANDLING */
+
+    /// <summary>
+    /// Gets a value indicating whether there are any errors in the error list.
+    /// </summary>
+    public bool HasErrors => errorList.Any();
+
+    /// <summary>
+    /// Event fires when a validation error occurs for a property or an entire entity.
+    /// </summary>
+    public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+    /// <summary>
+    /// Validates passed properties for errors and if any, adds them to the dictionary of errorList.
+    /// </summary>
+    /// <param name="propertyName">Property to check for errors.</param>
+    private void ValidateProperties([CallerMemberName] string propertyName = "")
+    {
+        if (propertyName == nameof(ResizePercentage))
+        {
+            ClearErrors(propertyName);
+            if (!int.TryParse(ResizePercentage, out int rp) || rp < 1 || rp > 99)
+                AddError(propertyName, "Percentage must be set between 1 and 99.");
+
+        }
+    }
+
+    /// <summary>
+    /// Adds an error to the dictionary.
+    /// </summary>
+    /// <param name="propertyName">Property name.</param>
+    /// <param name="error">Error.</param>
+    private void AddError(string propertyName, string error)
+    {
+        if (!errorList.ContainsKey(propertyName))
+        {
+            errorList[propertyName] = new List<string>();
+        }
+
+        if (!errorList[propertyName].Contains(error))
+        {
+            errorList[propertyName].Add(error);
+            OnErrorsChanged(propertyName);
+        }
+
+        NotifyPropertyChanged(nameof(HasErrors));
+    }
+
+    /// <summary>
+    /// Gets a list of errors by property.
+    /// </summary>
+    /// <param name="propertyName">Property name.</param>
+    /// <returns>A list of errors for a property or null if none exist.</returns>
+    public IEnumerable GetErrors([CallerMemberName] string? propertyName = "")
+    {
+        if (errorList.TryGetValue(propertyName ?? "", out List<string>? value))
+            return value;
+        else
+            return Enumerable.Empty<string>();
+    }
+
+    /// <summary>
+    /// Clears any errors from the dictionary for the passed property from ValidateProperties.
+    /// </summary>
+    /// <param name="propertyName"></param>
+    private void ClearErrors(string propertyName)
+    {
+        errorList.Remove(propertyName);
+        NotifyPropertyChanged(nameof(HasErrors));
+    }
+
+    /// <summary>
+    /// Whenever the error condition of a property changes, invoke the DataErrorsChangedEventArgs.
+    /// Called from AddError and ClearErrors.
+    /// </summary>
+    /// <param name="propertyName">propertyName.</param>
+    private void OnErrorsChanged(string propertyName)
+    {
+        ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+    }
+
+    /* END ERROR HANDLING */
 }

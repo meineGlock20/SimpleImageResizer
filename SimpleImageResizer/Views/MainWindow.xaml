@@ -251,7 +251,20 @@
 
                     <RadioButton IsChecked="{Binding UsePercentage}" Grid.Column="0" Grid.Row="2" Content="Percentage" GroupName="RadioButtonAdvanced"/>
                     <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
-                        <TextBox Width="40" MaxLength="3"/>
+                        <TextBox Text="{Binding ResizePercentage, TargetNullValue=50, UpdateSourceTrigger=PropertyChanged}" 
+                                 Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
+                                 x:Name="TextBoxPercentage" Width="40" MaxLength="2" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding UsePercentage}" Value="True">
+                                            <Setter Property="IsReadOnly" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
                         <TextBlock Text="%" Margin="3,0,0,0"/>
                     </StackPanel>
 

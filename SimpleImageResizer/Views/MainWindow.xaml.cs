@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -110,4 +111,13 @@ public partial class MainWindow : Window
             Cursor = null;
         }
     }
+
+    private void TextBoxNumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        Regex regex = NumericRegex();
+        e.Handled = regex.IsMatch(e.Text);
+    }
+
+    [GeneratedRegex("[^0-9]+")]
+    private static partial Regex NumericRegex();
 }

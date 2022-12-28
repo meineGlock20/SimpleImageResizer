@@ -5,6 +5,42 @@
              Startup="Application_Startup"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Disabled Buttons -->
+        <!-- When a button is disabled, this will set the image opacity. -->
+        <!-- The text opacity is automatically done when a button is disabled. -->
+        <!-- This will work for any Image not necessarily only in a button. -->
+        <Style x:Key="DisabledViewBoxImage" TargetType="Viewbox">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- For Displaying an Error indicator on an element. -->
+        <ControlTemplate x:Key="ErrorValidationTemplate">
+            <Grid>
+                <Border BorderBrush="Red" BorderThickness="1">
+                    <!--<Polygon Fill="Red" Margin="0,2,2,0" Points="15,15 15,0 0,0" VerticalAlignment="Top" HorizontalAlignment="Right">
+                        <Polygon.ToolTip>
+                            <ToolTip  Content="{Binding Path=[0].ErrorContent}" BorderThickness="1" Foreground="White" Background="Red" />
+                        </Polygon.ToolTip>
+                    </Polygon>-->
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform"
+                              VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <Viewbox.ToolTip>
+                            <ToolTip  Content="{Binding Path=[0].ErrorContent}" BorderThickness="1" Foreground="White" Background="Red" />
+                        </Viewbox.ToolTip>
+                        <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
+                            <Canvas>
+                                <Path Data="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10,10,-4.48,10,-10S17.52,2,12,2zm1,15h-2v-2h2v2zm0,-4h-2V7h2v6z" Fill="#CC4B31"/>
+                            </Canvas>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+                <AdornedElementPlaceholder x:Name="adorner" />
+            </Grid>
+        </ControlTemplate>
+        
     </Application.Resources>
 </Application>
