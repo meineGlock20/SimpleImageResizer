@@ -1,4 +1,5 @@
 ﻿using SimpleImageResizer.Services;
+using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,8 +7,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Xps;
 
 namespace SimpleImageResizer.ViewModels;
@@ -50,6 +53,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     private bool optionClearImages;
     private bool optionUseAllProcessors;
     private string? optionJpgQuality;
+    private bool cancelProcess;
 
     /// <summary>
     /// Constructor.
@@ -95,6 +99,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         CommandProcessImages = new Commands.RelayAsync(ProcessImages, p => true);
         CommandOpenDestination = new Commands.Relay(OpenDestination, p => true);
         CommandResetJpgDefault = new Commands.Relay(ResetJpgDefault, p => OptionJpgQuality != jpgDefault.ToString());
+        CommandCancelProcess = new Commands.Relay(ExecuteCancelProcess, p => true);
     }
 
     /* COMMANDS */
@@ -106,6 +111,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     public ICommand CommandProcessImages { get; set; }
     public ICommand CommandOpenDestination { get; set; }
     public ICommand CommandResetJpgDefault { get; set; }
+    public ICommand CommandCancelProcess { get; set; }
 
     /// <summary>
     /// Clears all images from the collection.
@@ -208,6 +214,10 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         if (!Directory.Exists(DestinationDirectory))
             Directory.CreateDirectory(DestinationDirectory);
 
+        // Determine the number of processors to use. If this computer only has 1 processor, then just use 1.
+        // Otherwise, use all available -1.
+        int processors = Environment.ProcessorCount == 1 ? 1 : Properties.Settings.Default.OptionUseAllProcessors ? Environment.ProcessorCount - 1 : 1;
+
         // This allows progress to be reported back to the UI when a long running TASK is run on another thread in an await.
         IProgress<int> progress = new Progress<int>(percentCompleted =>
         {
@@ -215,14 +225,46 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             ImageProcessingProgressText = $"{percentCompleted} %";
         });
 
+        using var cancellationTokenSource = new CancellationTokenSource();
 
-
-
-        await Task.Run(() => Parallel.ForEach(Images, new ParallelOptions { MaxDegreeOfParallelism = 0 }, image =>
+        try
         {
+            await Task.Run(() => Parallel.ForEach(Images, new ParallelOptions { MaxDegreeOfParallelism = processors, CancellationToken = cancellationTokenSource.Token }, image =>
+            {
+                if (CancelProcess) cancellationTokenSource.Cancel();
 
-        }));
+                if (string.IsNullOrWhiteSpace(image.FullPathToImage) || string.IsNullOrWhiteSpace(image.ImageName))
+                    throw new ArgumentNullException(nameof(image.FullPathToImage));
 
+                BitmapFrame bitmapFrame;
+
+                //if(UseSimple || UsePercentage)
+                //{
+                //    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, SimpleResizeSetting);
+                //}
+
+                bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, SimpleResizeSetting);
+                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}{image.FileType}"), Core.Imaging.Save.SaveAs.JPG, false, 70);
+
+                //Thread.Sleep(5000);
+            }));
+        }
+        catch (TaskCanceledException)
+        {
+            // TODO: Do something man.
+            Debug.Print("Cancelled.");
+        }
+        finally
+        {
+            CancelProcess = false;
+            MessageService.ShowMessage("Operation complete!", "DONE", MessageBoxServiceButton.Ok, MessageBoxServiceIcon.Information, Window);
+        }
+
+    }
+
+    private void ExecuteCancelProcess(object o)
+    {
+        CancelProcess = true;
     }
 
     /* PROPERTIES */
@@ -575,6 +617,19 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
                 Properties.Settings.Default.OptionJpgQuality = int.Parse(value ?? "70");
                 Properties.Settings.Default.Save();
             }
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the processing operation should be cancelled.
+    /// </summary>
+    public bool CancelProcess
+    {
+        get => cancelProcess;
+        set
+        {
+            cancelProcess = value;
             NotifyPropertyChanged();
         }
     }

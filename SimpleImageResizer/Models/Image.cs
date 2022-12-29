@@ -105,6 +105,8 @@ public class Image : BaseModel
         }
     }
 
+    /* HELPER PROPERTIES */
+
     /// <summary>
     /// Gets a value indicating the name of the image without the extension.
     /// </summary>
@@ -129,7 +131,7 @@ public class Image : BaseModel
             if (string.IsNullOrWhiteSpace(FullPathToImage)) return null;
 
             FileInfo fileInfo = new(FullPathToImage);
-            return fileInfo.Extension.ToUpper();
+            return fileInfo.Extension.ToLowerInvariant();
         }
     }
 

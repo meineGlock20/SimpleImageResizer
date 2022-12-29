@@ -185,6 +185,10 @@
                     <TextBlock Text="Process"/>
                 </StackPanel>
             </Button>
+
+            <Button Command="{Binding CommandCancelProcess}" Content="cancel">
+                
+            </Button>
         </ToolBar>
 
         <Grid Grid.Row="2">
