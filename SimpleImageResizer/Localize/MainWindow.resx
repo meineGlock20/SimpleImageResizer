@@ -175,4 +175,13 @@ However, it will be created when images are resized.</value>
   <data name="SimpleImageResizeUnknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="ValidateJpg" xml:space="preserve">
+    <value>Value must be set between 30 and 100.</value>
+  </data>
+  <data name="ValidatePercentage" xml:space="preserve">
+    <value>Value must be set between 1 and 99.</value>
+  </data>
+  <data name="ValidateValue1and100000" xml:space="preserve">
+    <value>Value must be set between 1 and 100000.</value>
+  </data>
 </root>

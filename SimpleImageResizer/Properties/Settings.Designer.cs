@@ -46,5 +46,77 @@ namespace SimpleImageResizer.Properties {
                 this["SimpleResizeSetting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OptionOverwrite {
+            get {
+                return ((bool)(this["OptionOverwrite"]));
+            }
+            set {
+                this["OptionOverwrite"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OptionAddNumericSuffix {
+            get {
+                return ((bool)(this["OptionAddNumericSuffix"]));
+            }
+            set {
+                this["OptionAddNumericSuffix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OptionShowMessageBox {
+            get {
+                return ((bool)(this["OptionShowMessageBox"]));
+            }
+            set {
+                this["OptionShowMessageBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OptionClearImages {
+            get {
+                return ((bool)(this["OptionClearImages"]));
+            }
+            set {
+                this["OptionClearImages"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OptionUseAllProcessors {
+            get {
+                return ((bool)(this["OptionUseAllProcessors"]));
+            }
+            set {
+                this["OptionUseAllProcessors"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("70")]
+        public int OptionJpgQuality {
+            get {
+                return ((int)(this["OptionJpgQuality"]));
+            }
+            set {
+                this["OptionJpgQuality"] = value;
+            }
+        }
     }
 }

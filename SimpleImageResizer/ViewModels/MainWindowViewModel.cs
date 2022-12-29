@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -16,6 +17,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     private readonly Dictionary<string, List<string>> errorList = new();
 
     private readonly IMessageService MessageService;
+
+    private const int jpgDefault = 70;
 
     // Backing fields.
     private ObservableCollection<Models.Image>? images;
@@ -41,6 +44,12 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     private string? resizeAbsoluteX;
     private string? resizeAbsoluteY;
     private string? resizeAspect;
+    private bool optionOverwrite;
+    private bool optionAddNumericSuffix;
+    private bool optionShowMessageBox;
+    private bool optionClearImages;
+    private bool optionUseAllProcessors;
+    private string? optionJpgQuality;
 
     /// <summary>
     /// Constructor.
@@ -54,6 +63,12 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         // Default use to simple.
         UseSimple = true;
+        OptionOverwrite = Properties.Settings.Default.OptionOverwrite;
+        OptionAddNumericSuffix = Properties.Settings.Default.OptionAddNumericSuffix;
+        OptionShowMessageBox = Properties.Settings.Default.OptionShowMessageBox;
+        OptionClearImages = Properties.Settings.Default.OptionClearImages;
+        OptionUseAllProcessors = Properties.Settings.Default.OptionUseAllProcessors;
+        OptionJpgQuality = Properties.Settings.Default.OptionJpgQuality.ToString();
 
         ScalingOptions = new()
         {
@@ -79,6 +94,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         CommandBatchProcess = new Commands.Relay(BatchProcess, p => true);
         CommandProcessImages = new Commands.RelayAsync(ProcessImages, p => true);
         CommandOpenDestination = new Commands.Relay(OpenDestination, p => true);
+        CommandResetJpgDefault = new Commands.Relay(ResetJpgDefault, p => OptionJpgQuality != jpgDefault.ToString());
     }
 
     /* COMMANDS */
@@ -89,6 +105,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     public ICommand CommandBatchProcess { get; set; }
     public ICommand CommandProcessImages { get; set; }
     public ICommand CommandOpenDestination { get; set; }
+    public ICommand CommandResetJpgDefault { get; set; }
 
     /// <summary>
     /// Clears all images from the collection.
@@ -164,6 +181,15 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         };
 
         Process.Start(psi);
+    }
+
+    /// <summary>
+    /// Resets the JPG default quality.
+    /// </summary>
+    /// <param name="o">Command Parameter, not used.</param>
+    private void ResetJpgDefault(object o)
+    {
+        OptionJpgQuality = jpgDefault.ToString();
     }
 
     /* METHODS */
@@ -459,6 +485,100 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to overwrite existing images in the destination directory.
+    /// </summary>
+    public bool OptionOverwrite
+    {
+        get => optionOverwrite;
+        set
+        {
+            optionOverwrite = value;
+            Properties.Settings.Default.OptionOverwrite = value;
+            Properties.Settings.Default.Save();
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to add a numeric suffix to the end of the resized image file name.
+    /// </summary>
+    public bool OptionAddNumericSuffix
+    {
+        get => optionAddNumericSuffix;
+        set
+        {
+            optionAddNumericSuffix = value;
+            Properties.Settings.Default.OptionAddNumericSuffix = value;
+            Properties.Settings.Default.Save();
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to show a message box when image processing is complete.
+    /// </summary>
+    public bool OptionShowMessageBox
+    {
+        get => optionShowMessageBox;
+        set
+        {
+            optionShowMessageBox = value;
+            Properties.Settings.Default.OptionShowMessageBox = value;
+            Properties.Settings.Default.Save();
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to clear all images from the list box when processing is complete.
+    /// </summary>
+    public bool OptionClearImages
+    {
+        get => optionClearImages;
+        set
+        {
+            optionClearImages = value;
+            Properties.Settings.Default.OptionClearImages = value;
+            Properties.Settings.Default.Save();
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to use all available processors when resizing images.
+    /// </summary>
+    public bool OptionUseAllProcessors
+    {
+        get => optionUseAllProcessors;
+        set
+        {
+            optionUseAllProcessors = value;
+            Properties.Settings.Default.OptionUseAllProcessors = value;
+            Properties.Settings.Default.Save();
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating the quality of the resized JPG image. Only for JPGs.
+    /// </summary>
+    public string? OptionJpgQuality
+    {
+        get => optionJpgQuality;
+        set
+        {
+            optionJpgQuality = value;
+            ValidateProperties();
+            if (!GetErrors().Cast<object>().ToList().Any())
+            {
+                Properties.Settings.Default.OptionJpgQuality = int.Parse(value ?? "70");
+                Properties.Settings.Default.Save();
+            }
+            NotifyPropertyChanged();
+        }
+    }
+
     /* COLLECTION PROPERTIES */
 
     public ObservableCollection<Models.Image>? Images
@@ -550,32 +670,40 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     /// <param name="propertyName">Property to check for errors.</param>
     private void ValidateProperties([CallerMemberName] string propertyName = "")
     {
-        if (propertyName == nameof(ResizePercentage))
-        {
-            ClearErrors(propertyName);
-            if (!int.TryParse(ResizePercentage, out int i) || i < 1 || i > 99)
-                AddError(propertyName, "Percentage must be set between 1 and 99.");
-        }
+        ClearErrors(propertyName);
 
-        if (propertyName == nameof(ResizeAbsoluteX))
+        switch (propertyName)
         {
-            ClearErrors(propertyName);
-            if (!int.TryParse(ResizeAbsoluteX, out int i) || i < 1 || i > 100000)
-                AddError(propertyName, "Value must be set between 1 and 100000.");
-        }
-
-        if (propertyName == nameof(ResizeAbsoluteY))
-        {
-            ClearErrors(propertyName);
-            if (!int.TryParse(ResizeAbsoluteY, out int i) || i < 1 || i > 100000)
-                AddError(propertyName, "Value must be set between 1 and 100000.");
-        }
-
-        if (propertyName == nameof(ResizeAspect))
-        {
-            ClearErrors(propertyName);
-            if (!int.TryParse(ResizeAspect, out int i) || i < 1 || i > 100000)
-                AddError(propertyName, "Value must be set between 1 and 100000.");
+            case nameof(ResizePercentage):
+                {
+                    if (!int.TryParse(ResizePercentage, out int i) || i < 1 || i > 99)
+                        AddError(propertyName, Localize.MainWindow.ValidatePercentage);
+                }
+                break;
+            case nameof(ResizeAbsoluteX):
+                {
+                    if (!int.TryParse(ResizeAbsoluteX, out int i) || i < 1 || i > 100000)
+                        AddError(propertyName, Localize.MainWindow.ValidateValue1and100000);
+                }
+                break;
+            case nameof(ResizeAbsoluteY):
+                {
+                    if (!int.TryParse(ResizeAbsoluteY, out int i) || i < 1 || i > 100000)
+                        AddError(propertyName, Localize.MainWindow.ValidateValue1and100000);
+                }
+                break;
+            case nameof(ResizeAspect):
+                {
+                    if (!int.TryParse(ResizeAspect, out int i) || i < 1 || i > 100000)
+                        AddError(propertyName, Localize.MainWindow.ValidateValue1and100000);
+                }
+                break;
+            case nameof(OptionJpgQuality):
+                {
+                    if (!int.TryParse(OptionJpgQuality, out int i) || i < 30 || i > 100)
+                        AddError(propertyName, Localize.MainWindow.ValidateJpg);
+                }
+                break;
         }
     }
 
@@ -604,7 +732,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     /// Gets a list of errors by property.
     /// </summary>
     /// <param name="propertyName">Property name.</param>
-    /// <returns>A list of errors for a property or null if none exist.</returns>
+    /// <returns>A list of errors for a property or empty if none exist.</returns>
     public IEnumerable GetErrors([CallerMemberName] string? propertyName = "")
     {
         if (errorList.TryGetValue(propertyName ?? "", out List<string>? value))

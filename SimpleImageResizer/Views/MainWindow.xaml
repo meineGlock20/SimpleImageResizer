@@ -357,21 +357,23 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <CheckBox Grid.Row="0" Content="Overwrite existing"/>
+                    <CheckBox IsChecked="{Binding OptionOverwrite}" Grid.Row="0" Content="Overwrite existing"/>
 
-                    <CheckBox Grid.Row="2" Content="Add numeric suffix"/>
+                    <CheckBox IsChecked="{Binding OptionAddNumericSuffix}" Grid.Row="2" Content="Add numeric suffix"/>
 
-                    <CheckBox Grid.Row="4" Content="Show message box on completion"/>
+                    <CheckBox IsChecked="{Binding OptionShowMessageBox}" Grid.Row="4" Content="Show message box on completion"/>
 
-                    <CheckBox Grid.Row="6" Content="Clear images on completion"/>
+                    <CheckBox IsChecked="{Binding OptionClearImages}" Grid.Row="6" Content="Clear images on completion"/>
 
-                    <CheckBox Grid.Row="8" Content="Use all available processors"/>
+                    <CheckBox IsChecked="{Binding OptionUseAllProcessors}" Grid.Row="8" Content="Use all available processors"/>
 
                     <StackPanel Grid.Row="10" Orientation="Horizontal">
-                        <TextBox Text="" d:Text="70" Width="40"/>
-                        <TextBlock Text="JPG quality" Margin="3,0"/>
-                        <Button ToolTip="Reset to default value.">
-                            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
+                        <TextBox Text="{Binding OptionJpgQuality, TargetNullValue=70, UpdateSourceTrigger=PropertyChanged}" 
+                                 Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
+                                 Width="40" MaxLength="2" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput"/>
+                        <TextBlock Text="JPG quality (30-100)" Margin="3,0"/>
+                        <Button Command="{Binding CommandResetJpgDefault}" ToolTip="Reset to default value.">
+                            <Viewbox Style="{StaticResource DisabledViewBoxImage}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
                                 <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
                                     <Canvas>
                                         <Path Data="M12.5,8c-2.65,0,-5.05,0.99,-6.9,2.6L2,7v9h9l-3.62,-3.62c1.39,-1.16,3.16,-1.88,5.12,-1.88,3.54,0,6.55,2.31,7.6,5.5l2.37,-0.78C21.08,11.03,17.15,8,12.5,8z" Fill="#212121"/>

@@ -231,5 +231,32 @@ namespace SimpleImageResizer.Localize {
                 return ResourceManager.GetString("SimpleImageResizeUnknown", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be set between 30 and 100..
+        /// </summary>
+        internal static string ValidateJpg {
+            get {
+                return ResourceManager.GetString("ValidateJpg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be set between 1 and 99..
+        /// </summary>
+        internal static string ValidatePercentage {
+            get {
+                return ResourceManager.GetString("ValidatePercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be set between 1 and 100000..
+        /// </summary>
+        internal static string ValidateValue1and100000 {
+            get {
+                return ResourceManager.GetString("ValidateValue1and100000", resourceCulture);
+            }
+        }
     }
 }
