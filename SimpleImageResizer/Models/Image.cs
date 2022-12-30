@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleImageResizer.Core.Imaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,8 @@ public class Image : BaseModel
             {
                 fullPathToImage = value;
                 NotifyPropertyChanged();
-                NotifyPropertyChanged(ImageName);
-                NotifyPropertyChanged(FileType);
+                NotifyPropertyChanged(nameof(ImageName));
+                NotifyPropertyChanged(nameof(ImageType));
             }
         }
     }
@@ -115,23 +116,19 @@ public class Image : BaseModel
         get
         {
             if (string.IsNullOrWhiteSpace(FullPathToImage)) return null;
-
-            FileInfo fileInfo = new(FullPathToImage);
-            return fileInfo.Name.Replace(fileInfo.Extension, string.Empty);
+            return new FileInfo(FullPathToImage).Name;
         }
     }
 
     /// <summary>
     /// Gets a value indicating the type of image file by returning the extension.
     /// </summary>
-    public string? FileType
+    public ImageTypes.ImageType ImageType
     {
         get
         {
-            if (string.IsNullOrWhiteSpace(FullPathToImage)) return null;
-
-            FileInfo fileInfo = new(FullPathToImage);
-            return fileInfo.Extension.ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(FullPathToImage)) return ImageTypes.ImageType.unknown;
+            return ImageTypes.GetImageType(new FileInfo(FullPathToImage).Extension.ToLowerInvariant());
         }
     }
 

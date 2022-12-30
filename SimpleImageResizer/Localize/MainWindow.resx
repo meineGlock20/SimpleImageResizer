@@ -169,9 +169,6 @@ However, it will be created when images are resized.</value>
   <data name="SimpleImageResizeSmall" xml:space="preserve">
     <value>Small</value>
   </data>
-  <data name="SimpleImageResizeThumbnail" xml:space="preserve">
-    <value>Thumbnail</value>
-  </data>
   <data name="SimpleImageResizeUnknown" xml:space="preserve">
     <value>Unknown</value>
   </data>

@@ -13,47 +13,6 @@ namespace SimpleImageResizer.Core.Imaging;
 public class Save
 {
     /// <summary>
-    /// Choose the image type to Save As.
-    /// </summary>
-    public enum SaveAs
-    {
-        /// <summary>
-        /// Bitmap.
-        /// </summary>
-        BMP,
-
-        /// <summary>
-        /// Gif.
-        /// </summary>
-        GIF,
-
-        /// <summary>
-        /// JFIF.
-        /// </summary>
-        JFIF,
-
-        /// <summary>
-        /// Jpeg.
-        /// </summary>
-        JPG,
-
-        /// <summary>
-        /// Png.
-        /// </summary>
-        PNG,
-
-        /// <summary>
-        /// TIFF.
-        /// </summary>
-        TIF,
-
-        /// <summary>
-        /// Not valid.
-        /// </summary>
-        NotValid,
-    }
-
-    /// <summary>
     /// Gets or sets a value for the PngInterlaceOption. The Default is set to OFF.
     /// </summary>
     public static PngInterlaceOption PngInterlaceOption { get; set; } = PngInterlaceOption.Off;
@@ -78,7 +37,7 @@ public class Save
     /// <param name="overwrite">True to overwrite an existing file of the same name.</param>
     /// <param name="quality">Optional. Only for JPG/JFIF. Default = 70.</param>
     /// <returns>Bool.</returns>
-    public static bool Image(BitmapFrame bitmapFrame, string fileToSave, SaveAs saveAs, bool overwrite, int quality = 70)
+    public static bool Image(BitmapFrame bitmapFrame, string fileToSave, ImageTypes.ImageType saveAs, bool overwrite, int quality = 70)
     {
         if (string.IsNullOrWhiteSpace(fileToSave))
         {
@@ -99,22 +58,22 @@ public class Save
 
         switch (saveAs)
         {
-            case SaveAs.BMP:
+            case ImageTypes.ImageType.bmp:
                 Bmp(bitmapFrame);
                 break;
-            case SaveAs.GIF:
+            case ImageTypes.ImageType.gif:
                 Gif(bitmapFrame);
                 break;
-            case SaveAs.JFIF:
+            case ImageTypes.ImageType.jfif:
                 Jfif(bitmapFrame, quality);
                 break;
-            case SaveAs.JPG:
+            case ImageTypes.ImageType.jpg:
                 Jpg(bitmapFrame, quality);
                 break;
-            case SaveAs.PNG:
+            case ImageTypes.ImageType.png:
                 Png(bitmapFrame);
                 break;
-            case SaveAs.TIF:
+            case ImageTypes.ImageType.tif:
                 Tif(bitmapFrame);
                 break;
         }
@@ -122,17 +81,16 @@ public class Save
         return true;
     }
 
-    private static string ExtensionSaveAs(SaveAs saveAs)
+    private static string ExtensionSaveAs(ImageTypes.ImageType saveAs)
     {
         return saveAs switch
         {
-            SaveAs.BMP => ".bmp",
-            SaveAs.GIF => ".gif",
-            SaveAs.JFIF => ".jfif",
-            SaveAs.JPG => ".jpg",
-            SaveAs.PNG => ".png",
-            SaveAs.TIF => ".tif",
-            SaveAs.NotValid => throw new ArgumentException(nameof(ExtensionSaveAs) + " : " + saveAs + " is not a valid argument."),
+            ImageTypes.ImageType.bmp => ".bmp",
+            ImageTypes.ImageType.gif => ".gif",
+            ImageTypes.ImageType.jfif => ".jfif",
+            ImageTypes.ImageType.jpg => ".jpg",
+            ImageTypes.ImageType.png => ".png",
+            ImageTypes.ImageType.tif => ".tif",
             _ => ".jpg",
         };
     }

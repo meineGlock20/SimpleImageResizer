@@ -215,15 +215,6 @@ namespace SimpleImageResizer.Localize {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thumbnail.
-        /// </summary>
-        internal static string SimpleImageResizeThumbnail {
-            get {
-                return ResourceManager.GetString("SimpleImageResizeThumbnail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unknown.
         /// </summary>
         internal static string SimpleImageResizeUnknown {

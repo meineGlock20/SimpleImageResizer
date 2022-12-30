@@ -464,7 +464,6 @@
                                         <TextBlock Text="{Binding ImageName}" FontWeight="Medium" TextWrapping="Wrap"/>
                                         <TextBlock Text="{Binding FileSizeDisplay}" FontSize="12"/>
                                         <TextBlock Text="{Binding DimensionsDisplay}" FontSize="12"/>
-                                        <TextBlock Text="{Binding FileType}" FontSize="12"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -495,7 +494,7 @@
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <RadioButton IsChecked="{Binding UseSimple}" Content="Use simple resizing" VerticalAlignment="Center"/>
-                    <Slider Width="100" TickFrequency="25" Maximum="75" IsSnapToTickEnabled="True"  Margin="5,0,0,0" Value="{Binding SimpleResizeSetting}">
+                    <Slider Width="100" TickFrequency="25" Minimum="25" Maximum="75" IsSnapToTickEnabled="True"  Margin="5,0,0,0" Value="{Binding SimpleResizeSetting}">
                         <Slider.Style>
                             <Style TargetType="Slider">
                                 <Setter Property="IsEnabled" Value="False"/>

@@ -82,7 +82,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         ImageTypes = new()
         {
-           new Models.ImageType(){Type= Core.Imaging.ImageTypes.ImageType.original, TypeName=Localize.MainWindow.ImageTypeOriginal},
+           new Models.ImageType(){Type= null, TypeName=Localize.MainWindow.ImageTypeOriginal},
            new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.bmp, TypeName=Localize.MainWindow.ImageTypeBitmap},
            new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.gif, TypeName=Localize.MainWindow.ImageTypeGif},
            new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.jfif, TypeName=Localize.MainWindow.ImageTypeJfif},
@@ -215,10 +215,11 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             Directory.CreateDirectory(DestinationDirectory);
 
         // Determine the number of processors to use. If this computer only has 1 processor, then just use 1.
-        // Otherwise, use all available -1.
+        // Otherwise, use all available less one.
         int processors = Environment.ProcessorCount == 1 ? 1 : Properties.Settings.Default.OptionUseAllProcessors ? Environment.ProcessorCount - 1 : 1;
 
         // This allows progress to be reported back to the UI when a long running TASK is run on another thread in an await.
+        double counter = 0;
         IProgress<int> progress = new Progress<int>(percentCompleted =>
         {
             ImageProcessingProgress = percentCompleted;
@@ -227,9 +228,19 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         using var cancellationTokenSource = new CancellationTokenSource();
 
+        // Begin timing operation.
+        var stopwatch = new System.Diagnostics.Stopwatch();
+        stopwatch.Start();
+
         try
         {
-            await Task.Run(() => Parallel.ForEach(Images, new ParallelOptions { MaxDegreeOfParallelism = processors, CancellationToken = cancellationTokenSource.Token }, image =>
+            // TODO: Fix MaxDegreeOfParallelism!
+            // For some reason I can't figure out, there is a race condition where if you use more than one processor, an exception
+            // will be thrown for - file in use - and images will not be processed. This happens on Core.Imaging.Save.Image and is driving me nuts!
+            // I don't see any logial reason for this to be happening. It's like it's trying to process the same image on multiple threads
+            // but how is that possible when using foreach?
+            // To reproduce, set the MaxDegreeOfParallelism to -1 (all) or anything higher than 1.
+            await Task.Run(() => Parallel.ForEach(Images, new ParallelOptions { MaxDegreeOfParallelism = 1, CancellationToken = cancellationTokenSource.Token }, image =>
             {
                 if (CancelProcess) cancellationTokenSource.Cancel();
 
@@ -238,26 +249,71 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
                 BitmapFrame bitmapFrame;
 
-                //if(UseSimple || UsePercentage)
-                //{
-                //    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, SimpleResizeSetting);
-                //}
+                // Resize based on options.
+                if (UseSimple || UsePercentage)
+                {
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, UseSimple ? SimpleResizeSetting : int.Parse(ResizePercentage!));
+                }
+                else if (UseAbsolute)
+                {
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.None, int.Parse(ResizeAbsoluteX!), int.Parse(ResizeAbsoluteY!));
+                }
+                else if (UseAspect && SelectedScalingOption?.Option == Core.Imaging.Resize.ScalingOption.Width)
+                {
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Width, 0, int.Parse(ResizeAspect!));
+                }
+                else if (UseAspect && SelectedScalingOption?.Option == Core.Imaging.Resize.ScalingOption.Height)
+                {
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Height, int.Parse(ResizeAspect!), 0);
+                }
+                else
+                {
+                    // This should never happen but.
+                    throw new ArgumentNullException("bitmapFrame", "Something is wrong dude!");
+                }
 
-                bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, SimpleResizeSetting);
-                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}{image.FileType}"), Core.Imaging.Save.SaveAs.JPG, false, 70);
+                // Save as option.
+                Core.Imaging.ImageTypes.ImageType saveAs;
+                if (SelectedImageType?.Type is null)
+                    saveAs = image.ImageType;
+                else
+                    saveAs = (Core.Imaging.ImageTypes.ImageType)SelectedImageType.Type;
 
-                //Thread.Sleep(5000);
+                // TODO: This is where the AggregateException happens. If you comment this out and set MaxDegreeOfParallelism = -1, it
+                // works fine and there are no exceptions thrown.
+                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
+                
+                // Report progress.
+                counter++;
+                double pro = counter / ImageCount * 100d;
+                progress.Report((int)pro);
+
             }));
         }
         catch (TaskCanceledException)
         {
-            // TODO: Do something man.
             Debug.Print("Cancelled.");
+        }
+        catch (AggregateException ae)
+        {
+            Debug.Print(ae.InnerException?.ToString());
         }
         finally
         {
+            stopwatch.Stop();
+            TimeSpan ts = stopwatch.Elapsed;
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = string.Format(
+                "{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours,
+                ts.Minutes,
+                ts.Seconds,
+                ts.Milliseconds / 10);
+
             CancelProcess = false;
-            MessageService.ShowMessage("Operation complete!", "DONE", MessageBoxServiceButton.Ok, MessageBoxServiceIcon.Information, Window);
+            MessageService.ShowMessage($"Operation complete!\r\n{elapsedTime}", "DONE", MessageBoxServiceButton.Ok, MessageBoxServiceIcon.Information, Window);
+            progress.Report(0);
         }
 
     }
@@ -396,7 +452,6 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             Properties.Settings.Default.Save();
             SimpleResizeSettingDisplay = value switch
             {
-                0 => Localize.MainWindow.SimpleImageResizeThumbnail,
                 25 => Localize.MainWindow.SimpleImageResizeSmall,
                 50 => Localize.MainWindow.SimpleImageResizeMedium,
                 75 => Localize.MainWindow.SimpleImageResizeLarge,

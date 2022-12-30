@@ -14,9 +14,9 @@ public class ImageTypes
     public enum ImageType
     {
         /// <summary>
-        /// Save as the original file type.
+        /// What is this?
         /// </summary>
-        original,
+        unknown,
 
         /// <summary>
         /// Bitmap.
@@ -47,6 +47,26 @@ public class ImageTypes
         /// TIF.
         /// </summary>
         tif
+    }
+
+    public static ImageTypes.ImageType GetImageType(string extension)
+    {
+        if (string.IsNullOrWhiteSpace(extension))
+        {
+            throw new ArgumentNullException(nameof(extension));
+        }
+
+        // use original
+        return (extension.ToLower()) switch
+        {
+            ".bmp" => ImageTypes.ImageType.bmp,
+            ".gif" => ImageTypes.ImageType.gif,
+            ".jfif" => ImageTypes.ImageType.jfif,
+            ".jpg" => ImageTypes.ImageType.jpg,
+            ".png" => ImageTypes.ImageType.png,
+            ".tif" => ImageTypes.ImageType.tif,
+            _ => ImageTypes.ImageType.unknown,
+        };
     }
 
     /// <summary>
