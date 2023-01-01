@@ -240,7 +240,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             // I don't see any logial reason for this to be happening. It's like it's trying to process the same image on multiple threads
             // but how is that possible when using foreach?
             // To reproduce, set the MaxDegreeOfParallelism to -1 (all) or anything higher than 1.
-            await Task.Run(() => Parallel.ForEach(Images, new ParallelOptions { MaxDegreeOfParallelism = 1, CancellationToken = cancellationTokenSource.Token }, image =>
+            await Task.Run(() => Parallel.ForEach(Images, new ParallelOptions { MaxDegreeOfParallelism = processors, CancellationToken = cancellationTokenSource.Token }, image =>
             {
                 if (CancelProcess) cancellationTokenSource.Cancel();
 
@@ -281,8 +281,15 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
                 // TODO: This is where the AggregateException happens. If you comment this out and set MaxDegreeOfParallelism = -1, it
                 // works fine and there are no exceptions thrown.
-                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
-                
+                Core.Imaging.Save save = new();
+                save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
+                //Core.Imaging.Save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
+
+                //DamageInc.Imaging.Save save = new();
+                //save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), DamageInc.Imaging.Save.SaveAs.JPG, false, 70);
+
+
+
                 // Report progress.
                 counter++;
                 double pro = counter / ImageCount * 100d;

@@ -25,7 +25,7 @@ public class Save
     /// <summary>
     /// Gets or sets a value for the Full Path.
     /// </summary>
-    private static string? FullPath { get; set; }
+    private string? FullPath { get; set; }
 
     /// <summary>
     /// Saves an image to the passed path as any valid type selected. Quality is only for JPG/JFIF and default to 70.
@@ -37,7 +37,7 @@ public class Save
     /// <param name="overwrite">True to overwrite an existing file of the same name.</param>
     /// <param name="quality">Optional. Only for JPG/JFIF. Default = 70.</param>
     /// <returns>Bool.</returns>
-    public static bool Image(BitmapFrame bitmapFrame, string fileToSave, ImageTypes.ImageType saveAs, bool overwrite, int quality = 70)
+    public bool Image(BitmapFrame bitmapFrame, string fileToSave, ImageTypes.ImageType saveAs, bool overwrite, int quality = 70)
     {
         if (string.IsNullOrWhiteSpace(fileToSave))
         {
@@ -95,7 +95,7 @@ public class Save
         };
     }
 
-    private static void Bmp(BitmapFrame bitmapFrame)
+    private void Bmp(BitmapFrame bitmapFrame)
     {
         /* Other possibilities:
 
@@ -114,7 +114,7 @@ public class Save
         encoder.Save(stream);
     }
 
-    private static void Gif(BitmapFrame bitmapFrame)
+    private void Gif(BitmapFrame bitmapFrame)
     {
         using FileStream stream = new(FullPath!, FileMode.Create);
         GifBitmapEncoder encoder = new();
@@ -122,7 +122,7 @@ public class Save
         encoder.Save(stream);
     }
 
-    private static void Jfif(BitmapFrame bitmapFrame, int quality = 70)
+    private void Jfif(BitmapFrame bitmapFrame, int quality = 70)
     {
         using FileStream stream = new(FullPath!, FileMode.Create);
         JpegBitmapEncoder encoder = new()
@@ -133,7 +133,7 @@ public class Save
         encoder.Save(stream);
     }
 
-    private static void Jpg(BitmapFrame bitmapFrame, int quality = 70)
+    private void Jpg(BitmapFrame bitmapFrame, int quality = 70)
     {
         using FileStream stream = new(FullPath!, FileMode.Create);
         JpegBitmapEncoder encoder = new()
@@ -146,7 +146,7 @@ public class Save
         encoder.Save(stream);
     }
 
-    private static void Png(BitmapFrame bitmapFrame)
+    private void Png(BitmapFrame bitmapFrame)
     {
         using FileStream stream = new(FullPath!, FileMode.Create);
         PngBitmapEncoder encoder = new()
@@ -157,7 +157,7 @@ public class Save
         encoder.Save(stream);
     }
 
-    private static void Tif(BitmapFrame bitmapFrame)
+    private void Tif(BitmapFrame bitmapFrame)
     {
         using FileStream stream = new(FullPath!, FileMode.Create);
         TiffBitmapEncoder encoder = new()
