@@ -24,6 +24,9 @@ namespace SimpleImageResizer.Views;
 /// </remarks>
 public partial class MainWindow : Window
 {
+    [GeneratedRegex("[^0-9]+")]
+    private static partial Regex NumericRegex();
+
     public MainWindow()
     {
         Core.MyApplication.DpiScale = VisualTreeHelper.GetDpi(this).PixelsPerDip;
@@ -116,6 +119,12 @@ public partial class MainWindow : Window
         e.Handled = regex.IsMatch(e.Text);
     }
 
-    [GeneratedRegex("[^0-9]+")]
-    private static partial Regex NumericRegex();
+    private void MenuHelpAbout_Click(object sender, RoutedEventArgs e)
+    {
+        var a = new Views.AboutWindow
+        {
+            Owner = this
+        };
+        a.ShowDialog();
+    }
 }

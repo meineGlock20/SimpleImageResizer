@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SimpleImageResizer.ViewModels"
+        xmlns:l="clr-namespace:SimpleImageResizer.Localize"
         xmlns:local="clr-namespace:SimpleImageResizer.Views"
         mc:Ignorable="d"
         ResizeMode="CanResizeWithGrip"
@@ -109,7 +110,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem x:Name="MenuHelpAbout" Header="About"/>
+                <MenuItem x:Name="MenuHelpAbout" Header="About" Click="MenuHelpAbout_Click"/>
             </MenuItem>
         </Menu>
 

@@ -9,4 +9,6 @@ namespace SimpleImageResizer.Core;
 public class MyApplication
 {
     public static double DpiScale { get; set; }
+
+    public static string? Version => typeof(MyApplication).Assembly.GetName().Version?.ToString();
 }

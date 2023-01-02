@@ -22,7 +22,7 @@ namespace SimpleImageResizer.Localize {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class MainWindow {
+    public class MainWindow {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace SimpleImageResizer.Localize {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimpleImageResizer.Localize.MainWindow", typeof(MainWindow).Assembly);
@@ -51,7 +51,7 @@ namespace SimpleImageResizer.Localize {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -64,7 +64,7 @@ namespace SimpleImageResizer.Localize {
         ///   Looks up a localized string similar to The specified directory does not exist.
         ///However, it will be created when images are resized..
         /// </summary>
-        internal static string ButtonDestinationNotFoundMessage {
+        public static string ButtonDestinationNotFoundMessage {
             get {
                 return ResourceManager.GetString("ButtonDestinationNotFoundMessage", resourceCulture);
             }
@@ -73,7 +73,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Directory Does Not Exist.
         /// </summary>
-        internal static string ButtonDestinationNotFoundTitle {
+        public static string ButtonDestinationNotFoundTitle {
             get {
                 return ResourceManager.GetString("ButtonDestinationNotFoundTitle", resourceCulture);
             }
@@ -82,7 +82,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Select the destination directory for your resized images..
         /// </summary>
-        internal static string DestinationDialogTitle {
+        public static string DestinationDialogTitle {
             get {
                 return ResourceManager.GetString("DestinationDialogTitle", resourceCulture);
             }
@@ -91,7 +91,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to bmp.
         /// </summary>
-        internal static string ImageTypeBitmap {
+        public static string ImageTypeBitmap {
             get {
                 return ResourceManager.GetString("ImageTypeBitmap", resourceCulture);
             }
@@ -100,7 +100,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to gif.
         /// </summary>
-        internal static string ImageTypeGif {
+        public static string ImageTypeGif {
             get {
                 return ResourceManager.GetString("ImageTypeGif", resourceCulture);
             }
@@ -109,7 +109,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to jfif.
         /// </summary>
-        internal static string ImageTypeJfif {
+        public static string ImageTypeJfif {
             get {
                 return ResourceManager.GetString("ImageTypeJfif", resourceCulture);
             }
@@ -118,7 +118,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to jpg.
         /// </summary>
-        internal static string ImageTypeJpg {
+        public static string ImageTypeJpg {
             get {
                 return ResourceManager.GetString("ImageTypeJpg", resourceCulture);
             }
@@ -127,7 +127,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Original.
         /// </summary>
-        internal static string ImageTypeOriginal {
+        public static string ImageTypeOriginal {
             get {
                 return ResourceManager.GetString("ImageTypeOriginal", resourceCulture);
             }
@@ -136,7 +136,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to png.
         /// </summary>
-        internal static string ImageTypePng {
+        public static string ImageTypePng {
             get {
                 return ResourceManager.GetString("ImageTypePng", resourceCulture);
             }
@@ -145,7 +145,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to tif.
         /// </summary>
-        internal static string ImageTypeTif {
+        public static string ImageTypeTif {
             get {
                 return ResourceManager.GetString("ImageTypeTif", resourceCulture);
             }
@@ -154,7 +154,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Elapsed time:.
         /// </summary>
-        internal static string ProcessingCompleteMsgElapsedTime {
+        public static string ProcessingCompleteMsgElapsedTime {
             get {
                 return ResourceManager.GetString("ProcessingCompleteMsgElapsedTime", resourceCulture);
             }
@@ -163,7 +163,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Images processed:.
         /// </summary>
-        internal static string ProcessingCompleteMsgImagesProcessed {
+        public static string ProcessingCompleteMsgImagesProcessed {
             get {
                 return ResourceManager.GetString("ProcessingCompleteMsgImagesProcessed", resourceCulture);
             }
@@ -172,7 +172,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Processing Complete.
         /// </summary>
-        internal static string ProcessingCompleteMsgTitle {
+        public static string ProcessingCompleteMsgTitle {
             get {
                 return ResourceManager.GetString("ProcessingCompleteMsgTitle", resourceCulture);
             }
@@ -181,7 +181,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Height.
         /// </summary>
-        internal static string ScalingOptionHeight {
+        public static string ScalingOptionHeight {
             get {
                 return ResourceManager.GetString("ScalingOptionHeight", resourceCulture);
             }
@@ -190,7 +190,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
-        internal static string ScalingOptionNone {
+        public static string ScalingOptionNone {
             get {
                 return ResourceManager.GetString("ScalingOptionNone", resourceCulture);
             }
@@ -199,7 +199,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Width.
         /// </summary>
-        internal static string ScalingOptionWidth {
+        public static string ScalingOptionWidth {
             get {
                 return ResourceManager.GetString("ScalingOptionWidth", resourceCulture);
             }
@@ -208,7 +208,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to All Supported Images | *.bmp; *.gif; *.jfif; *.jpg; *.png; *.tif&quot;.
         /// </summary>
-        internal static string SelectImagesSupportedTypes {
+        public static string SelectImagesSupportedTypes {
             get {
                 return ResourceManager.GetString("SelectImagesSupportedTypes", resourceCulture);
             }
@@ -217,7 +217,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Large.
         /// </summary>
-        internal static string SimpleImageResizeLarge {
+        public static string SimpleImageResizeLarge {
             get {
                 return ResourceManager.GetString("SimpleImageResizeLarge", resourceCulture);
             }
@@ -226,7 +226,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Medium.
         /// </summary>
-        internal static string SimpleImageResizeMedium {
+        public static string SimpleImageResizeMedium {
             get {
                 return ResourceManager.GetString("SimpleImageResizeMedium", resourceCulture);
             }
@@ -235,7 +235,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Small.
         /// </summary>
-        internal static string SimpleImageResizeSmall {
+        public static string SimpleImageResizeSmall {
             get {
                 return ResourceManager.GetString("SimpleImageResizeSmall", resourceCulture);
             }
@@ -244,7 +244,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Unknown.
         /// </summary>
-        internal static string SimpleImageResizeUnknown {
+        public static string SimpleImageResizeUnknown {
             get {
                 return ResourceManager.GetString("SimpleImageResizeUnknown", resourceCulture);
             }
@@ -253,7 +253,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Value must be set between 30 and 100..
         /// </summary>
-        internal static string ValidateJpg {
+        public static string ValidateJpg {
             get {
                 return ResourceManager.GetString("ValidateJpg", resourceCulture);
             }
@@ -262,7 +262,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Value must be set between 1 and 99..
         /// </summary>
-        internal static string ValidatePercentage {
+        public static string ValidatePercentage {
             get {
                 return ResourceManager.GetString("ValidatePercentage", resourceCulture);
             }
@@ -271,7 +271,7 @@ namespace SimpleImageResizer.Localize {
         /// <summary>
         ///   Looks up a localized string similar to Value must be set between 1 and 100000..
         /// </summary>
-        internal static string ValidateValue1and100000 {
+        public static string ValidateValue1and100000 {
             get {
                 return ResourceManager.GetString("ValidateValue1and100000", resourceCulture);
             }
