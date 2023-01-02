@@ -23,11 +23,6 @@ public class Save
     public static TiffCompressOption TiffCompressOption { get; set; } = TiffCompressOption.None;
 
     /// <summary>
-    /// Gets or sets a value for the Full Path.
-    /// </summary>
-    private string? FullPath { get; set; }
-
-    /// <summary>
     /// Saves an image to the passed path as any valid type selected. Quality is only for JPG/JFIF and default to 70.
     /// You may optionally set additional properties for PNG and TIF files.
     /// </summary>
@@ -37,21 +32,21 @@ public class Save
     /// <param name="overwrite">True to overwrite an existing file of the same name.</param>
     /// <param name="quality">Optional. Only for JPG/JFIF. Default = 70.</param>
     /// <returns>Bool.</returns>
-    public bool Image(BitmapFrame bitmapFrame, string fileToSave, ImageTypes.ImageType saveAs, bool overwrite, int quality = 70)
+    public static bool Image(BitmapFrame bitmapFrame, string fileToSave, ImageTypes.ImageType saveAs, bool overwrite, int quality = 70)
     {
         if (string.IsNullOrWhiteSpace(fileToSave))
         {
             throw new ArgumentNullException(nameof(fileToSave));
         }
 
-        FullPath = fileToSave;
-        FileInfo fileInfo = new(FullPath);
+        string fullPath = fileToSave;
+        FileInfo fileInfo = new(fullPath);
         string extension = fileInfo.Extension;
         string extensionSaveAs = ExtensionSaveAs(saveAs);
 
-        FullPath = FullPath.Replace(extension, extensionSaveAs);
+        fullPath = fullPath.Replace(extension, extensionSaveAs);
 
-        if (File.Exists(FullPath) && !overwrite)
+        if (File.Exists(fullPath) && !overwrite)
         {
             return false;
         }
@@ -59,22 +54,22 @@ public class Save
         switch (saveAs)
         {
             case ImageTypes.ImageType.bmp:
-                Bmp(bitmapFrame);
+                Bmp(bitmapFrame, fullPath);
                 break;
             case ImageTypes.ImageType.gif:
-                Gif(bitmapFrame);
+                Gif(bitmapFrame, fullPath);
                 break;
             case ImageTypes.ImageType.jfif:
-                Jfif(bitmapFrame, quality);
+                Jfif(bitmapFrame, fullPath, quality);
                 break;
             case ImageTypes.ImageType.jpg:
-                Jpg(bitmapFrame, quality);
+                Jpg(bitmapFrame, fullPath, quality);
                 break;
             case ImageTypes.ImageType.png:
-                Png(bitmapFrame);
+                Png(bitmapFrame, fullPath);
                 break;
             case ImageTypes.ImageType.tif:
-                Tif(bitmapFrame);
+                Tif(bitmapFrame, fullPath);
                 break;
         }
 
@@ -95,7 +90,7 @@ public class Save
         };
     }
 
-    private void Bmp(BitmapFrame bitmapFrame)
+    private static void Bmp(BitmapFrame bitmapFrame, string fullPath)
     {
         /* Other possibilities:
 
@@ -108,23 +103,23 @@ public class Save
         //transformedBitmap.Transform = new System.Windows.Media.RotateTransform(90);
         //transformedBitmap.EndInit();
         */
-        using FileStream stream = new(FullPath!, FileMode.Create);
+        using FileStream stream = new(fullPath, FileMode.Create);
         BmpBitmapEncoder encoder = new();
         encoder.Frames.Add(BitmapFrame.Create(bitmapFrame));
         encoder.Save(stream);
     }
 
-    private void Gif(BitmapFrame bitmapFrame)
+    private static void Gif(BitmapFrame bitmapFrame, string fullPath)
     {
-        using FileStream stream = new(FullPath!, FileMode.Create);
+        using FileStream stream = new(fullPath, FileMode.Create);
         GifBitmapEncoder encoder = new();
         encoder.Frames.Add(BitmapFrame.Create(bitmapFrame));
         encoder.Save(stream);
     }
 
-    private void Jfif(BitmapFrame bitmapFrame, int quality = 70)
+    private static void Jfif(BitmapFrame bitmapFrame, string fullPath, int quality = 70)
     {
-        using FileStream stream = new(FullPath!, FileMode.Create);
+        using FileStream stream = new(fullPath, FileMode.Create);
         JpegBitmapEncoder encoder = new()
         {
             QualityLevel = quality,
@@ -133,9 +128,9 @@ public class Save
         encoder.Save(stream);
     }
 
-    private void Jpg(BitmapFrame bitmapFrame, int quality = 70)
+    private static void Jpg(BitmapFrame bitmapFrame, string fullPath, int quality = 70)
     {
-        using FileStream stream = new(FullPath!, FileMode.Create);
+        using FileStream stream = new(fullPath, FileMode.Create);
         JpegBitmapEncoder encoder = new()
         {
             QualityLevel = quality,
@@ -146,9 +141,9 @@ public class Save
         encoder.Save(stream);
     }
 
-    private void Png(BitmapFrame bitmapFrame)
+    private static void Png(BitmapFrame bitmapFrame, string fullPath)
     {
-        using FileStream stream = new(FullPath!, FileMode.Create);
+        using FileStream stream = new(fullPath, FileMode.Create);
         PngBitmapEncoder encoder = new()
         {
             Interlace = PngInterlaceOption,
@@ -157,9 +152,9 @@ public class Save
         encoder.Save(stream);
     }
 
-    private void Tif(BitmapFrame bitmapFrame)
+    private static void Tif(BitmapFrame bitmapFrame, string fullPath)
     {
-        using FileStream stream = new(FullPath!, FileMode.Create);
+        using FileStream stream = new(fullPath, FileMode.Create);
         TiffBitmapEncoder encoder = new()
         {
             Compression = TiffCompressOption,

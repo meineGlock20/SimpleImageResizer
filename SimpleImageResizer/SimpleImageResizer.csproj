@@ -34,12 +34,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="DamageInc.Imaging">
-	    <HintPath>..\..\..\..\OneDrive\Documents\Projects\SimpleImageResizer\SimpleImageResizer\DamageInc.Imaging\bin\Release\net5.0\DamageInc.Imaging.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Resource Include="Resources\ComicKings.ttf" />
 	  <Resource Include="Resources\icons.messagebox.xaml" />
 	</ItemGroup>

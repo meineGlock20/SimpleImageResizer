@@ -234,12 +234,6 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         try
         {
-            // TODO: Fix MaxDegreeOfParallelism!
-            // For some reason I can't figure out, there is a race condition where if you use more than one processor, an exception
-            // will be thrown for - file in use - and images will not be processed. This happens on Core.Imaging.Save.Image and is driving me nuts!
-            // I don't see any logial reason for this to be happening. It's like it's trying to process the same image on multiple threads
-            // but how is that possible when using foreach?
-            // To reproduce, set the MaxDegreeOfParallelism to -1 (all) or anything higher than 1.
             await Task.Run(() => Parallel.ForEach(Images, new ParallelOptions { MaxDegreeOfParallelism = processors, CancellationToken = cancellationTokenSource.Token }, image =>
             {
                 if (CancelProcess) cancellationTokenSource.Cancel();
@@ -247,9 +241,9 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
                 if (string.IsNullOrWhiteSpace(image.FullPathToImage) || string.IsNullOrWhiteSpace(image.ImageName))
                     throw new ArgumentNullException(nameof(image.FullPathToImage));
 
-                BitmapFrame bitmapFrame;
 
                 // Resize based on options.
+                BitmapFrame bitmapFrame;
                 if (UseSimple || UsePercentage)
                 {
                     bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, UseSimple ? SimpleResizeSetting : int.Parse(ResizePercentage!));
@@ -279,16 +273,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
                 else
                     saveAs = (Core.Imaging.ImageTypes.ImageType)SelectedImageType.Type;
 
-                // TODO: This is where the AggregateException happens. If you comment this out and set MaxDegreeOfParallelism = -1, it
-                // works fine and there are no exceptions thrown.
-                Core.Imaging.Save save = new();
-                save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
-                //Core.Imaging.Save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
-
-                //DamageInc.Imaging.Save save = new();
-                //save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), DamageInc.Imaging.Save.SaveAs.JPG, false, 70);
-
-
+                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
 
                 // Report progress.
                 counter++;
@@ -307,6 +292,11 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         }
         finally
         {
+            // On rare occassion the progress would end at 98% or 99% although all processing was complete.
+            // So we will just make sure it says 100. This would also apply to a canceled operation as well.
+            ImageProcessingProgress = 100;
+            ImageProcessingProgressText = $"100 %";
+
             stopwatch.Stop();
             TimeSpan ts = stopwatch.Elapsed;
 
@@ -322,7 +312,6 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             MessageService.ShowMessage($"Operation complete!\r\n{elapsedTime}", "DONE", MessageBoxServiceButton.Ok, MessageBoxServiceIcon.Information, Window);
             progress.Report(0);
         }
-
     }
 
     private void ExecuteCancelProcess(object o)

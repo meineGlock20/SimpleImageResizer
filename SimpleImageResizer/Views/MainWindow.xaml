@@ -427,7 +427,7 @@
                 </Border>
 
                 <ListBox x:Name="ListBoxImages"
-                         ItemsSource="{Binding Images}"
+                         ItemsSource="{Binding Images, IsAsync=True}"
                          AllowDrop="True"
                          DragEnter="ListBoxImages_DragEnter"
                          Drop="ListBoxImages_Drop"

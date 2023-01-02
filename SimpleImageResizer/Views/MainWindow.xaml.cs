@@ -60,7 +60,6 @@ public partial class MainWindow : Window
 
         if (openFileDialog.ShowDialog() == true)
         {
-            Cursor = Cursors.Wait;
 
             List<Models.Image>? images = new();
             foreach (string image in openFileDialog.FileNames)
@@ -76,12 +75,11 @@ public partial class MainWindow : Window
                 });
             }
 
+            Services.UserInterface.SetBusyState();
             foreach (var m in images)
             {
                 ((ViewModels.MainWindowViewModel)DataContext).AddImagesToCollection(m);
             }
-
-            Cursor = null;
         }
     }
 
@@ -95,9 +93,10 @@ public partial class MainWindow : Window
 
     private void ListBoxImages_Drop(object sender, DragEventArgs e)
     {
+        Services.UserInterface.SetBusyState();
         foreach (string image in (string[])e.Data.GetData(DataFormats.FileDrop))
         {
-            Cursor = Cursors.Wait;
+
             Size size = Core.Imaging.Size.GetImageSize(image);
             var i = new Models.Image()
             {
@@ -108,7 +107,6 @@ public partial class MainWindow : Window
                 Thumbnail = Core.Imaging.Thumbnail.GenerateByWidth(128, image),
             };
             ((ViewModels.MainWindowViewModel)DataContext).AddImagesToCollection(i);
-            Cursor = null;
         }
     }
 
