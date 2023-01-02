@@ -26,5 +26,11 @@
     <Setting Name="OptionJpgQuality" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">70</Value>
     </Setting>
+    <Setting Name="CurrentCulture" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en-US</Value>
+    </Setting>
+    <Setting Name="CurrentUICulture" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en-US</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

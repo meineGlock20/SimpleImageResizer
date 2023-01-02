@@ -118,5 +118,29 @@ namespace SimpleImageResizer.Properties {
                 this["OptionJpgQuality"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
+        public string CurrentCulture {
+            get {
+                return ((string)(this["CurrentCulture"]));
+            }
+            set {
+                this["CurrentCulture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
+        public string CurrentUICulture {
+            get {
+                return ((string)(this["CurrentUICulture"]));
+            }
+            set {
+                this["CurrentUICulture"] = value;
+            }
+        }
     }
 }

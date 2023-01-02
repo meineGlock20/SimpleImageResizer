@@ -98,16 +98,22 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Language">
-                <MenuItem x:Name="MenuLanguageEnglish" Header="English">
-                    <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/flag-united-states_16.png"/>
-                    </MenuItem.Icon>
+                <MenuItem x:Name="MenuLanguageEnglish" IsChecked="True">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Resources/flag-united-states_16.png"/>
+                            <TextBlock Text="English" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </MenuItem.Header>
                 </MenuItem>
-                <MenuItem x:Name="MenuLanguageGerman" Header="German (not implemented)" IsEnabled="False">
-                    <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/flag-germany_16.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                <!--<MenuItem x:Name="MenuLanguageGerman" IsEnabled="False">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Resources/flag-germany_16.png"/>
+                            <TextBlock Text="German (not implemented)" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>-->
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem x:Name="MenuHelpAbout" Header="About" Click="MenuHelpAbout_Click"/>
