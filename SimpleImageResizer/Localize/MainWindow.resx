@@ -148,6 +148,15 @@ However, it will be created when images are resized.</value>
   <data name="ImageTypeTif" xml:space="preserve">
     <value>tif</value>
   </data>
+  <data name="ProcessingCompleteMsgElapsedTime" xml:space="preserve">
+    <value>Elapsed time:</value>
+  </data>
+  <data name="ProcessingCompleteMsgImagesProcessed" xml:space="preserve">
+    <value>Images processed:</value>
+  </data>
+  <data name="ProcessingCompleteMsgTitle" xml:space="preserve">
+    <value>Processing Complete</value>
+  </data>
   <data name="ScalingOptionHeight" xml:space="preserve">
     <value>Height</value>
   </data>

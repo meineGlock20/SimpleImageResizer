@@ -98,10 +98,10 @@
             </MenuItem>
         </Menu>
 
-        <ToolBar Grid.Row="1" ToolBarTray.IsLocked="True">
+        <ToolBar Grid.Row="1" ToolBarTray.IsLocked="True">           
             <Button x:Name="ButtonSelectImages" Click="ButtonSelectImages_Click">
                 <StackPanel Orientation="Vertical">
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Style="{StaticResource DisabledViewBoxImage}">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
                             <Canvas>
                                 <Path Data="M20,4v12H8V4h12m0,-2H8c-1.1,0,-2,0.9,-2,2v12c0,1.1,0.9,2,2,2h12c1.1,0,2,-0.9,2,-2V4c0,-1.1,-0.9,-2,-2,-2zm-8.5,9.67l1.69,2.26,2.48,-3.1L19,15H9zM2,6v14c0,1.1,0.9,2,2,2h14v-2H4V6H2z" Fill="#4DA07D"/>
@@ -113,7 +113,7 @@
             </Button>
             <Button Command="{Binding CommandClearImages}">
                 <StackPanel Orientation="Vertical">
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Style="{StaticResource DisabledViewBoxImage}">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
                             <Canvas>
                                 <Path Data="M20,4v12H8V4h12m0,-2H8c-1.1,0,-2,0.9,-2,2v12c0,1.1,0.9,2,2,2h12c1.1,0,2,-0.9,2,-2V4c0,-1.1,-0.9,-2,-2,-2zm-8.5,9.67l1.69,2.26,2.48,-3.1L19,15H9zM2,6v14c0,1.1,0.9,2,2,2h14v-2H4V6H2z" Fill="#CC4B31"/>
@@ -126,7 +126,7 @@
             <Separator/>
             <Button Command="{Binding CommandSetDestination}">
                 <StackPanel Orientation="Vertical">
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Style="{StaticResource DisabledViewBoxImage}">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
                             <Canvas>
                                 <Path Data="M15.88,10.5l1.62,1.62v3.38l-3,0v-5H15.88zM22,8v10c0,1.1,-0.9,2,-2,2H4c-1.1,0,-2,-0.9,-2,-2L2.01,6C2.01,4.9,2.9,4,4,4h6l2,2h8C21.1,6,22,6.9,22,8zM19,11.5L16.5,9H13v8l6,0V11.5z" Fill="#E9B665"/>
@@ -147,7 +147,7 @@
                     </Style>
                 </Button.Style>
                 <StackPanel Orientation="Vertical">
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Style="{StaticResource DisabledViewBoxImage}">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
                             <Canvas>
                                 <Path Data="M3,17v2h6v-2H3zM3,5v2h10V5H3zm10,16v-2h8v-2h-8v-2h-2v6h2zM7,9v2H3v2h4v2h2V9H7zm14,4v-2H11v2h10zm-6,-4h2V7h4V5h-4V3h-2v6z" Fill="#529FBE"/>
@@ -159,7 +159,7 @@
             </Button>
             <Button Command="{Binding CommandBatchProcess}">
                 <StackPanel Orientation="Vertical">
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Style="{StaticResource DisabledViewBoxImage}">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
                             <Canvas>
                                 <Path Data="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2,-0.9,2,-2V6C22,4.9,21.11,4,20,4zM20,18H4V8h16V18zM18,17h-6v-2h6V17zM7.5,17l-1.41,-1.41L8.67,13l-2.59,-2.59L7.5,9l4,4L7.5,17z" Fill="#E68055"/>
@@ -172,7 +172,7 @@
             <Separator/>
             <Button Command="{Binding CommandProcessImages}">
                 <StackPanel Orientation="Vertical">
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Style="{StaticResource DisabledViewBoxImage}" Stretch="Uniform">
                         <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
                             <Canvas>
                                 <Polygon Points="20,7 20.94,4.94 23,4 20.94,3.06 20,1 19.06,3.06 17,4 19.06,4.94" Fill="#3E78B3" StrokeLineJoin="Miter"/>
@@ -184,10 +184,6 @@
                     </Viewbox>
                     <TextBlock Text="Process"/>
                 </StackPanel>
-            </Button>
-
-            <Button Command="{Binding CommandCancelProcess}" Content="cancel">
-                
             </Button>
         </ToolBar>
 
@@ -215,6 +211,9 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ShowSettings}" Value="False">
                                 <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ProcessingInProgress}" Value="True">
+                                <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -475,10 +474,15 @@
 
         <StatusBar Grid.Row="3">
             <StatusBarItem>
-                <Grid Width="200">
-                    <ProgressBar x:Name="ProgressBarResize" Background="LightSteelBlue" Foreground="#3E78B3" d:Value="20" Value="{Binding ImageProcessingProgress}" ToolTip="Tracks the progress of the image resizing process."/>
-                    <TextBlock x:Name="TextBlockProgress" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" d:Text="20 %" Text="{Binding ImageProcessingProgressText, TargetNullValue=0 %, FallbackValue=0 %}"/>
-                </Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Grid Width="200">
+                        <ProgressBar x:Name="ProgressBarResize" Background="LightSteelBlue" Foreground="#3E78B3" d:Value="20" Value="{Binding ImageProcessingProgress}" ToolTip="Tracks the progress of the image resizing process."/>
+                        <TextBlock x:Name="TextBlockProgress" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" d:Text="20 %" Text="{Binding ImageProcessingProgressText, TargetNullValue=0 %, FallbackValue=0 %}"/>
+                    </Grid>
+                    <Button Command="{Binding CommandCancelProcess}" Margin="5,0,0,0" Background="#FDE7E9">
+                        <TextBlock Text="Cancel" Margin="3,0"/>
+                    </Button>
+                </StackPanel>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
@@ -492,9 +496,19 @@
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
+                <StatusBarItem.Style>
+                    <Style TargetType="StatusBarItem">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ProcessingInProgress}" Value="True">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StatusBarItem.Style>
                 <StackPanel Orientation="Horizontal">
                     <RadioButton IsChecked="{Binding UseSimple}" Content="Use simple resizing" VerticalAlignment="Center"/>
-                    <Slider Width="100" TickFrequency="25" Minimum="25" Maximum="75" IsSnapToTickEnabled="True"  Margin="5,0,0,0" Value="{Binding SimpleResizeSetting}">
+                    <Slider Width="75" TickFrequency="25" Minimum="25" Maximum="75" IsSnapToTickEnabled="True"  Margin="5,0,0,0" Value="{Binding SimpleResizeSetting}">
                         <Slider.Style>
                             <Style TargetType="Slider">
                                 <Setter Property="IsEnabled" Value="False"/>

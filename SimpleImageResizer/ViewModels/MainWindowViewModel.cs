@@ -54,6 +54,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     private bool optionUseAllProcessors;
     private string? optionJpgQuality;
     private bool cancelProcess;
+    private bool processingInProgress;
 
     /// <summary>
     /// Constructor.
@@ -92,14 +93,14 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         };
 
         // Commands.
-        CommandClearImages = new Commands.Relay(ClearImages, p => true);
-        CommandSetDestination = new Commands.Relay(SetDestination, p => true);
-        CommandSettings = new Commands.Relay(Settings, p => true);
-        CommandBatchProcess = new Commands.Relay(BatchProcess, p => true);
-        CommandProcessImages = new Commands.RelayAsync(ProcessImages, p => true);
+        CommandClearImages = new Commands.Relay(ClearImages, p => !ProcessingInProgress);
+        CommandSetDestination = new Commands.Relay(SetDestination, p => !ProcessingInProgress);
+        CommandSettings = new Commands.Relay(Settings, p => !ProcessingInProgress);
+        CommandBatchProcess = new Commands.Relay(BatchProcess, p => !ProcessingInProgress);
+        CommandProcessImages = new Commands.RelayAsync(ProcessImages, p => Images is not null && Images.Count > 0 && !ProcessingInProgress);
         CommandOpenDestination = new Commands.Relay(OpenDestination, p => true);
         CommandResetJpgDefault = new Commands.Relay(ResetJpgDefault, p => OptionJpgQuality != jpgDefault.ToString());
-        CommandCancelProcess = new Commands.Relay(ExecuteCancelProcess, p => true);
+        CommandCancelProcess = new Commands.Relay(ExecuteCancelProcess, p => ProcessingInProgress);
     }
 
     /* COMMANDS */
@@ -218,6 +219,9 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         // Otherwise, use all available less one.
         int processors = Environment.ProcessorCount == 1 ? 1 : Properties.Settings.Default.OptionUseAllProcessors ? Environment.ProcessorCount - 1 : 1;
 
+        // Track bytes of resized images.
+        long resizedBytes = 0;
+
         // This allows progress to be reported back to the UI when a long running TASK is run on another thread in an await.
         double counter = 0;
         IProgress<int> progress = new Progress<int>(percentCompleted =>
@@ -225,6 +229,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             ImageProcessingProgress = percentCompleted;
             ImageProcessingProgressText = $"{percentCompleted} %";
         });
+
+        ProcessingInProgress = true;
 
         using var cancellationTokenSource = new CancellationTokenSource();
 
@@ -240,7 +246,6 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
                 if (string.IsNullOrWhiteSpace(image.FullPathToImage) || string.IsNullOrWhiteSpace(image.ImageName))
                     throw new ArgumentNullException(nameof(image.FullPathToImage));
-
 
                 // Resize based on options.
                 BitmapFrame bitmapFrame;
@@ -263,10 +268,10 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
                 else
                 {
                     // This should never happen but.
-                    throw new ArgumentNullException("bitmapFrame", "Something is wrong dude!");
+                    throw new ArgumentNullException("bitmapFrame", "The bitmapFrame could not be created!");
                 }
 
-                // Save as option.
+                // Save.
                 Core.Imaging.ImageTypes.ImageType saveAs;
                 if (SelectedImageType?.Type is null)
                     saveAs = image.ImageType;
@@ -275,19 +280,23 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
                 Core.Imaging.Save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
 
+                // Track resized bytes.
+                resizedBytes += new FileInfo(Path.Combine(DestinationDirectory, $"{image.ImageName}")).Length;
+
                 // Report progress.
                 counter++;
                 double pro = counter / ImageCount * 100d;
                 progress.Report((int)pro);
-
             }));
         }
         catch (TaskCanceledException)
         {
-            Debug.Print("Cancelled.");
+            // There is nothing to do here. Finally will take over.
+            Debug.Print("Canceled.");
         }
         catch (AggregateException ae)
         {
+            // When Parallel processing, exceptions will aggregate and can be caught here.
             Debug.Print(ae.InnerException?.ToString());
         }
         finally
@@ -300,7 +309,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             stopwatch.Stop();
             TimeSpan ts = stopwatch.Elapsed;
 
-            // Format and display the TimeSpan value.
+            // Format the TimeSpan value for display.
             string elapsedTime = string.Format(
                 "{0:00}:{1:00}:{2:00}.{3:00}",
                 ts.Hours,
@@ -308,9 +317,17 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
                 ts.Seconds,
                 ts.Milliseconds / 10);
 
-            CancelProcess = false;
-            MessageService.ShowMessage($"Operation complete!\r\n{elapsedTime}", "DONE", MessageBoxServiceButton.Ok, MessageBoxServiceIcon.Information, Window);
+            if (OptionShowMessageBox)
+            {
+                MessageService.ShowMessage($"{Localize.MainWindow.ProcessingCompleteMsgImagesProcessed} {counter}\r\n{Localize.MainWindow.ProcessingCompleteMsgElapsedTime}: {elapsedTime}",
+                    Localize.MainWindow.ProcessingCompleteMsgTitle, MessageBoxServiceButton.Ok, MessageBoxServiceIcon.Information, Window);
+            }
+
+            // Reset.
             progress.Report(0);
+            ProcessingInProgress = false;
+            CancelProcess = false;
+            if (OptionClearImages) Images = null;
         }
     }
 
@@ -681,6 +698,22 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         set
         {
             cancelProcess = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the resizing process in active.
+    /// </summary>
+    /// <remarks>
+    /// This is used to disable certain functions like adding or removing images etc while processing.
+    /// </remarks>
+    public bool ProcessingInProgress
+    {
+        get => processingInProgress;
+        set
+        {
+            processingInProgress = value;
             NotifyPropertyChanged();
         }
     }

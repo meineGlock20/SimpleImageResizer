@@ -152,6 +152,33 @@ namespace SimpleImageResizer.Localize {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Elapsed time:.
+        /// </summary>
+        internal static string ProcessingCompleteMsgElapsedTime {
+            get {
+                return ResourceManager.GetString("ProcessingCompleteMsgElapsedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images processed:.
+        /// </summary>
+        internal static string ProcessingCompleteMsgImagesProcessed {
+            get {
+                return ResourceManager.GetString("ProcessingCompleteMsgImagesProcessed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing Complete.
+        /// </summary>
+        internal static string ProcessingCompleteMsgTitle {
+            get {
+                return ResourceManager.GetString("ProcessingCompleteMsgTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Height.
         /// </summary>
         internal static string ScalingOptionHeight {
