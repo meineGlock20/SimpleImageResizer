@@ -96,9 +96,24 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="_Language">
+                <MenuItem x:Name="MenuLanguageEnglish" Header="English">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/flag-united-states_16.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="MenuLanguageGerman" Header="German (not implemented)" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/flag-germany_16.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem x:Name="MenuHelpAbout" Header="About"/>
+            </MenuItem>
         </Menu>
 
-        <ToolBar Grid.Row="1" ToolBarTray.IsLocked="True">           
+        <ToolBar Grid.Row="1" ToolBarTray.IsLocked="True">
             <Button x:Name="ButtonSelectImages" Click="ButtonSelectImages_Click">
                 <StackPanel Orientation="Vertical">
                     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Style="{StaticResource DisabledViewBoxImage}">
