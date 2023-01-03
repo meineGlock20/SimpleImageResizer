@@ -232,6 +232,10 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         ProcessingInProgress = true;
 
+        // Each operation goes to a date time marked directory.
+        string destination = Path.Combine(DestinationDirectory, DateTime.Now.ToString("yyyyMMddTHHmmss"));
+        Directory.CreateDirectory(destination);
+
         using var cancellationTokenSource = new CancellationTokenSource();
 
         // Begin timing operation.
@@ -278,10 +282,12 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
                 else
                     saveAs = (Core.Imaging.ImageTypes.ImageType)SelectedImageType.Type;
 
-                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(DestinationDirectory, $"{image.ImageName}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
+                string imagename = image.ImageName;
+
+                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(destination, $"{imagename}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
 
                 // Track resized bytes.
-                resizedBytes += new FileInfo(Path.Combine(DestinationDirectory, $"{image.ImageName}")).Length;
+                resizedBytes += new FileInfo(Path.Combine(destination, $"{imagename}")).Length;
 
                 // Report progress.
                 counter++;
