@@ -42,7 +42,7 @@ public static class Draw
                pixelsPerDip);
 
         FormattedText formattedText2 = new(
-           "Drag and Drop your images here!",
+           Localize.MainWindow.DragAndDrop,
            System.Globalization.CultureInfo.GetCultureInfo("en-us"),
            FlowDirection.LeftToRight,
            new Typeface(segoeFont, FontStyles.Normal, FontWeights.Normal, FontStretches.Normal, fallbackFont),

@@ -21,11 +21,11 @@
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
-            <MenuItem Header="_File">
-                <MenuItem Header="E_xit" Click="MenuItemExit_Click"/>
+            <MenuItem Header="{x:Static l:MainWindow.MenuFile}">
+                <MenuItem Header="{x:Static l:MainWindow.MenuFileExit}" Click="MenuItemExit_Click"/>
             </MenuItem>
-            <MenuItem Header="_Tools">
-                <MenuItem x:Name="MenuToolsSelect" Header="Select" Click="MenuToolsSelect_Click">
+            <MenuItem Header="{x:Static l:MainWindow.MenuTools}">
+                <MenuItem x:Name="MenuToolsSelect" Header="{x:Static l:MainWindow.CommandSelect}" Click="MenuToolsSelect_Click">
                     <MenuItem.Icon>
                         <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
                             <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -36,7 +36,7 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="MenuToolsClear" Header="Clear" Command="{Binding CommandClearImages}">
+                <MenuItem x:Name="MenuToolsClear" Header="{x:Static l:MainWindow.CommandClear}" Command="{Binding CommandClearImages}">
                     <MenuItem.Icon>
                         <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
                             <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -48,7 +48,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem x:Name="MenuToolsDestination" Header="Destination" Command="{Binding CommandSetDestination}">
+                <MenuItem x:Name="MenuToolsDestination" Header="{x:Static l:MainWindow.CommandDestination}" Command="{Binding CommandSetDestination}">
                     <MenuItem.Icon>
                         <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
                             <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -59,7 +59,7 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="MenuToolsSettings" Header="Settings" Command="{Binding CommandSettings}">
+                <MenuItem x:Name="MenuToolsSettings" Header="{x:Static l:MainWindow.CommandSettings}" Command="{Binding CommandSettings}">
                     <MenuItem.Icon>
                         <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
                             <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -70,7 +70,7 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="MenuToolsBatch" Header="Batch" Command="{Binding CommandBatchProcess}">
+                <MenuItem x:Name="MenuToolsBatch" Header="{x:Static l:MainWindow.CommandBatch}" Command="{Binding CommandBatchProcess}">
                     <MenuItem.Icon>
                         <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
                             <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -82,7 +82,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem x:Name="MeunToolsProcess" Header="Process" Command="{Binding CommandProcessImages}">
+                <MenuItem x:Name="MeunToolsProcess" Header="{x:Static l:MainWindow.CommandProcess}" Command="{Binding CommandProcessImages}">
                     <MenuItem.Icon>
                         <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
                             <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
@@ -97,12 +97,12 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="_Language">
+            <MenuItem Header="{x:Static l:MainWindow.MenuLanguage}">
                 <MenuItem x:Name="MenuLanguageEnglish" IsChecked="True">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/Resources/flag-united-states_16.png"/>
-                            <TextBlock Text="English" Margin="5,0,0,0"/>
+                            <TextBlock Text="{x:Static l:MainWindow.MenuLanguageEnglish}" Margin="5,0,0,0"/>
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
@@ -115,8 +115,8 @@
                     </MenuItem.Header>
                 </MenuItem>-->
             </MenuItem>
-            <MenuItem Header="_Help">
-                <MenuItem x:Name="MenuHelpAbout" Header="About" Click="MenuHelpAbout_Click"/>
+            <MenuItem Header="{x:Static l:MainWindow.MenuHelp}">
+                <MenuItem x:Name="MenuHelpAbout" Header="{x:Static l:MainWindow.MenuHelpAbout}" Click="MenuHelpAbout_Click"/>
             </MenuItem>
         </Menu>
 
@@ -130,7 +130,7 @@
                             </Canvas>
                         </Canvas>
                     </Viewbox>
-                    <TextBlock Text="Select"/>
+                    <TextBlock Text="{x:Static l:MainWindow.CommandSelect}"/>
                 </StackPanel>
             </Button>
             <Button Command="{Binding CommandClearImages}">
@@ -142,7 +142,7 @@
                             </Canvas>
                         </Canvas>
                     </Viewbox>
-                    <TextBlock Text="Clear"/>
+                    <TextBlock Text="{x:Static l:MainWindow.CommandClear}"/>
                 </StackPanel>
             </Button>
             <Separator/>
@@ -155,7 +155,7 @@
                             </Canvas>
                         </Canvas>
                     </Viewbox>
-                    <TextBlock Text="Destination"/>
+                    <TextBlock Text="{x:Static l:MainWindow.CommandDestination}"/>
                 </StackPanel>
             </Button>
             <Button Command="{Binding CommandSettings}">
@@ -176,7 +176,7 @@
                             </Canvas>
                         </Canvas>
                     </Viewbox>
-                    <TextBlock Text="Settings"/>
+                    <TextBlock Text="{x:Static l:MainWindow.CommandSettings}"/>
                 </StackPanel>
             </Button>
             <Button Command="{Binding CommandBatchProcess}">
@@ -188,7 +188,7 @@
                             </Canvas>
                         </Canvas>
                     </Viewbox>
-                    <TextBlock Text="Batch"/>
+                    <TextBlock Text="{x:Static l:MainWindow.CommandBatch}"/>
                 </StackPanel>
             </Button>
             <Separator/>
@@ -204,7 +204,7 @@
                             </Canvas>
                         </Canvas>
                     </Viewbox>
-                    <TextBlock Text="Process"/>
+                    <TextBlock Text="{x:Static l:MainWindow.CommandProcess}"/>
                 </StackPanel>
             </Button>
         </ToolBar>
@@ -251,7 +251,7 @@
 
                 <!-- ADAVANCED OUTPUT MODE -->
                 <Border Grid.Row="0" Background="LightSteelBlue">
-                    <TextBlock Text="Advanced Output Mode" Margin="5,2" Foreground="Black" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{x:Static l:MainWindow.SettingsAdvanced}" Margin="5,2" Foreground="Black" HorizontalAlignment="Center"/>
                 </Border>
 
                 <Grid Grid.Row="1" Margin="5">
@@ -272,9 +272,9 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <RadioButton IsChecked="{Binding UseSimple}" Grid.Column="0" Grid.Row="0" Content="Use simple resizing" GroupName="RadioButtonAdvanced" Grid.ColumnSpan="3"/>
+                    <RadioButton IsChecked="{Binding UseSimple}" Grid.Column="0" Grid.Row="0" Content="{x:Static l:MainWindow.SettingsUseSimple}" GroupName="RadioButtonAdvanced" Grid.ColumnSpan="3"/>
 
-                    <RadioButton IsChecked="{Binding UsePercentage}" Grid.Column="0" Grid.Row="2" Content="Percentage" GroupName="RadioButtonAdvanced"/>
+                    <RadioButton IsChecked="{Binding UsePercentage}" Grid.Column="0" Grid.Row="2" Content="{x:Static l:MainWindow.SettingsPercentage}" GroupName="RadioButtonAdvanced"/>
                     <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
                         <TextBox Text="{Binding ResizePercentage, TargetNullValue=50, UpdateSourceTrigger=PropertyChanged}" 
                                  Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
@@ -293,7 +293,7 @@
                         <TextBlock Text="%" Margin="3,0,0,0"/>
                     </StackPanel>
 
-                    <RadioButton IsChecked="{Binding UseAbsolute}" Grid.Column="0" Grid.Row="4" Content="Absolute" GroupName="RadioButtonAdvanced"/>
+                    <RadioButton IsChecked="{Binding UseAbsolute}" Grid.Column="0" Grid.Row="4" Content="{x:Static l:MainWindow.SettingsUseAbsolute}" GroupName="RadioButtonAdvanced"/>
                     <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal">
                         <TextBox Text="{Binding ResizeAbsoluteX, TargetNullValue=800, UpdateSourceTrigger=PropertyChanged}"
                                  Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
@@ -327,7 +327,7 @@
                         <TextBlock Text="y" Margin="3,0,0,0"/>
                     </StackPanel>
 
-                    <RadioButton IsChecked="{Binding UseAspect}" Grid.Column="0" Grid.Row="6" Content="Aspect" GroupName="RadioButtonAdvanced"/>
+                    <RadioButton IsChecked="{Binding UseAspect}" Grid.Column="0" Grid.Row="6" Content="{x:Static l:MainWindow.SettingsUseAspect}" GroupName="RadioButtonAdvanced"/>
                     <StackPanel Grid.Column="2" Grid.Row="6" Orientation="Horizontal">
                         <ComboBox ItemsSource="{Binding ScalingOptions}"
                                   SelectedItem="{Binding SelectedScalingOption}"
@@ -350,7 +350,7 @@
                     </StackPanel>
 
                     <StackPanel Grid.Row="8" Grid.ColumnSpan="3" Orientation="Horizontal">
-                        <TextBlock Text="Save as"/>
+                        <TextBlock Text="{x:Static l:MainWindow.SettingsSaveAs}"/>
                         <ComboBox ItemsSource="{Binding ImageTypes}"
                                   SelectedItem="{Binding SelectedImageType}"
                                   SelectedIndex="0"
@@ -360,7 +360,7 @@
                 </Grid>
 
                 <Border Grid.Row="3" Background="LightSteelBlue">
-                    <TextBlock Text="Options" Margin="5,2" Foreground="Black" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{x:Static l:MainWindow.SettingsOptions}" Margin="5,2" Foreground="Black" HorizontalAlignment="Center"/>
                 </Border>
 
                 <Grid Grid.Row="4" Margin="5">
@@ -382,22 +382,22 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <CheckBox IsChecked="{Binding OptionOverwrite}" Grid.Row="0" Content="Overwrite existing"/>
+                    <CheckBox IsChecked="{Binding OptionOverwrite}" Grid.Row="0" Content="{x:Static l:MainWindow.SettingsOverwrite}"/>
 
-                    <CheckBox IsChecked="{Binding OptionAddNumericSuffix}" Grid.Row="2" Content="Add numeric suffix"/>
+                    <CheckBox IsChecked="{Binding OptionAddNumericSuffix}" Grid.Row="2" Content="{x:Static l:MainWindow.SettingsAddNumeric}"/>
 
-                    <CheckBox IsChecked="{Binding OptionShowMessageBox}" Grid.Row="4" Content="Show message box on completion"/>
+                    <CheckBox IsChecked="{Binding OptionShowMessageBox}" Grid.Row="4" Content="{x:Static l:MainWindow.SettingsShowMsg}"/>
 
-                    <CheckBox IsChecked="{Binding OptionClearImages}" Grid.Row="6" Content="Clear images on completion"/>
+                    <CheckBox IsChecked="{Binding OptionClearImages}" Grid.Row="6" Content="{x:Static l:MainWindow.SettingsClearImages}"/>
 
-                    <CheckBox IsChecked="{Binding OptionUseAllProcessors}" Grid.Row="8" Content="Use all available processors"/>
+                    <CheckBox IsChecked="{Binding OptionUseAllProcessors}" Grid.Row="8" Content="{x:Static l:MainWindow.SettingsUseAllProcessors}"/>
 
                     <StackPanel Grid.Row="10" Orientation="Horizontal">
                         <TextBox Text="{Binding OptionJpgQuality, TargetNullValue=70, UpdateSourceTrigger=PropertyChanged}" 
                                  Validation.ErrorTemplate="{StaticResource ErrorValidationTemplate}"
                                  Width="40" MaxLength="2" PreviewTextInput="TextBoxNumericOnly_PreviewTextInput"/>
-                        <TextBlock Text="JPG quality (30-100)" Margin="3,0"/>
-                        <Button Command="{Binding CommandResetJpgDefault}" ToolTip="Reset to default value.">
+                        <TextBlock Text="{x:Static l:MainWindow.SettingsJpgQuality}" Margin="3,0"/>
+                        <Button Command="{Binding CommandResetJpgDefault}" ToolTip="{x:Static l:MainWindow.SettingsJpgQualityResetTooltip}">
                             <Viewbox Style="{StaticResource DisabledViewBoxImage}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
                                 <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
                                     <Canvas>
@@ -420,7 +420,7 @@
 
                 <Border Grid.Row="0" Background="#3E78B3" CornerRadius="4" Margin="5" Padding="5,2">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Destination:" Foreground="WhiteSmoke" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static l:MainWindow.Destination}" Foreground="WhiteSmoke" VerticalAlignment="Center"/>
                         <Button Command="{Binding CommandOpenDestination}" Content="{Binding DestinationDirectory}" d:Content="C:\Images" Cursor="Hand" Foreground="Yellow" Margin="5,0">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
@@ -498,11 +498,11 @@
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <Grid Width="200">
-                        <ProgressBar x:Name="ProgressBarResize" Background="LightSteelBlue" Foreground="#3E78B3" d:Value="20" Value="{Binding ImageProcessingProgress}" ToolTip="Tracks the progress of the image resizing process."/>
+                        <ProgressBar x:Name="ProgressBarResize" Background="LightSteelBlue" Foreground="#3E78B3" d:Value="20" Value="{Binding ImageProcessingProgress}"/>
                         <TextBlock x:Name="TextBlockProgress" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" d:Text="20 %" Text="{Binding ImageProcessingProgressText, TargetNullValue=0 %, FallbackValue=0 %}"/>
                     </Grid>
                     <Button Command="{Binding CommandCancelProcess}" Margin="5,0,0,0" Background="#FDE7E9">
-                        <TextBlock Text="Cancel" Margin="3,0"/>
+                        <TextBlock Text="{x:Static l:MainWindow.CommandCancel}" Margin="3,0"/>
                     </Button>
                 </StackPanel>
             </StatusBarItem>
@@ -529,7 +529,7 @@
                     </Style>
                 </StatusBarItem.Style>
                 <StackPanel Orientation="Horizontal">
-                    <RadioButton IsChecked="{Binding UseSimple}" Content="Use simple resizing" VerticalAlignment="Center"/>
+                    <RadioButton IsChecked="{Binding UseSimple}" Content="{x:Static l:MainWindow.SettingsUseSimple}" VerticalAlignment="Center"/>
                     <Slider Width="75" TickFrequency="25" Minimum="25" Maximum="75" IsSnapToTickEnabled="True"  Margin="5,0,0,0" Value="{Binding SimpleResizeSetting}">
                         <Slider.Style>
                             <Style TargetType="Slider">
@@ -562,7 +562,7 @@
                                 </Canvas>
                             </Canvas>
                         </Viewbox>
-                        <TextBlock Text="Advanced Output Mode in use." Foreground="#4DA07D" FontWeight="Medium" />
+                        <TextBlock Text="{x:Static l:MainWindow.StatusBarAdvancedInUse}" Foreground="#4DA07D" FontWeight="Medium" />
                         <StackPanel.Style>
                             <Style TargetType="StackPanel">
                                 <Setter Property="Visibility" Value="Collapsed"/>

@@ -124,8 +124,35 @@ However, it will be created when images are resized.</value>
   <data name="ButtonDestinationNotFoundTitle" xml:space="preserve">
     <value>Directory Does Not Exist</value>
   </data>
+  <data name="CommandBatch" xml:space="preserve">
+    <value>Batch</value>
+  </data>
+  <data name="CommandCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CommandClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="CommandDestination" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="CommandProcess" xml:space="preserve">
+    <value>Process</value>
+  </data>
+  <data name="CommandSelect" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="CommandSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>Destination:</value>
+  </data>
   <data name="DestinationDialogTitle" xml:space="preserve">
     <value>Select the destination directory for your resized images.</value>
+  </data>
+  <data name="DragAndDrop" xml:space="preserve">
+    <value>Drag and Drop your images here!</value>
   </data>
   <data name="ImageTypeBitmap" xml:space="preserve">
     <value>bmp</value>
@@ -148,6 +175,27 @@ However, it will be created when images are resized.</value>
   <data name="ImageTypeTif" xml:space="preserve">
     <value>tif</value>
   </data>
+  <data name="MenuFile" xml:space="preserve">
+    <value>_File</value>
+  </data>
+  <data name="MenuFileExit" xml:space="preserve">
+    <value>E_xit</value>
+  </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>_Help</value>
+  </data>
+  <data name="MenuHelpAbout" xml:space="preserve">
+    <value>_About</value>
+  </data>
+  <data name="MenuLanguage" xml:space="preserve">
+    <value>_Language</value>
+  </data>
+  <data name="MenuLanguageEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="MenuTools" xml:space="preserve">
+    <value>_Tools</value>
+  </data>
   <data name="ProcessingCompleteMsgElapsedTime" xml:space="preserve">
     <value>Elapsed time:</value>
   </data>
@@ -169,6 +217,48 @@ However, it will be created when images are resized.</value>
   <data name="SelectImagesSupportedTypes" xml:space="preserve">
     <value>All Supported Images | *.bmp; *.gif; *.jfif; *.jpg; *.png; *.tif"</value>
   </data>
+  <data name="SettingsAddNumeric" xml:space="preserve">
+    <value>Add numeric suffix</value>
+  </data>
+  <data name="SettingsAdvanced" xml:space="preserve">
+    <value>Advanced Output Mode</value>
+  </data>
+  <data name="SettingsClearImages" xml:space="preserve">
+    <value>Clear images on completion</value>
+  </data>
+  <data name="SettingsJpgQuality" xml:space="preserve">
+    <value>JPG quality (30-100)</value>
+  </data>
+  <data name="SettingsJpgQualityResetTooltip" xml:space="preserve">
+    <value>Reset to default value.</value>
+  </data>
+  <data name="SettingsOptions" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="SettingsOverwrite" xml:space="preserve">
+    <value>Overwrite existing</value>
+  </data>
+  <data name="SettingsPercentage" xml:space="preserve">
+    <value>Percentage</value>
+  </data>
+  <data name="SettingsSaveAs" xml:space="preserve">
+    <value>Save as</value>
+  </data>
+  <data name="SettingsShowMsg" xml:space="preserve">
+    <value>Show message box on completion</value>
+  </data>
+  <data name="SettingsUseAbsolute" xml:space="preserve">
+    <value>Absolute</value>
+  </data>
+  <data name="SettingsUseAllProcessors" xml:space="preserve">
+    <value>Use all available processors</value>
+  </data>
+  <data name="SettingsUseAspect" xml:space="preserve">
+    <value>Aspect</value>
+  </data>
+  <data name="SettingsUseSimple" xml:space="preserve">
+    <value>Use simple resizing</value>
+  </data>
   <data name="SimpleImageResizeLarge" xml:space="preserve">
     <value>Large</value>
   </data>
@@ -180,6 +270,9 @@ However, it will be created when images are resized.</value>
   </data>
   <data name="SimpleImageResizeUnknown" xml:space="preserve">
     <value>Unknown</value>
+  </data>
+  <data name="StatusBarAdvancedInUse" xml:space="preserve">
+    <value>Advanced Output Mode in use.</value>
   </data>
   <data name="ValidateJpg" xml:space="preserve">
     <value>Value must be set between 30 and 100.</value>

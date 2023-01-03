@@ -80,11 +80,92 @@ namespace SimpleImageResizer.Localize {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Batch.
+        /// </summary>
+        public static string CommandBatch {
+            get {
+                return ResourceManager.GetString("CommandBatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string CommandCancel {
+            get {
+                return ResourceManager.GetString("CommandCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        public static string CommandClear {
+            get {
+                return ResourceManager.GetString("CommandClear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination.
+        /// </summary>
+        public static string CommandDestination {
+            get {
+                return ResourceManager.GetString("CommandDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Process.
+        /// </summary>
+        public static string CommandProcess {
+            get {
+                return ResourceManager.GetString("CommandProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        public static string CommandSelect {
+            get {
+                return ResourceManager.GetString("CommandSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string CommandSettings {
+            get {
+                return ResourceManager.GetString("CommandSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination:.
+        /// </summary>
+        public static string Destination {
+            get {
+                return ResourceManager.GetString("Destination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select the destination directory for your resized images..
         /// </summary>
         public static string DestinationDialogTitle {
             get {
                 return ResourceManager.GetString("DestinationDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drag and Drop your images here!.
+        /// </summary>
+        public static string DragAndDrop {
+            get {
+                return ResourceManager.GetString("DragAndDrop", resourceCulture);
             }
         }
         
@@ -152,6 +233,69 @@ namespace SimpleImageResizer.Localize {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _File.
+        /// </summary>
+        public static string MenuFile {
+            get {
+                return ResourceManager.GetString("MenuFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E_xit.
+        /// </summary>
+        public static string MenuFileExit {
+            get {
+                return ResourceManager.GetString("MenuFileExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Help.
+        /// </summary>
+        public static string MenuHelp {
+            get {
+                return ResourceManager.GetString("MenuHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _About.
+        /// </summary>
+        public static string MenuHelpAbout {
+            get {
+                return ResourceManager.GetString("MenuHelpAbout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Language.
+        /// </summary>
+        public static string MenuLanguage {
+            get {
+                return ResourceManager.GetString("MenuLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string MenuLanguageEnglish {
+            get {
+                return ResourceManager.GetString("MenuLanguageEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Tools.
+        /// </summary>
+        public static string MenuTools {
+            get {
+                return ResourceManager.GetString("MenuTools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elapsed time:.
         /// </summary>
         public static string ProcessingCompleteMsgElapsedTime {
@@ -215,6 +359,132 @@ namespace SimpleImageResizer.Localize {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add numeric suffix.
+        /// </summary>
+        public static string SettingsAddNumeric {
+            get {
+                return ResourceManager.GetString("SettingsAddNumeric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced Output Mode.
+        /// </summary>
+        public static string SettingsAdvanced {
+            get {
+                return ResourceManager.GetString("SettingsAdvanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear images on completion.
+        /// </summary>
+        public static string SettingsClearImages {
+            get {
+                return ResourceManager.GetString("SettingsClearImages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JPG quality (30-100).
+        /// </summary>
+        public static string SettingsJpgQuality {
+            get {
+                return ResourceManager.GetString("SettingsJpgQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset to default value..
+        /// </summary>
+        public static string SettingsJpgQualityResetTooltip {
+            get {
+                return ResourceManager.GetString("SettingsJpgQualityResetTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string SettingsOptions {
+            get {
+                return ResourceManager.GetString("SettingsOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overwrite existing.
+        /// </summary>
+        public static string SettingsOverwrite {
+            get {
+                return ResourceManager.GetString("SettingsOverwrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percentage.
+        /// </summary>
+        public static string SettingsPercentage {
+            get {
+                return ResourceManager.GetString("SettingsPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save as.
+        /// </summary>
+        public static string SettingsSaveAs {
+            get {
+                return ResourceManager.GetString("SettingsSaveAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show message box on completion.
+        /// </summary>
+        public static string SettingsShowMsg {
+            get {
+                return ResourceManager.GetString("SettingsShowMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Absolute.
+        /// </summary>
+        public static string SettingsUseAbsolute {
+            get {
+                return ResourceManager.GetString("SettingsUseAbsolute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use all available processors.
+        /// </summary>
+        public static string SettingsUseAllProcessors {
+            get {
+                return ResourceManager.GetString("SettingsUseAllProcessors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aspect.
+        /// </summary>
+        public static string SettingsUseAspect {
+            get {
+                return ResourceManager.GetString("SettingsUseAspect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use simple resizing.
+        /// </summary>
+        public static string SettingsUseSimple {
+            get {
+                return ResourceManager.GetString("SettingsUseSimple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Large.
         /// </summary>
         public static string SimpleImageResizeLarge {
@@ -247,6 +517,15 @@ namespace SimpleImageResizer.Localize {
         public static string SimpleImageResizeUnknown {
             get {
                 return ResourceManager.GetString("SimpleImageResizeUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced Output Mode in use..
+        /// </summary>
+        public static string StatusBarAdvancedInUse {
+            get {
+                return ResourceManager.GetString("StatusBarAdvancedInUse", resourceCulture);
             }
         }
         
