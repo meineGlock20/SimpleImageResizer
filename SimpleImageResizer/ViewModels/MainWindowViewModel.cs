@@ -47,7 +47,6 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     private string? resizeAbsoluteX;
     private string? resizeAbsoluteY;
     private string? resizeAspect;
-    private bool optionOverwrite;
     private bool optionAddNumericSuffix;
     private bool optionShowMessageBox;
     private bool optionClearImages;
@@ -68,7 +67,6 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         // Default use to simple.
         UseSimple = true;
-        OptionOverwrite = Properties.Settings.Default.OptionOverwrite;
         OptionAddNumericSuffix = Properties.Settings.Default.OptionAddNumericSuffix;
         OptionShowMessageBox = Properties.Settings.Default.OptionShowMessageBox;
         OptionClearImages = Properties.Settings.Default.OptionClearImages;
@@ -284,7 +282,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
                 string imagename = image.ImageName;
 
-                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(destination, $"{imagename}"), saveAs, OptionOverwrite, int.Parse(OptionJpgQuality ?? "70"));
+                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(destination, $"{imagename}"), saveAs, overwrite: false, int.Parse(OptionJpgQuality ?? "70"));
 
                 // Track resized bytes.
                 resizedBytes += new FileInfo(Path.Combine(destination, $"{imagename}")).Length;
@@ -597,21 +595,6 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         {
             resizeAspect = value;
             ValidateProperties();
-            NotifyPropertyChanged();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to overwrite existing images in the destination directory.
-    /// </summary>
-    public bool OptionOverwrite
-    {
-        get => optionOverwrite;
-        set
-        {
-            optionOverwrite = value;
-            Properties.Settings.Default.OptionOverwrite = value;
-            Properties.Settings.Default.Save();
             NotifyPropertyChanged();
         }
     }

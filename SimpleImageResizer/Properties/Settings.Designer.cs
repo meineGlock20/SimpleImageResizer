@@ -50,18 +50,6 @@ namespace SimpleImageResizer.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool OptionOverwrite {
-            get {
-                return ((bool)(this["OptionOverwrite"]));
-            }
-            set {
-                this["OptionOverwrite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool OptionAddNumericSuffix {
             get {
                 return ((bool)(this["OptionAddNumericSuffix"]));

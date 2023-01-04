@@ -365,9 +365,9 @@
 
                 <Grid Grid.Row="4" Margin="5">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
                         
-                        <!-- The next two are place holder for add suffix future enhancement. Spacer then the elements. -->
+                        <!-- These are place holder for add suffix future enhancement. -->
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         
@@ -385,7 +385,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <CheckBox IsChecked="{Binding OptionOverwrite}" Grid.Row="0" Content="{x:Static l:MainWindow.SettingsOverwrite}"/>
+                    <!--<CheckBox IsChecked="{Binding OptionOverwrite}" Grid.Row="0" Content="{x:Static l:MainWindow.SettingsOverwrite}"/>-->
 
                     <!-- May add this feature in the future. -->
                     <!--<CheckBox IsChecked="{Binding OptionAddNumericSuffix}" Grid.Row="2" Content="{x:Static l:MainWindow.SettingsAddNumeric}"/>-->
