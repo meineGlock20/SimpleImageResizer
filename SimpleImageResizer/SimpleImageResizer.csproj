@@ -50,6 +50,11 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>AboutWindow.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Localize\BatchWindow.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>BatchWindow.resx</DependentUpon>
+	  </Compile>
 	  <Compile Update="Localize\MainWindow.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
@@ -66,6 +71,10 @@
 	  <EmbeddedResource Update="Localize\AboutWindow.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>AboutWindow.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Localize\BatchWindow.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>BatchWindow.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	  <EmbeddedResource Update="Localize\MainWindow.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>

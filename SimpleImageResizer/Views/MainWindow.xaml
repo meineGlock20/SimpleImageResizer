@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SimpleImageResizer.ViewModels"
         xmlns:l="clr-namespace:SimpleImageResizer.Localize"
+        xmlns:con="clr-namespace:SimpleImageResizer.Converters"
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:local="clr-namespace:SimpleImageResizer.Views"
         mc:Ignorable="d"
         ResizeMode="CanResizeWithGrip"
@@ -12,6 +14,9 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <con:NullBitmapImageToVisibilityConverter x:Key="NullBitmapImageToVisibilityConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -475,7 +480,8 @@
                     </ListBox.Style>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Padding="5" Width="300" ToolTip="{Binding FullPathToImage}" VerticalAlignment="Top">
+                            <Border Padding="5" Width="300" ToolTip="{Binding FullPathToImage}" VerticalAlignment="Top"
+                                    Visibility="{Binding Thumbnail, Converter={StaticResource NullBitmapImageToVisibilityConverter}}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
@@ -484,7 +490,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <Image Source="{Binding Thumbnail}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Width="128" Margin="0,0,5,0" VerticalAlignment="Top"/>
+                                    <Image Source="{Binding Thumbnail, TargetNullValue={x:Null}}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Width="128" Margin="0,0,5,0" VerticalAlignment="Top"/>
                                     <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" >
                                         <TextBlock Text="{Binding ImageName}" FontWeight="Medium" TextWrapping="Wrap"/>
                                         <TextBlock Text="{Binding FileSizeDisplay}" FontSize="12"/>

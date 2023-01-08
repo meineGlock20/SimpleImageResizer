@@ -94,7 +94,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         CommandClearImages = new Commands.Relay(ClearImages, p => !ProcessingInProgress);
         CommandSetDestination = new Commands.Relay(SetDestination, p => !ProcessingInProgress);
         CommandSettings = new Commands.Relay(Settings, p => !ProcessingInProgress);
-        CommandBatchProcess = new Commands.Relay(BatchProcess, p => !ProcessingInProgress);
+        CommandBatchProcess = new Commands.RelayAsync(BatchProcess, p => !ProcessingInProgress);
         CommandProcessImages = new Commands.RelayAsync(ProcessImages, p => Images is not null && Images.Count > 0 && !ProcessingInProgress);
         CommandOpenDestination = new Commands.Relay(OpenDestination, p => true);
         CommandResetJpgDefault = new Commands.Relay(ResetJpgDefault, p => OptionJpgQuality != jpgDefault.ToString());
@@ -149,9 +149,35 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     /// Opens the window responsible for performing a batch process.
     /// </summary>
     /// <param name="o">Command Parameter, not used.</param>
-    private void BatchProcess(object o)
+    private async Task BatchProcess(object o)
     {
-        // TODO: Open another window for the batch process.
+        if (new Views.BatchWindow().ShowDialog()!.Value == false ||
+           string.IsNullOrWhiteSpace(Core.BatchImaging.DirectoryToProcess))
+            return;
+
+        Services.UserInterface.SetBusyState();
+
+        Images = new();
+        foreach (var image in Directory.EnumerateFiles(Core.BatchImaging.DirectoryToProcess,
+                    "*.*",
+                    Core.BatchImaging.IncludeSubDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                    .Where(x => Core.Imaging.ImageTypes.ValidExtensions.Any(ext => ext == Path.GetExtension(x).ToLower())))
+        {
+            Size size = Core.Imaging.Size.GetImageSize(image);
+            Images.Add(new Models.Image()
+            {
+                FullPathToImage = image,
+                ImageHeight = size.Height,
+                ImageWidth = size.Width,
+                ImageBytes = new FileInfo(image).Length,
+                Thumbnail = null,
+            });
+        }
+
+        await ProcessImagesAsync();
+
+        Core.BatchImaging.DirectoryToProcess = null;
+        Images = null;
     }
 
     /// <summary>
@@ -208,7 +234,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     private async Task ProcessImagesAsync()
     {
         if (string.IsNullOrWhiteSpace(DestinationDirectory) || Images is null)
-            throw new ArgumentNullException();
+            return;
 
         if (!Directory.Exists(DestinationDirectory))
             Directory.CreateDirectory(DestinationDirectory);
@@ -248,6 +274,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
                 if (string.IsNullOrWhiteSpace(image.FullPathToImage) || string.IsNullOrWhiteSpace(image.ImageName))
                     throw new ArgumentNullException(nameof(image.FullPathToImage));
+
+                // TODO: Somewhere here I need to create sub directories.
 
                 // Resize based on options.
                 BitmapFrame bitmapFrame;
@@ -359,7 +387,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     {
         get
         {
-            if (Images is null || Images.Count == 0)
+            if (Images is null || Images.Count == 0 || Images.Any(x => x.Thumbnail is null))
             {
                 return new DrawingBrush(Core.Draw.WelcomeText(Core.MyApplication.DpiScale));
             }

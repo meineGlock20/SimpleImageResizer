@@ -42,7 +42,7 @@ public partial class MessageBoxWindow : Window
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
-        TextBlockTitle.Text = string.IsNullOrWhiteSpace(title) ? "My Movies" : title;
+        TextBlockTitle.Text = string.IsNullOrWhiteSpace(title) ? "SIR! Simple Image Resizer" : title;
         TextBlockMessage.Text = string.Empty;
 
         // Check if the passed text contains any valid commands from the readonly list.

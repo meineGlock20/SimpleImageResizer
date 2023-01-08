@@ -72,5 +72,5 @@ public class ImageTypes
     /// <summary>
     /// A list of valid image extensions.
     /// </summary>
-    public static readonly string[] ValidExtensions = new[] { ".bmp", ".gif", ".jfif", ".jpg", ".png", ".tif" };
+    public static readonly string[] ValidExtensions = new[] { ".bmp", ".gif", ".jfif", ".jpg", ".jpeg", ".png", ".tif", ".tiff" };
 }
