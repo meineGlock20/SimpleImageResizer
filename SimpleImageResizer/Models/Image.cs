@@ -19,6 +19,9 @@ public class Image : BaseModel
     /// <summary>
     /// Gets or sets a value indicating the full path to the image.
     /// </summary>
+    /// <remarks>
+    /// Includes directory path and file name.
+    /// </remarks>
     public string? FullPathToImage
     {
         get => fullPathToImage;

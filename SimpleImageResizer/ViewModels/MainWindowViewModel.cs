@@ -151,7 +151,9 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     /// <param name="o">Command Parameter, not used.</param>
     private async Task BatchProcess(object o)
     {
-        if (new Views.BatchWindow().ShowDialog()!.Value == false ||
+        var bw = new Views.BatchWindow() { Owner = Window };
+
+        if (bw!.ShowDialog()!.Value == false ||
            string.IsNullOrWhiteSpace(Core.BatchImaging.DirectoryToProcess))
             return;
 
@@ -174,9 +176,10 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             });
         }
 
+        if (string.IsNullOrWhiteSpace(Core.BatchImaging.DirectoryToProcess)) return;
+
         await ProcessImagesAsync();
 
-        Core.BatchImaging.DirectoryToProcess = null;
         Images = null;
     }
 
@@ -310,10 +313,19 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
                 string imagename = image.ImageName;
 
-                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(destination, $"{imagename}"), saveAs, overwrite: false, int.Parse(OptionJpgQuality ?? "70"));
+                string pathToSave = destination;
+                if (Core.BatchImaging.DirectoryToProcess is not null && Core.BatchImaging.IncludeSubDirectories)
+                {
+                    string path = image.FullPathToImage.Replace(image.ImageName, "").Replace(Core.BatchImaging.DirectoryToProcess, "");
+                    if (path.StartsWith("\\")) path = path[1..];
+                    pathToSave = Path.Combine(destination, path);
+                    Directory.CreateDirectory(pathToSave);
+                }
+
+                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(pathToSave, $"{imagename}"), saveAs, overwrite: false, int.Parse(OptionJpgQuality ?? "70"));
 
                 // Track resized bytes.
-                resizedBytes += new FileInfo(Path.Combine(destination, $"{imagename}")).Length;
+                resizedBytes += new FileInfo(Path.Combine(pathToSave, $"{imagename}")).Length;
 
                 // Report progress.
                 counter++;
@@ -333,6 +345,10 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         }
         finally
         {
+            // We always want to clear the Batch Imaging data no matter what happens to prevent a bad thing from happening. 🧟‍
+            Core.BatchImaging.DirectoryToProcess = null;
+            Core.BatchImaging.IncludeSubDirectories = false;
+
             // On rare occassion the progress would end at 98% or 99% although all processing was complete.
             // So we will just make sure it says 100. This would also apply to a canceled operation as well.
             ImageProcessingProgress = 100;
