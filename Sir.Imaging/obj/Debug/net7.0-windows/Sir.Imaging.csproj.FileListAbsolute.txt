@@ -1,5 +1,0 @@
-C:\Users\Dana\source\repos\SimpleImageResizer\Sir.Imaging\obj\Debug\net7.0-windows\Sir.Imaging.csproj.AssemblyReference.cache
-C:\Users\Dana\source\repos\SimpleImageResizer\Sir.Imaging\obj\Debug\net7.0-windows\Sir.Imaging.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Dana\source\repos\SimpleImageResizer\Sir.Imaging\obj\Debug\net7.0-windows\Sir.Imaging.AssemblyInfoInputs.cache
-C:\Users\Dana\source\repos\SimpleImageResizer\Sir.Imaging\obj\Debug\net7.0-windows\Sir.Imaging.AssemblyInfo.cs
-C:\Users\Dana\source\repos\SimpleImageResizer\Sir.Imaging\obj\Debug\net7.0-windows\Sir.Imaging.csproj.CoreCompileInputs.cache
