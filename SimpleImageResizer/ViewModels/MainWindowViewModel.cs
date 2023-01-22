@@ -1,4 +1,5 @@
-﻿using SimpleImageResizer.Services;
+﻿using SimpleImageResizer.Core;
+using SimpleImageResizer.Services;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -248,6 +249,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         // Track bytes of resized images.
         long resizedBytes = 0;
+        long originalBytes = 0;
 
         // This allows progress to be reported back to the UI when a long running TASK is run on another thread in an await.
         double counter = 0;
@@ -267,6 +269,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         // Begin timing operation.
         var stopwatch = new System.Diagnostics.Stopwatch();
+        DateTime dateTimeStart = DateTime.Now;
         stopwatch.Start();
 
         try
@@ -277,8 +280,6 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
                 if (string.IsNullOrWhiteSpace(image.FullPathToImage) || string.IsNullOrWhiteSpace(image.ImageName))
                     throw new ArgumentNullException(nameof(image.FullPathToImage));
-
-                // TODO: Somewhere here I need to create sub directories.
 
                 // Resize based on options.
                 BitmapFrame bitmapFrame;
@@ -326,6 +327,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
                 // Track resized bytes.
                 resizedBytes += new FileInfo(Path.Combine(pathToSave, $"{imagename}")).Length;
+                originalBytes += image.ImageBytes;
 
                 // Report progress.
                 counter++;
@@ -356,6 +358,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
             stopwatch.Stop();
             TimeSpan ts = stopwatch.Elapsed;
+            DateTime dateTimeEnd = DateTime.Now;
 
             // Format the TimeSpan value for display.
             string elapsedTime = string.Format(
@@ -376,6 +379,16 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             ProcessingInProgress = false;
             CancelProcess = false;
             if (OptionClearImages) Images = null;
+
+            // Log this process.
+            await Data.InsertProcessLog(new Models.Process()
+            {
+                ProcessStart = dateTimeStart,
+                ProcessEnd = dateTimeEnd,
+                ImageCount = Convert.ToInt64(counter),
+                ImagesOriginalSize = originalBytes,
+                ImagesProcessedSize = resizedBytes,
+            });
         }
     }
 

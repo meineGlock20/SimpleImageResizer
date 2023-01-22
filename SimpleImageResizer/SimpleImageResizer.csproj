@@ -18,6 +18,7 @@
 	  <None Remove="Resources\ComicKings.ttf" />
 	  <None Remove="Resources\flag-germany_16.png" />
 	  <None Remove="Resources\flag-united-states_16.png" />
+	  <None Remove="SIR.db" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,6 +35,16 @@
 	    <Isolated>false</Isolated>
 	    <EmbedInteropTypes>False</EmbedInteropTypes>
 	  </COMReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="SIR.db">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
