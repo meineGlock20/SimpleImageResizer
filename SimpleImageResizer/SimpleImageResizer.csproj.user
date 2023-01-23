@@ -21,6 +21,9 @@
     <Compile Update="Views\MessageBoxWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\ProcessLogWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Resource Update="Resources\icons.messagebox.xaml">
@@ -36,6 +39,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\MessageBoxWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ProcessLogWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

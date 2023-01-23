@@ -17,6 +17,9 @@
     <Window.Resources>
         <con:NullBitmapImageToVisibilityConverter x:Key="NullBitmapImageToVisibilityConverter"/>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CommandProcessImages}" Gesture="Ctrl+P"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -121,6 +124,22 @@
                 </MenuItem>-->
             </MenuItem>
             <MenuItem Header="{x:Static l:MainWindow.MenuHelp}">
+                <MenuItem x:Name="MenuProcessingLog" Header="{x:Static l:MainWindow.MenuProcessingLog}" 
+                          Click="MenuProcessingLog_Click">
+                    <MenuItem.Icon>
+                        <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height="16" Stretch="Uniform">
+                            <Canvas Width="24" Height="24" Canvas.Left="0" Canvas.Top="0">
+                                <Canvas>
+                                    <Path Data="M4.599,1.041L4.225,1.158L3.887,1.343L3.593,1.588L3.35,1.884L3.166,2.223L3.05,2.598L3.01,3L3,19L3.04,19.4L3.156,19.78L3.34,20.12L3.582,20.41L3.877,20.66L4.215,20.84L4.589,20.96L4.99,21L13.73,21L13.72,20.82L13.76,20.53L13.84,20.25L13.97,19.99L14.14,19.74L14.36,19.53L14.38,19.51L14.37,19.5L14.14,19.28L13.96,19.03L13.94,19L5,19L5,3L12,3L12,8L17,8L17,14.67L17,14.67L17.12,14.39L17.29,14.14L17.5,13.92L17.75,13.74L18.02,13.61L18.31,13.53L18.63,13.5L19,13.5L19,7L13,1L5,1zz" Fill="#212121"/>
+                                </Canvas>
+                                <Canvas>
+                                    <Path Data="M22.7878,19.9557c0.0176,-0.1443,0.0309,-0.2887,0.0309,-0.4421c0,-0.1534,-0.0132,-0.2977,-0.0309,-0.4421l0.9307,-0.7443c0.0838,-0.0677,0.1059,-0.1895,0.0529,-0.2887l-0.8822,-1.5607c-0.0529,-0.0992,-0.172,-0.1353,-0.2691,-0.0992l-1.0983,0.4511c-0.2294,-0.1804,-0.4764,-0.3293,-0.7454,-0.4421l-0.1676,-1.1954c-0.0132,-0.1083,-0.1059,-0.1895,-0.2161,-0.1895h-1.7643c-0.1103,0,-0.2029,0.0812,-0.2161,0.1895l-0.1676,1.1954c-0.2691,0.1128,-0.5161,0.2661,-0.7454,0.4421l-1.0983,-0.4511c-0.1014,-0.0406,-0.2161,0,-0.2691,0.0992l-0.8822,1.5607c-0.0573,0.0992,-0.0309,0.221,0.0529,0.2887l0.9307,0.7443c-0.0176,0.1443,-0.0309,0.2932,-0.0309,0.4421s0.0132,0.2977,0.0309,0.4421L15.3026,20.7c-0.0838,0.0677,-0.1059,0.1895,-0.0529,0.2887l0.8822,1.5607c0.0529,0.0992,0.172,0.1353,0.2691,0.0992l1.0983,-0.4511c0.2294,0.1804,0.4764,0.3293,0.7454,0.4421l0.1676,1.1954c0.0132,0.1083,0.1059,0.1895,0.2161,0.1895h1.7643c0.1103,0,0.2029,-0.0812,0.2161,-0.1895l0.1676,-1.1954c0.2691,-0.1128,0.5161,-0.2661,0.7454,-0.4421l1.0983,0.4511c0.1014,0.0406,0.2161,0,0.2691,-0.0992l0.8822,-1.5607c0.0529,-0.0992,0.0309,-0.221,-0.0529,-0.2887L22.7878,19.9557zM19.5105,21.0924c-0.8513,0,-1.5438,-0.7082,-1.5438,-1.5788c0,-0.8706,0.6925,-1.5788,1.5438,-1.5788s1.5438,0.7082,1.5438,1.5788C21.0543,20.3842,20.3618,21.0924,19.5105,21.0924z" Fill="#212121"/>
+                                </Canvas>
+                            </Canvas>
+                        </Viewbox>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
                 <MenuItem x:Name="MenuHelpAbout" Header="{x:Static l:MainWindow.MenuHelpAbout}" Click="MenuHelpAbout_Click"/>
             </MenuItem>
         </Menu>
@@ -370,12 +389,12 @@
 
                 <Grid Grid.Row="4" Margin="5">
                     <Grid.RowDefinitions>
-                        
+
                         <!-- These are place holder for add suffix future enhancement. -->
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        
+
                         <RowDefinition Height="5"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="5"/>

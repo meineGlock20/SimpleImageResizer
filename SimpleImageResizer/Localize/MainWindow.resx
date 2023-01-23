@@ -193,6 +193,9 @@ However, it will be created when images are resized.</value>
   <data name="MenuLanguageEnglish" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="MenuProcessingLog" xml:space="preserve">
+    <value>Processing Log</value>
+  </data>
   <data name="MenuTools" xml:space="preserve">
     <value>_Tools</value>
   </data>

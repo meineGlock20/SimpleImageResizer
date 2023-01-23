@@ -287,6 +287,15 @@ namespace SimpleImageResizer.Localize {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Processing Log.
+        /// </summary>
+        public static string MenuProcessingLog {
+            get {
+                return ResourceManager.GetString("MenuProcessingLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Tools.
         /// </summary>
         public static string MenuTools {

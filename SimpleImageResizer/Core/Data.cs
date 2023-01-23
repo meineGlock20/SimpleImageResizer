@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleImageResizer.Core;
 
 /// <summary>
-/// Provides basic CRUD operations on a location sqlite database.
+/// Provides basic CRUD operations on a local sqlite database.
 /// </summary>
 /// <remarks>
 /// Normally, if you were not using Entity Framework, the data access should be sererated into a data class library but
@@ -52,7 +53,48 @@ public sealed class Data
             sqliteConnection.Close();
             return rowsAffected;
         }
-        catch(SqliteException)
+        catch (SqliteException)
+        {
+            if (sqliteConnection.State == System.Data.ConnectionState.Open)
+                sqliteConnection.Close();
+            throw;
+        }
+    }
+
+    public static async Task<List<Models.Process>> GetProcesses()
+    {
+        string sql = $@"SELECT ProcessId, ProcessStart, ProcessEnd, ImageCount, ImagesOriginalSize, ImagesProcessedSize
+                            FROM ProcessLog;";
+
+        using SqliteConnection sqliteConnection = new(connection);
+        using SqliteCommand sqliteCommand = new(sql, sqliteConnection);
+
+        List<Models.Process> processes = new();
+
+        try
+        {
+            await sqliteConnection.OpenAsync();
+            using var reader = await sqliteCommand.ExecuteReaderAsync();
+
+            while (reader.Read())
+            {
+                Models.Process process = new()
+                {
+                    ProcessId = (long)reader["ProcessId"],
+                    ProcessStart = DateTime.Parse(reader["ProcessStart"].ToString()!),
+                    ProcessEnd = DateTime.Parse(reader["ProcessEnd"].ToString()!),
+                    ImageCount = (long)reader["ImageCount"],
+                    ImagesOriginalSize = (long)reader["ImagesOriginalSize"],
+                    ImagesProcessedSize = (long)reader["ImagesProcessedSize"],
+                };
+                processes.Add(process);
+            }
+
+            sqliteConnection.Close();
+
+            return processes;
+        }
+        catch (SqliteException)
         {
             if (sqliteConnection.State == System.Data.ConnectionState.Open)
                 sqliteConnection.Close();

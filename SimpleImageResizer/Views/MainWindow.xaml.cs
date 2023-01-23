@@ -127,4 +127,13 @@ public partial class MainWindow : Window
         };
         a.ShowDialog();
     }
+
+    private void MenuProcessingLog_Click(object sender, RoutedEventArgs e)
+    {
+        var a = new Views.ProcessLogWindow
+        {
+            Owner = this,
+        };
+        a.ShowDialog();
+    }
 }
