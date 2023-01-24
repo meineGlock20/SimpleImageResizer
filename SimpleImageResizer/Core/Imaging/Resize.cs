@@ -12,7 +12,7 @@ namespace SimpleImageResizer.Core.Imaging;
 /// Class for resizing an image.
 /// </summary>
 /// <remarks>
-/// BitmapFrames do not need to be disposed unlike GDI+.GC just does its magic when they go out of scope.
+/// BitmapFrames do not need to be disposed unlike GDI+. GC just does its magic when they go out of scope.
 /// Without using bitmap.CacheOption = BitmapCacheOption.None; you can run out of memory very quickly.
 /// </remarks>
 public class Resize

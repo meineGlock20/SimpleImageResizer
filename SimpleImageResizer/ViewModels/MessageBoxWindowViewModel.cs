@@ -12,13 +12,11 @@ namespace SimpleImageResizer.ViewModels;
 /// <remarks>
 /// This keeps the designer from complaining about no data context.
 /// </remarks>
-public class MessageBoxWindowViewModel
+public sealed class MessageBoxWindowViewModel
 {
-	/// <summary>
-	/// Constructor.
-	/// </summary>
-	public MessageBoxWindowViewModel()
-	{
-
-	}
+    /// <summary>
+    /// Constructor.
+    /// </summary>
+    public MessageBoxWindowViewModel()
+    { }
 }

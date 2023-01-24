@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace SimpleImageResizer.ViewModels;
 
-public class BatchWindowViewModel : BaseModel, INotifyDataErrorInfo
+public sealed class BatchWindowViewModel : BaseModel, INotifyDataErrorInfo
 {
     private readonly Dictionary<string, List<string>> errorList = new();
 
