@@ -37,7 +37,43 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
         CommandExportToCsv = new Commands.Relay(ExportToCsv, p => Processes is not null);
     }
 
+    /* COMMANDS */
+
     public ICommand CommandExportToCsv { get; set; }
+
+    /* PROPERTIES */
+
+    public List<Models.Process>? Processes
+    {
+        get => processes;
+        set
+        {
+            processes = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    public long TotalImages
+    {
+        get => totalImages;
+        set
+        {
+            totalImages = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    public string? SizeDifference
+    {
+        get => sizeDifference;
+        set
+        {
+            sizeDifference = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    /* METHODS */
 
     private void ExportToCsv(object o)
     {
@@ -68,35 +104,5 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
         long a = Processes.Sum(x => x.ImagesOriginalSize);
         long b = Processes.Sum(x => x.ImagesProcessedSize);
         SizeDifference = Core.Calculate.CalculateSpace((a - b), CultureInfo.CurrentCulture.Name, Core.RoundToDecimalPlaces.Two);
-    }
-
-    public List<Models.Process>? Processes
-    {
-        get => processes;
-        set
-        {
-            processes = value;
-            NotifyPropertyChanged();
-        }
-    }
-
-    public long TotalImages
-    {
-        get => totalImages;
-        set
-        {
-            totalImages = value;
-            NotifyPropertyChanged();
-        }
-    }
-
-    public string? SizeDifference
-    {
-        get => sizeDifference;
-        set
-        {
-            sizeDifference = value;
-            NotifyPropertyChanged();
-        }
     }
 }
