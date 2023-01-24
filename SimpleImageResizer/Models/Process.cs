@@ -14,4 +14,8 @@ public sealed class Process
     public long ImageCount { get; set; }
     public long ImagesOriginalSize { get; set; }
     public long ImagesProcessedSize { get; set; }
+
+    /* HELPER PROPERTIES */
+
+    public long ImagesReduction { get => ImagesOriginalSize - ImagesProcessedSize; }
 }

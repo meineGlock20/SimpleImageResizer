@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,6 +13,8 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
 {
     private readonly SynchronizationContext uiContext = SynchronizationContext.Current!;
     private List<Models.Process>? processes;
+    private long totalImages;
+    private string? sizeDifference;
 
     /// <summary>
     /// Constructor.
@@ -33,6 +36,11 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
     private void LoadProcessingLog(List<Models.Process>? processes)
     {
         Processes = processes ?? new List<Models.Process>();
+
+        TotalImages = Processes.Sum(x => x.ImageCount);
+        long a = Processes.Sum(x => x.ImagesOriginalSize);
+        long b = Processes.Sum(x => x.ImagesProcessedSize);
+        SizeDifference = Core.Calculate.CalculateSpace(a - b, CultureInfo.CurrentCulture.Name, Core.RoundToDecimalPlaces.Two);
     }
 
     public List<Models.Process>? Processes
@@ -41,6 +49,26 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
         set
         {
             processes = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    public long TotalImages
+    {
+        get => totalImages;
+        set
+        {
+            totalImages = value;
+            NotifyPropertyChanged();
+        }
+    }
+
+    public string? SizeDifference
+    {
+        get => sizeDifference;
+        set
+        {
+            sizeDifference = value;
             NotifyPropertyChanged();
         }
     }
