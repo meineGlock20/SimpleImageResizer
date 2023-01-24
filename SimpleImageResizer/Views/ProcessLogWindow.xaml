@@ -65,18 +65,21 @@
             </Border>
 
             <Button Grid.Column="6" VerticalAlignment="Center" Background="Transparent" BorderBrush="Blue"
-                    BorderThickness="0,0,0,1" Foreground="Blue" Cursor="Hand">
+                    BorderThickness="0,0,0,1" Foreground="Blue" Cursor="Hand"
+                    Command="{Binding CommandExportToCsv}">
                 <TextBlock Text="Export to CVS"/>
             </Button>
         </Grid>
 
+        <ScrollViewer Grid.Row="3"/>
         <DataGrid Grid.Row="3"
                   x:Name="DataGridProcesses"
                   ItemsSource="{Binding Processes, IsAsync=True}"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   IsReadOnly="True"
-                  AutoGenerateColumns="False">
+                  AutoGenerateColumns="False"
+                  RowHeaderWidth="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Process Id" Binding="{Binding ProcessId}">
                     <DataGridTextColumn.ElementStyle>

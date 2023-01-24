@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SimpleImageResizer.ViewModels;
 
@@ -31,6 +33,31 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
             List<Models.Process>? p = await Core.Data.GetProcesses();
             uiContext.Send(x => LoadProcessingLog(p), null);
         });
+
+        CommandExportToCsv = new Commands.Relay(ExportToCsv, p => Processes is not null);
+    }
+
+    public ICommand CommandExportToCsv { get; set; }
+
+    private void ExportToCsv(object o)
+    {
+        if (Processes is null)
+            return;
+
+        Services.UserInterface.SetBusyState();
+        string temp = System.IO.Path.GetTempFileName().Replace(".tmp", ".csv");
+
+        using var writer = new StreamWriter(temp);
+        using var csv = new CsvHelper.CsvWriter(writer, CultureInfo.InvariantCulture);
+        csv.WriteRecords(Processes);
+
+        ProcessStartInfo psi = new()
+        {
+            FileName = temp,
+            UseShellExecute = true,
+        };
+
+        Process.Start(psi);
     }
 
     private void LoadProcessingLog(List<Models.Process>? processes)
