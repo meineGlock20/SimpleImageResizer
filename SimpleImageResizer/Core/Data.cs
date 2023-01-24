@@ -92,7 +92,7 @@ public sealed class Data
 
             sqliteConnection.Close();
 
-            return processes;
+            return processes.OrderByDescending(x => x.ProcessId).ToList();
         }
         catch (SqliteException)
         {

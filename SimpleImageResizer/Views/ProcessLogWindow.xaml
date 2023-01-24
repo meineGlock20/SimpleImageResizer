@@ -16,7 +16,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="10"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="Loading..." FontSize="20" FontWeight="Medium" FontStyle="Oblique" Margin="0,0,0,10">
@@ -71,8 +71,8 @@
             </Button>
         </Grid>
 
-        <ScrollViewer Grid.Row="3"/>
-        <DataGrid Grid.Row="3"
+        <ScrollViewer Grid.Row="3">
+            <DataGrid Grid.Row="3"
                   x:Name="DataGridProcesses"
                   ItemsSource="{Binding Processes, IsAsync=True}"
                   CanUserAddRows="False"
@@ -80,46 +80,47 @@
                   IsReadOnly="True"
                   AutoGenerateColumns="False"
                   RowHeaderWidth="0">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Process Id" Binding="{Binding ProcessId}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Start" Binding="{Binding ProcessStart,StringFormat=yyyy-MM-dd HH:mm:ss.ff}"/>
-                <DataGridTextColumn Header="End" Binding="{Binding ProcessEnd,StringFormat=yyyy-MM-dd HH:mm:ss.ff}"/>
-                <DataGridTextColumn Header="Image Count" Binding="{Binding ImageCount}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Original Size" Binding="{Binding ImagesOriginalSize}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Processed Size" Binding="{Binding ImagesProcessedSize}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Reduction" Binding="{Binding ImagesReduction}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-            </DataGrid.Columns>
-            
-        </DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Process Id" Binding="{Binding ProcessId}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Start" Binding="{Binding ProcessStart,StringFormat=yyyy-MM-dd HH:mm:ss.ff}"/>
+                    <DataGridTextColumn Header="End" Binding="{Binding ProcessEnd,StringFormat=yyyy-MM-dd HH:mm:ss.ff}"/>
+                    <DataGridTextColumn Header="Image Count" Binding="{Binding ImageCount}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Original Size" Binding="{Binding ImagesOriginalSize}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Processed Size" Binding="{Binding ImagesProcessedSize}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Reduction" Binding="{Binding ImagesReduction}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </ScrollViewer>
     </Grid>
 </Window>
