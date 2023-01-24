@@ -67,7 +67,7 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
         TotalImages = Processes.Sum(x => x.ImageCount);
         long a = Processes.Sum(x => x.ImagesOriginalSize);
         long b = Processes.Sum(x => x.ImagesProcessedSize);
-        SizeDifference = Core.Calculate.CalculateSpace(a - b, CultureInfo.CurrentCulture.Name, Core.RoundToDecimalPlaces.Two);
+        SizeDifference = Core.Calculate.CalculateSpace((a - b), CultureInfo.CurrentCulture.Name, Core.RoundToDecimalPlaces.Two);
     }
 
     public List<Models.Process>? Processes

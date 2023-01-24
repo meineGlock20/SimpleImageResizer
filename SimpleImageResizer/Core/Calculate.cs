@@ -51,6 +51,14 @@ public class Calculate
         const long tb = 1099511627776;
         const long pb = 1125899906842624;
 
+        // Temporarily set negative numbers to positive. This is set back later.
+        bool isNegative = false;
+        if (bytes < 0)
+        {
+            isNegative = true;
+            bytes = Math.Abs(bytes);
+        }
+
         double d = bytes switch
         {
             < kb => bytes,
@@ -64,6 +72,7 @@ public class Calculate
         // Round the result to required decimal places or default to 1 if not passed to a max of 15.
         int decimalPlaces = roundToDecimalPlaces is null ? 1 : (int)roundToDecimalPlaces;
         double result = Math.Round(d, (int)decimalPlaces);
+        if (isNegative) { result = -result; }
 
         // If culture is not passed or the passed one does not exist, use Invariant.
         CultureInfo cultureInfo = culture is null || !cultureExists() ? CultureInfo.InvariantCulture : new(culture);
