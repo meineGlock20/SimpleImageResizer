@@ -130,6 +130,16 @@ public partial class MainWindow : Window
 
     private void MenuProcessingLog_Click(object sender, RoutedEventArgs e)
     {
+        if(Core.Data.RecordCount() <= 0)
+        {
+            new Views.MessageBoxWindow(Localize.MainWindow.ProcessingLogsDoNotExist,
+                Localize.MainWindow.ProcessingLogs,
+                MessageBoxWindow.MessageBoxButton.Ok,
+                MessageBoxWindow.MessageBoxIcon.Information,
+                this).ShowDialog();
+            return;
+        }
+
         var a = new Views.ProcessLogWindow
         {
             Owner = this,

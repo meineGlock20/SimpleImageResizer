@@ -101,4 +101,29 @@ public sealed class Data
             throw;
         }
     }
+
+    public static long RecordCount()
+    {
+        string sql = $@"SELECT COUNT(ProcessId) FROM ProcessLog;";
+        using SqliteConnection sqliteConnection = new(connection);
+        using SqliteCommand sqliteCommand = new(sql, sqliteConnection);
+
+        try
+        {
+            sqliteConnection.Open();
+            return Convert.ToInt64(sqliteCommand.ExecuteScalar());
+        }
+        catch (SqliteException)
+        {
+            if (sqliteConnection.State == System.Data.ConnectionState.Open)
+                sqliteConnection.Close();
+            throw;
+            //return 0;
+        }
+        finally
+        {
+            if (sqliteConnection.State == System.Data.ConnectionState.Open)
+                sqliteConnection.Close();
+        }
+    }
 }

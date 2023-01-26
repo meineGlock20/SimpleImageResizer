@@ -98,7 +98,9 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
 
     private void LoadProcessingLog(List<Models.Process>? processes)
     {
-        Processes = processes ?? new List<Models.Process>();
+        processes ??= new();
+
+        Processes = processes;
 
         TotalImages = Processes.Sum(x => x.ImageCount);
         long a = Processes.Sum(x => x.ImagesOriginalSize);

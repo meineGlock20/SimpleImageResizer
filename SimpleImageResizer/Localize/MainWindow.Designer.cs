@@ -332,6 +332,26 @@ namespace SimpleImageResizer.Localize {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Processing Logs.
+        /// </summary>
+        public static string ProcessingLogs {
+            get {
+                return ResourceManager.GetString("ProcessingLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no processing logs available.
+        ///
+        ///&lt;b&gt;Try resizing some images.&lt;/b&gt;.
+        /// </summary>
+        public static string ProcessingLogsDoNotExist {
+            get {
+                return ResourceManager.GetString("ProcessingLogsDoNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Height.
         /// </summary>
         public static string ScalingOptionHeight {

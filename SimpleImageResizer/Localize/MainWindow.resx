@@ -208,6 +208,14 @@ However, it will be created when images are resized.</value>
   <data name="ProcessingCompleteMsgTitle" xml:space="preserve">
     <value>Processing Complete</value>
   </data>
+  <data name="ProcessingLogs" xml:space="preserve">
+    <value>Processing Logs</value>
+  </data>
+  <data name="ProcessingLogsDoNotExist" xml:space="preserve">
+    <value>There are no processing logs available.
+
+&lt;b&gt;Try resizing some images.&lt;/b&gt;</value>
+  </data>
   <data name="ScalingOptionHeight" xml:space="preserve">
     <value>Height</value>
   </data>
