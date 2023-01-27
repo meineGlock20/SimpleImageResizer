@@ -9,7 +9,7 @@ For those new to C# and WPF, this small application demonstrates most of the com
 -	How to resize and save images as any supported format using pure WPF. (Not System.Drawing GDI+).
 -- BMP, GIF, JFIF, JPG, PNB, and TIFF.
 -	How to implement a Browse folder dialog.
--- Requires a reference to C:\Windows\System32\Shell32.dll.
+-- Requires a reference to Shell32.dll.
 -	How to implement a custom Message Box and call as a service.
 -	How to handle UI drag and drop operations with MVVM.
 -	How to implement MVVM Commands, NotifyDataErrorInfo, and NotifyPropertyChanged without using a third-party framework.
