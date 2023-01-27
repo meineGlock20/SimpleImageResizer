@@ -1,4 +1,4 @@
-# SimpleImageResizer
+# Simple Image Resizer
 
 **Simple, fast, and free!**
 
