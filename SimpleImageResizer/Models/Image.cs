@@ -1,4 +1,5 @@
-﻿using SimpleImageResizer.Core.Imaging;
+﻿using SimpleImageResizer.Core;
+using SimpleImageResizer.Core.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -149,11 +150,5 @@ public class Image : BaseModel
     /// <summary>
     /// Gets a value indicating the size of the image in a readable human friendly format.
     /// </summary>
-    public string? FileSizeDisplay
-    {
-        get
-        {
-            return Core.Calculate.CalculateSpace(ImageBytes);
-        }
-    }
+    public string? FileSizeDisplay => ImageBytes.ToDiskSpace();
 }

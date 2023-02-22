@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleImageResizer.Core;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -105,6 +106,6 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
         TotalImages = Processes.Sum(x => x.ImageCount);
         long a = Processes.Sum(x => x.ImagesOriginalSize);
         long b = Processes.Sum(x => x.ImagesProcessedSize);
-        SizeDifference = Core.Calculate.CalculateSpace((a - b), CultureInfo.CurrentCulture.Name, Core.RoundToDecimalPlaces.Two);
+        SizeDifference = (a - b).ToDiskSpace(CultureInfo.CurrentCulture.Name, RoundToDecimalPlaces.Two);
     }
 }

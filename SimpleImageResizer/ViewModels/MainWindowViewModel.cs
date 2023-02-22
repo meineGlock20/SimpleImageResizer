@@ -830,8 +830,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         if (Images is not null)
         {
             ImageCount = Images.Count;
-            ImagesTotalSize = Core.Calculate.CalculateSpace(Images.Sum(x => x.ImageBytes),
-                CultureInfo.CurrentCulture.Name, Core.RoundToDecimalPlaces.One);
+            ImagesTotalSize = Images.Sum(x => x.ImageBytes).ToDiskSpace(CultureInfo.CurrentCulture.Name, RoundToDecimalPlaces.One);
         }
 
         NotifyPropertyChanged(nameof(BackgroundDrawingBrush));

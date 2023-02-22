@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace SimpleImageResizer.Core;
 
@@ -16,7 +15,7 @@ public enum RoundToDecimalPlaces
 /// <summary>
 /// Class that Calculates space.
 /// </summary>
-public class Calculate
+public static class Calculate
 {
     // DF = double formatted using thousands seperator and on decimal place
     private const string DF = "#,#,0.00";
@@ -26,7 +25,7 @@ public class Calculate
     /// </summary>
     /// <param name="d">Bytes to be returned as GB.</param>
     /// <returns>Gets a string represeting GB.</returns>
-    public static string BytesToGb(double d)
+    public static string BytesToGb(this double d)
     {
         return $"{(d / 2014 / 1024 / 1024).ToString(DF, CultureInfo.InvariantCulture)} GB";
     }
@@ -43,7 +42,7 @@ public class Calculate
     /// Note that trailing zeros are removed. 1.00 KB will display as 1 KB. (Optional)
     /// </param>
     /// <returns>A string represting human readable size.</returns>
-    public static string CalculateSpace(long bytes, string? culture = null, RoundToDecimalPlaces? roundToDecimalPlaces = null)
+    public static string? ToDiskSpace(this long bytes, string? culture = null, RoundToDecimalPlaces? roundToDecimalPlaces = null)
     {
         const long kb = 1024;
         const long mb = 1048576;
