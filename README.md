@@ -4,13 +4,15 @@
 
 Resize and convert images between these supported formats: BMP, GIF, JFIF, JPG, PNG, and TIFF. 
 
+Resizes images natively with WPF. No other libraries are used.
+
 Three methods are availble; select your images, drag and drop your images, or batch an entire directory structure.
 
 Simple mode allows quick resizing to small, medium, or large and outputs as the same image format.
 
 Advanced output mode allows a choice of resizing by percentage, absolute, or aspect ratio. JPG quality can be adjusted. Can output to any other supported format.
 
-Originally created in 2008 as a windows forms app for the .NET framework. The latest verion (5.0.0) is a WPF app running on .NET 7.
+Originally created in 2008 as a windows forms app for the .NET framework. The latest verion (5.0.1) is a WPF app running on .NET 7.
 
 For those new to WPF and C#, this small application demonstrates alot of the common functionality you might need to implement in an application.
 -	How to draw on a WPF element.
