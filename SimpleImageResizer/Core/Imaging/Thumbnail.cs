@@ -59,7 +59,7 @@ public class Thumbnail
         // BitmapImage.UriSource must be in a BeginInit/EndInit block
         // Signals the start of the BitmapImage initialization.
         bitmapImage.BeginInit();
-        bitmapImage.UriSource = new Uri(file);
+        bitmapImage.UriSource = new Uri(file, UriKind.Absolute);
 
         // This will prevent image locking.
         bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
@@ -93,7 +93,7 @@ public class Thumbnail
         BitmapImage bitmapImage = new();
 
         bitmapImage.BeginInit();
-        bitmapImage.UriSource = new Uri(file);
+        bitmapImage.UriSource = new Uri(file, UriKind.Absolute);
 
         // This will prevent image locking.
         bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
@@ -118,7 +118,7 @@ public class Thumbnail
         BitmapImage bitmapImage = new();
 
         bitmapImage.BeginInit();
-        bitmapImage.UriSource = new Uri(file);
+        bitmapImage.UriSource = new Uri(file, UriKind.Absolute);
 
         // This will prevent image locking.
         bitmapImage.CacheOption = BitmapCacheOption.OnLoad;

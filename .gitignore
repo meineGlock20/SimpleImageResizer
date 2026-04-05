@@ -8,3 +8,6 @@
 /.vs/
 /.git/
 /Documentation/
+
+# Copilot modernization workflow artifacts
+/.github/upgrades/

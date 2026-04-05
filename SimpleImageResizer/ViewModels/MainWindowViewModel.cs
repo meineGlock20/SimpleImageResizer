@@ -63,16 +63,16 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     {
         MessageService = new MessageBoxService();
 
-        DestinationDirectory = Properties.Settings.Default.DestinationDirectory;
-        SimpleResizeSetting = Properties.Settings.Default.SimpleResizeSetting;
+        DestinationDirectory = Properties.AppSettings.Default.DestinationDirectory;
+        SimpleResizeSetting = Properties.AppSettings.Default.SimpleResizeSetting;
 
         // Default use to simple.
         UseSimple = true;
-        OptionAddNumericSuffix = Properties.Settings.Default.OptionAddNumericSuffix;
-        OptionShowMessageBox = Properties.Settings.Default.OptionShowMessageBox;
-        OptionClearImages = Properties.Settings.Default.OptionClearImages;
-        OptionUseAllProcessors = Properties.Settings.Default.OptionUseAllProcessors;
-        OptionJpgQuality = Properties.Settings.Default.OptionJpgQuality.ToString();
+        OptionAddNumericSuffix = Properties.AppSettings.Default.OptionAddNumericSuffix;
+        OptionShowMessageBox = Properties.AppSettings.Default.OptionShowMessageBox;
+        OptionClearImages = Properties.AppSettings.Default.OptionClearImages;
+        OptionUseAllProcessors = Properties.AppSettings.Default.OptionUseAllProcessors;
+        OptionJpgQuality = Properties.AppSettings.Default.OptionJpgQuality.ToString();
 
         ScalingOptions = new()
         {
@@ -131,8 +131,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         string? d = Core.DirectoryBrowser.GetDirectory(Localize.MainWindow.DestinationDialogTitle);
         if (!string.IsNullOrWhiteSpace(d))
         {
-            Properties.Settings.Default.DestinationDirectory = d;
-            Properties.Settings.Default.Save();
+            Properties.AppSettings.Default.DestinationDirectory = d;
+            Properties.AppSettings.Default.Save();
             DestinationDirectory = d;
         }
     }
@@ -245,7 +245,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         // Determine the number of processors to use. If this computer only has 1 processor, then just use 1.
         // Otherwise, use all available less one.
-        int processors = Environment.ProcessorCount == 1 ? 1 : Properties.Settings.Default.OptionUseAllProcessors ? Environment.ProcessorCount - 1 : 1;
+        int processors = Environment.ProcessorCount == 1 ? 1 : Properties.AppSettings.Default.OptionUseAllProcessors ? Environment.ProcessorCount - 1 : 1;
 
         // Track bytes of resized images.
         long resizedBytes = 0;
@@ -522,8 +522,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         set
         {
             simpleResizeSetting = value;
-            Properties.Settings.Default.SimpleResizeSetting = value;
-            Properties.Settings.Default.Save();
+            Properties.AppSettings.Default.SimpleResizeSetting = value;
+            Properties.AppSettings.Default.Save();
             SimpleResizeSettingDisplay = value switch
             {
                 25 => Localize.MainWindow.SimpleImageResizeSmall,
@@ -665,8 +665,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         set
         {
             optionAddNumericSuffix = value;
-            Properties.Settings.Default.OptionAddNumericSuffix = value;
-            Properties.Settings.Default.Save();
+            Properties.AppSettings.Default.OptionAddNumericSuffix = value;
+            Properties.AppSettings.Default.Save();
             NotifyPropertyChanged();
         }
     }
@@ -680,8 +680,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         set
         {
             optionShowMessageBox = value;
-            Properties.Settings.Default.OptionShowMessageBox = value;
-            Properties.Settings.Default.Save();
+            Properties.AppSettings.Default.OptionShowMessageBox = value;
+            Properties.AppSettings.Default.Save();
             NotifyPropertyChanged();
         }
     }
@@ -695,8 +695,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         set
         {
             optionClearImages = value;
-            Properties.Settings.Default.OptionClearImages = value;
-            Properties.Settings.Default.Save();
+            Properties.AppSettings.Default.OptionClearImages = value;
+            Properties.AppSettings.Default.Save();
             NotifyPropertyChanged();
         }
     }
@@ -710,8 +710,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         set
         {
             optionUseAllProcessors = value;
-            Properties.Settings.Default.OptionUseAllProcessors = value;
-            Properties.Settings.Default.Save();
+            Properties.AppSettings.Default.OptionUseAllProcessors = value;
+            Properties.AppSettings.Default.Save();
             NotifyPropertyChanged();
         }
     }
@@ -728,8 +728,8 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
             ValidateProperties();
             if (!GetErrors().Cast<object>().ToList().Any())
             {
-                Properties.Settings.Default.OptionJpgQuality = int.Parse(value ?? "70");
-                Properties.Settings.Default.Save();
+                Properties.AppSettings.Default.OptionJpgQuality = int.Parse(value ?? "70");
+                Properties.AppSettings.Default.Save();
             }
             NotifyPropertyChanged();
         }
