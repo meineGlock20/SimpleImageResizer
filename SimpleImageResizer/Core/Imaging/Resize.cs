@@ -79,7 +79,7 @@ public class Resize
         }
 
         // Transform the bitmap frame
-        TransformedBitmap transformedBitmap = new TransformedBitmap();
+        TransformedBitmap transformedBitmap = new();
         transformedBitmap.BeginInit();
         transformedBitmap.Source = bitmap;
         transformedBitmap.Transform = new ScaleTransform(newWidth / bitmap.PixelWidth, newHeight / bitmap.PixelHeight);

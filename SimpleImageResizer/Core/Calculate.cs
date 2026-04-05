@@ -78,7 +78,7 @@ public static class Calculate
         bool cultureExists()
         {
             return CultureInfo.GetCultures(CultureTypes.AllCultures).Any(x => x.Name.Equals(culture, StringComparison.OrdinalIgnoreCase));
-        };
+        }
 
         // Format the string for the culture. Bytes will never have decimal places.
         // REM: "#,#,0" is used for bytes to force a 0 to display if the result == 0, otherwise it would be blank.

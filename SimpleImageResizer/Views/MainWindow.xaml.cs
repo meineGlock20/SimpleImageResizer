@@ -1,19 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SimpleImageResizer.Views;
 /// <summary>
@@ -63,12 +54,11 @@ public partial class MainWindow : Window
 
         if (openFileDialog.ShowDialog() == true)
         {
-
-            List<Models.Image>? images = new();
+            List<Models.Image> images = [];
             foreach (string image in openFileDialog.FileNames)
             {
                 Size size = Core.Imaging.Size.GetImageSize(image);
-                images.Add(new Models.Image()
+                images.Add(new Models.Image
                 {
                     FullPathToImage = image,
                     ImageHeight = size.Height,
@@ -101,7 +91,7 @@ public partial class MainWindow : Window
         {
 
             Size size = Core.Imaging.Size.GetImageSize(image);
-            var i = new Models.Image()
+            var i = new Models.Image
             {
                 FullPathToImage = image,
                 ImageHeight = size.Height,
@@ -130,7 +120,7 @@ public partial class MainWindow : Window
 
     private void MenuProcessingLog_Click(object sender, RoutedEventArgs e)
     {
-        if(Core.Data.RecordCount() <= 0)
+        if (Core.Data.RecordCount() <= 0)
         {
             new Views.MessageBoxWindow(Localize.MainWindow.ProcessingLogsDoNotExist,
                 Localize.MainWindow.ProcessingLogs,

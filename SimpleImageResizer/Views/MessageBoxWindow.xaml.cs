@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SimpleImageResizer.Views;
 
@@ -20,7 +13,7 @@ namespace SimpleImageResizer.Views;
 public partial class MessageBoxWindow : Window
 {
     // Bold, Warning (RED), Italics. These can not be nested. To bold a word in the message surround it with tags <b>Make me bold</b>
-    private readonly List<string> commands = new() { "<b>", "<w>", "<i>" };
+    private readonly List<string> commands = ["<b>", "<w>", "<i>"];
 
     public MessageBoxWindow(string text, string title, MessageBoxButton messageBoxButton, MessageBoxIcon messageBoxIcon, Window? owner)
     {
