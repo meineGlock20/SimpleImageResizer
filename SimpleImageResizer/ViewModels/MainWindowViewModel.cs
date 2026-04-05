@@ -21,6 +21,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     private readonly Dictionary<string, List<string>> errorList = new();
 
     private readonly IMessageService MessageService;
+    private readonly IViewFactory viewFactory;
 
     private const int jpgDefault = 70;
 
@@ -59,9 +60,10 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     /// <summary>
     /// Constructor.
     /// </summary>
-    public MainWindowViewModel()
+    public MainWindowViewModel(IMessageService messageService, IViewFactory viewFactory)
     {
-        MessageService = new MessageBoxService();
+        MessageService = messageService;
+        this.viewFactory = viewFactory;
 
         DestinationDirectory = Properties.AppSettings.Default.DestinationDirectory;
         SimpleResizeSetting = Properties.AppSettings.Default.SimpleResizeSetting;
@@ -152,9 +154,9 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     /// <param name="o">Command Parameter, not used.</param>
     private async Task BatchProcess(object o)
     {
-        var bw = new Views.BatchWindow() { Owner = Window };
+        var bw = viewFactory.CreateBatchWindow(Window);
 
-        if (bw!.ShowDialog()!.Value == false ||
+        if (bw.ShowDialog()!.Value == false ||
            string.IsNullOrWhiteSpace(Core.BatchImaging.DirectoryToProcess))
             return;
 

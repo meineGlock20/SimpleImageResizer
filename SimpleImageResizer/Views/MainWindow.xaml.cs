@@ -18,13 +18,14 @@ public partial class MainWindow : Window
     [GeneratedRegex("[^0-9]+")]
     private static partial Regex NumericRegex();
 
-    public MainWindow()
+    public MainWindow(ViewModels.MainWindowViewModel viewModel)
     {
         Core.MyApplication.DpiScale = VisualTreeHelper.GetDpi(this).PixelsPerDip;
 
         InitializeComponent();
 
-        ((ViewModels.MainWindowViewModel)DataContext).Window = this;
+        DataContext = viewModel;
+        viewModel.Window = this;
     }
 
     private void MenuItemExit_Click(object sender, RoutedEventArgs e)

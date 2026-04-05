@@ -1,9 +1,7 @@
 ﻿<Application x:Class="SimpleImageResizer.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SimpleImageResizer"
-             Startup="Application_Startup"
-             StartupUri="Views/MainWindow.xaml">
+             xmlns:local="clr-namespace:SimpleImageResizer">
     <Application.Resources>
         <!-- Disabled Buttons -->
         <!-- When a button is disabled, this will set the image opacity. -->
