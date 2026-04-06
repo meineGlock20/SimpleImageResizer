@@ -295,11 +295,11 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
                 }
                 else if (UseAspect && SelectedScalingOption?.Option == Core.Imaging.Resize.ScalingOption.Width)
                 {
-                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Width, 0, int.Parse(ResizeAspect!));
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Height, int.Parse(ResizeAspect!), 0);
                 }
                 else if (UseAspect && SelectedScalingOption?.Option == Core.Imaging.Resize.ScalingOption.Height)
                 {
-                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Height, int.Parse(ResizeAspect!), 0);
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Width, 0, int.Parse(ResizeAspect!));
                 }
                 else
                 {
