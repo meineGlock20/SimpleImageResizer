@@ -9,8 +9,8 @@
 		<Authors>meineGlock20</Authors>
 		<Product>Simple Image Resizer</Product>
 		<Description>SIR! The fast, simple, and FREE image resizer.</Description>
-		<Copyright>2009-2022</Copyright>
-		<Version>5.0.1</Version>
+		<Copyright>2009-2026</Copyright>
+		<Version>5.1.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
