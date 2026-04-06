@@ -5,29 +5,10 @@ namespace SimpleImageResizer.Commands;
 /// <summary>
 /// Provides implementation for relaying commands for MVVM.
 /// </summary>
-public class Relay : ICommand
+public class Relay(Action<object> executeAction, Predicate<object>? canExecutePredicate = null) : ICommand
 {
-    private Action<object> execute;
-    private Predicate<object> canExecute;
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    /// <param name="execute">Method to execute.</param>
-    public Relay(Action<object> execute)
-        : this(execute, DefaultCanExecute)
-    { }
-
-    /// <summary>
-    /// Constructor. Overloaded.
-    /// </summary>
-    /// <param name="execute">Method to execute.</param>
-    /// <param name="canExecute">Can this be executed?.</param>
-    public Relay(Action<object> execute, Predicate<object> canExecute)
-    {
-        this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
-        this.canExecute = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
-    }
+    private Action<object> execute = executeAction ?? throw new ArgumentNullException(nameof(executeAction));
+    private Predicate<object> canExecute = canExecutePredicate ?? DefaultCanExecute;
 
     /// <inheritdoc/>
     public event EventHandler? CanExecuteChanged
@@ -54,7 +35,7 @@ public class Relay : ICommand
     /// <returns>Bool.</returns>
     public bool CanExecute(object? parameter)
     {
-        return canExecute != null && canExecute(parameter ?? false);
+        return canExecute(parameter ?? false);
     }
 
     /// <summary>
@@ -72,7 +53,7 @@ public class Relay : ICommand
     public void OnCanExecuteChanged()
     {
         EventHandler handler = CanExecuteChangedInternal ?? throw new InvalidOperationException(null);
-        handler?.Invoke(this, EventArgs.Empty);
+        handler.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>

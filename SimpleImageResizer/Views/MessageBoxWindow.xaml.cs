@@ -280,9 +280,9 @@ public partial class MessageBoxWindow : Window
 
     private void Window_Closed(object sender, EventArgs e)
     {
-        if (Owner is not null)
+        if (Owner is { } owner)
         {
-            Owner.Opacity = 1;
+            owner.Opacity = 1;
         }
     }
 

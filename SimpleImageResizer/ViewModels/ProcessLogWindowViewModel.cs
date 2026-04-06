@@ -1,4 +1,4 @@
-﻿using SimpleImageResizer.Core;
+using SimpleImageResizer.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -99,7 +99,7 @@ public sealed class ProcessLogWindowViewModel : Models.BaseModel
 
     private void LoadProcessingLog(List<Models.Process>? processes)
     {
-        processes ??= new();
+        processes ??= [];
 
         Processes = processes;
 

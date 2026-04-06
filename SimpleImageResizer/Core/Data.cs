@@ -69,7 +69,7 @@ public sealed class Data
         using SqliteConnection sqliteConnection = new(connection);
         using SqliteCommand sqliteCommand = new(sql, sqliteConnection);
 
-        List<Models.Process> processes = new();
+        List<Models.Process> processes = [];
 
         try
         {
@@ -92,7 +92,7 @@ public sealed class Data
 
             sqliteConnection.Close();
 
-            return processes.OrderByDescending(x => x.ProcessId).ToList();
+            return [.. processes.OrderByDescending(x => x.ProcessId)];
         }
         catch (SqliteException)
         {

@@ -57,14 +57,16 @@ public class ImageTypes
         }
 
         // use original
-        return (extension.ToLower()) switch
+        return (extension.ToLowerInvariant()) switch
         {
             ".bmp" => ImageTypes.ImageType.bmp,
             ".gif" => ImageTypes.ImageType.gif,
             ".jfif" => ImageTypes.ImageType.jfif,
             ".jpg" => ImageTypes.ImageType.jpg,
+            ".jpeg" => ImageTypes.ImageType.jpg,
             ".png" => ImageTypes.ImageType.png,
             ".tif" => ImageTypes.ImageType.tif,
+            ".tiff" => ImageTypes.ImageType.tif,
             _ => ImageTypes.ImageType.unknown,
         };
     }

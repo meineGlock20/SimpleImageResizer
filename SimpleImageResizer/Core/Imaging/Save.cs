@@ -71,6 +71,10 @@ public class Save
             case ImageTypes.ImageType.tif:
                 Tif(bitmapFrame, fullPath);
                 break;
+            case ImageTypes.ImageType.unknown:
+            default:
+                Jpg(bitmapFrame, fullPath, quality);
+                break;
         }
 
         return true;

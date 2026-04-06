@@ -18,7 +18,7 @@ namespace SimpleImageResizer.ViewModels;
 
 public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 {
-    private readonly Dictionary<string, List<string>> errorList = new();
+    private readonly Dictionary<string, List<string>> errorList = [];
 
     private readonly IMessageService MessageService;
     private readonly IViewFactory viewFactory;
@@ -76,29 +76,37 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         OptionUseAllProcessors = Properties.AppSettings.Default.OptionUseAllProcessors;
         OptionJpgQuality = Properties.AppSettings.Default.OptionJpgQuality.ToString();
 
-        ScalingOptions = new()
-        {
-            new Models.ScalingOption() { Option = Core.Imaging.Resize.ScalingOption.Width, OptionDisplay = Localize.MainWindow.ScalingOptionWidth },
-            new Models.ScalingOption() { Option = Core.Imaging.Resize.ScalingOption.Height, OptionDisplay = Localize.MainWindow.ScalingOptionHeight },
-        };
+        ScalingOptions =
+        [
+            new() { Option = Core.Imaging.Resize.ScalingOption.Width, OptionDisplay = Localize.MainWindow.ScalingOptionWidth },
+            new() { Option = Core.Imaging.Resize.ScalingOption.Height, OptionDisplay = Localize.MainWindow.ScalingOptionHeight },
+        ];
 
-        ImageTypes = new()
-        {
-           new Models.ImageType(){Type= null, TypeName=Localize.MainWindow.ImageTypeOriginal},
-           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.bmp, TypeName=Localize.MainWindow.ImageTypeBitmap},
-           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.gif, TypeName=Localize.MainWindow.ImageTypeGif},
-           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.jfif, TypeName=Localize.MainWindow.ImageTypeJfif},
-           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.jpg, TypeName=Localize.MainWindow.ImageTypeJpg},
-           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.png, TypeName=Localize.MainWindow.ImageTypePng},
-           new Models.ImageType(){Type=Core.Imaging.ImageTypes.ImageType.tif, TypeName=Localize.MainWindow.ImageTypeTif},
-        };
+        ImageTypes =
+        [
+            new() { Type = null, TypeName = Localize.MainWindow.ImageTypeOriginal },
+            new() { Type = Core.Imaging.ImageTypes.ImageType.bmp, TypeName = Localize.MainWindow.ImageTypeBitmap },
+            new() { Type = Core.Imaging.ImageTypes.ImageType.gif, TypeName = Localize.MainWindow.ImageTypeGif },
+            new() { Type = Core.Imaging.ImageTypes.ImageType.jfif, TypeName = Localize.MainWindow.ImageTypeJfif },
+            new() { Type = Core.Imaging.ImageTypes.ImageType.jpg, TypeName = Localize.MainWindow.ImageTypeJpg },
+            new() { Type = Core.Imaging.ImageTypes.ImageType.png, TypeName = Localize.MainWindow.ImageTypePng },
+            new() { Type = Core.Imaging.ImageTypes.ImageType.tif, TypeName = Localize.MainWindow.ImageTypeTif },
+        ];
+
+        // Initialize advanced mode defaults so processing works even before user edits these fields.
+        ResizePercentage = "50";
+        ResizeAbsoluteX = "800";
+        ResizeAbsoluteY = "600";
+        ResizeAspect = "600";
+        SelectedScalingOption = ScalingOptions.FirstOrDefault();
+        SelectedImageType = ImageTypes.FirstOrDefault();
 
         // Commands.
         CommandClearImages = new Commands.Relay(ClearImages, p => !ProcessingInProgress);
         CommandSetDestination = new Commands.Relay(SetDestination, p => !ProcessingInProgress);
         CommandSettings = new Commands.Relay(Settings, p => !ProcessingInProgress);
-        CommandBatchProcess = new Commands.RelayAsync(BatchProcess, p => !ProcessingInProgress);
-        CommandProcessImages = new Commands.RelayAsync(ProcessImages, p => Images is not null && Images.Count > 0 && !ProcessingInProgress);
+        CommandBatchProcess = new Commands.RelayAsync(BatchProcess, p => !ProcessingInProgress && !HasErrors);
+        CommandProcessImages = new Commands.RelayAsync(ProcessImages, p => Images is not null && Images.Count > 0 && !ProcessingInProgress && !HasErrors);
         CommandOpenDestination = new Commands.Relay(OpenDestination, p => true);
         CommandResetJpgDefault = new Commands.Relay(ResetJpgDefault, p => OptionJpgQuality != jpgDefault.ToString());
         CommandCancelProcess = new Commands.Relay(ExecuteCancelProcess, p => ProcessingInProgress);
@@ -162,11 +170,11 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
         Services.UserInterface.SetBusyState();
 
-        Images = new();
+        Images = [];
         foreach (var image in Directory.EnumerateFiles(Core.BatchImaging.DirectoryToProcess,
                     "*.*",
                     Core.BatchImaging.IncludeSubDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
-                    .Where(x => Core.Imaging.ImageTypes.ValidExtensions.Any(ext => ext == Path.GetExtension(x).ToLower())))
+                    .Where(x => Core.Imaging.ImageTypes.ValidExtensions.Contains(Path.GetExtension(x), StringComparer.OrdinalIgnoreCase)))
         {
             Size size = Core.Imaging.Size.GetImageSize(image);
             Images.Add(new Models.Image()
@@ -233,17 +241,30 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
 
     public void AddImagesToCollection(Models.Image i)
     {
-        Images ??= new();
+        Images ??= [];
         Images.Add(i);
     }
 
     private async Task ProcessImagesAsync()
     {
+        if (HasErrors)
+        {
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(DestinationDirectory) || Images is null)
             return;
 
         if (!Directory.Exists(DestinationDirectory))
             Directory.CreateDirectory(DestinationDirectory);
+
+        int percentage = int.TryParse(ResizePercentage, out int p) ? p : 50;
+        int absoluteX = int.TryParse(ResizeAbsoluteX, out int ax) ? ax : 800;
+        int absoluteY = int.TryParse(ResizeAbsoluteY, out int ay) ? ay : 600;
+        int aspect = int.TryParse(ResizeAspect, out int ar) ? ar : 600;
+        int jpgQuality = int.TryParse(OptionJpgQuality, out int q) ? q : 70;
+
+        var selectedScalingOption = SelectedScalingOption?.Option ?? Core.Imaging.Resize.ScalingOption.Width;
 
         // Determine the number of processors to use. If this computer only has 1 processor, then just use 1.
         // Otherwise, use all available less one.
@@ -287,19 +308,19 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
                 BitmapFrame bitmapFrame;
                 if (UseSimple || UsePercentage)
                 {
-                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, UseSimple ? SimpleResizeSetting : int.Parse(ResizePercentage!));
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, UseSimple ? SimpleResizeSetting : percentage);
                 }
                 else if (UseAbsolute)
                 {
-                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.None, int.Parse(ResizeAbsoluteX!), int.Parse(ResizeAbsoluteY!));
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.None, absoluteX, absoluteY);
                 }
-                else if (UseAspect && SelectedScalingOption?.Option == Core.Imaging.Resize.ScalingOption.Width)
+                else if (UseAspect && selectedScalingOption == Core.Imaging.Resize.ScalingOption.Width)
                 {
-                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Height, int.Parse(ResizeAspect!), 0);
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Height, aspect, 0);
                 }
-                else if (UseAspect && SelectedScalingOption?.Option == Core.Imaging.Resize.ScalingOption.Height)
+                else if (UseAspect && selectedScalingOption == Core.Imaging.Resize.ScalingOption.Height)
                 {
-                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Width, 0, int.Parse(ResizeAspect!));
+                    bitmapFrame = Core.Imaging.Resize.Image(image.FullPathToImage, Core.Imaging.Resize.ScalingOption.Width, 0, aspect);
                 }
                 else
                 {
@@ -320,12 +341,12 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
                 if (Core.BatchImaging.DirectoryToProcess is not null && Core.BatchImaging.IncludeSubDirectories)
                 {
                     string path = image.FullPathToImage.Replace(image.ImageName, "").Replace(Core.BatchImaging.DirectoryToProcess, "");
-                    if (path.StartsWith("\\")) path = path[1..];
+                    if (path.StartsWith('\\')) path = path[1..];
                     pathToSave = Path.Combine(destination, path);
                     Directory.CreateDirectory(pathToSave);
                 }
 
-                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(pathToSave, $"{imagename}"), saveAs, overwrite: false, int.Parse(OptionJpgQuality ?? "70"));
+                Core.Imaging.Save.Image(bitmapFrame, Path.Combine(pathToSave, $"{imagename}"), saveAs, overwrite: false, jpgQuality);
 
                 // Track resized bytes.
                 resizedBytes += new FileInfo(Path.Combine(pathToSave, $"{imagename}")).Length;
@@ -346,6 +367,11 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         {
             // When Parallel processing, exceptions will aggregate and can be caught here.
             Debug.Print(ae.InnerException?.ToString());
+            MessageService.ShowMessage(ae.InnerException?.Message ?? ae.Message,
+                Localize.MainWindow.ProcessingCompleteMsgTitle,
+                MessageBoxServiceButton.Ok,
+                MessageBoxServiceIcon.Error,
+                Window);
         }
         finally
         {
@@ -728,7 +754,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         {
             optionJpgQuality = value;
             ValidateProperties();
-            if (!GetErrors().Cast<object>().ToList().Any())
+            if (GetErrors().Cast<object>().ToList().Count == 0)
             {
                 Properties.AppSettings.Default.OptionJpgQuality = int.Parse(value ?? "70");
                 Properties.AppSettings.Default.Save();
@@ -773,7 +799,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
         get => images;
         set
         {
-            if (value is not null) value.CollectionChanged += Images_CollectionChanged;
+            value?.CollectionChanged += Images_CollectionChanged;
             images = value;
             NotifyPropertyChanged();
             NotifyPropertyChanged(nameof(BackgroundDrawingBrush));
@@ -843,7 +869,7 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     /// <summary>
     /// Gets a value indicating whether there are any errors in the error list.
     /// </summary>
-    public bool HasErrors => errorList.Any();
+    public bool HasErrors => errorList.Count > 0;
 
     /// <summary>
     /// Event fires when a validation error occurs for a property or an entire entity.
@@ -900,14 +926,15 @@ public sealed class MainWindowViewModel : Models.BaseModel, INotifyDataErrorInfo
     /// <param name="error">Error.</param>
     private void AddError(string propertyName, string error)
     {
-        if (!errorList.ContainsKey(propertyName))
+        if (!errorList.TryGetValue(propertyName, out List<string>? errors))
         {
-            errorList[propertyName] = new List<string>();
+            errors = [];
+            errorList[propertyName] = errors;
         }
 
-        if (!errorList[propertyName].Contains(error))
+        if (!errors.Contains(error))
         {
-            errorList[propertyName].Add(error);
+            errors.Add(error);
             OnErrorsChanged(propertyName);
         }
 

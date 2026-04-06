@@ -79,7 +79,7 @@ public class Exif
 
         if (System.IO.File.Exists(file))
         {
-            using FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read);
+            using FileStream fileStream = new(file, FileMode.Open, FileAccess.Read);
             BitmapFrame bitmapFrame = BitmapFrame.Create(fileStream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
             if ((bitmapFrame.Metadata is BitmapMetadata bitmapMetadata) && bitmapMetadata.ContainsQuery(OrientationQuery))
             {

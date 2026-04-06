@@ -20,11 +20,11 @@ public partial class MainWindow : Window
 
     public MainWindow(ViewModels.MainWindowViewModel viewModel)
     {
-        Core.MyApplication.DpiScale = VisualTreeHelper.GetDpi(this).PixelsPerDip;
+        DataContext = viewModel;
 
         InitializeComponent();
 
-        DataContext = viewModel;
+        Core.MyApplication.DpiScale = VisualTreeHelper.GetDpi(this).PixelsPerDip;
         viewModel.Window = this;
     }
 

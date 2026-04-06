@@ -13,7 +13,7 @@ namespace SimpleImageResizer.ViewModels;
 
 public sealed class BatchWindowViewModel : BaseModel, INotifyDataErrorInfo
 {
-    private readonly Dictionary<string, List<string>> errorList = new();
+    private readonly Dictionary<string, List<string>> errorList = [];
 
     private string? directory;
     private bool subDirectories;
@@ -82,7 +82,7 @@ public sealed class BatchWindowViewModel : BaseModel, INotifyDataErrorInfo
     /// <summary>
     /// Gets a value indicating whether there are any errors in the error list.
     /// </summary>
-    public bool HasErrors => errorList.Any();
+    public bool HasErrors => errorList.Count > 0;
 
     /// <summary>
     /// Event fires when a validation error occurs for a property or an entire entity.
@@ -118,14 +118,15 @@ public sealed class BatchWindowViewModel : BaseModel, INotifyDataErrorInfo
     /// <param name="error">Error.</param>
     private void AddError(string propertyName, string error)
     {
-        if (!errorList.ContainsKey(propertyName))
+        if (!errorList.TryGetValue(propertyName, out List<string>? errors))
         {
-            errorList[propertyName] = [];
+            errors = [];
+            errorList[propertyName] = errors;
         }
 
-        if (!errorList[propertyName].Contains(error))
+        if (!errors.Contains(error))
         {
-            errorList[propertyName].Add(error);
+            errors.Add(error);
             OnErrorsChanged(propertyName);
         }
 

@@ -3,11 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SimpleImageResizer.ViewModels"
         xmlns:l="clr-namespace:SimpleImageResizer.Localize"
         xmlns:con="clr-namespace:SimpleImageResizer.Converters"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:local="clr-namespace:SimpleImageResizer.Views"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel, IsDesignTimeCreatable=False}"
         ResizeMode="CanResizeWithGrip"
         Title="SIR! Simple Image Resizer" Height="500" Width="900">
     <Window.Resources>
@@ -391,6 +393,8 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
 
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="5"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="5"/>

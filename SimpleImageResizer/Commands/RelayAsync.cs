@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SimpleImageResizer.Commands;
@@ -14,23 +10,12 @@ namespace SimpleImageResizer.Commands;
 /// <remarks>
 /// Avoids using a VOID ASYNC in the VM which is difficult to debug among other things.
 /// </remarks>
-public class RelayAsync : ICommand
+public class RelayAsync(Func<object, Task> executeAsync, Func<object, bool>? canExecutePredicate = null) : ICommand
 {
-    private readonly Func<object, Task> execute;
-    private readonly Func<object, bool> canExecute;
+    private readonly Func<object, Task> execute = executeAsync ?? throw new ArgumentNullException(nameof(executeAsync));
+    private readonly Func<object, bool> canExecute = canExecutePredicate ?? (_ => true);
 
     private long isExecuting;
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    /// <param name="execute">Task to execute.</param>
-    /// <param name="canExecute">Bool to determine if it can be executed.</param>
-    public RelayAsync(Func<object, Task> execute, Func<object, bool>? canExecute = null)
-    {
-        this.execute = execute;
-        this.canExecute = canExecute ?? (o => true);
-    }
 
     /// <summary>
     /// Event handler. More info needed.
