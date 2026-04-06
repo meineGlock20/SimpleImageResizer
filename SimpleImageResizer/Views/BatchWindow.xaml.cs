@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace SimpleImageResizer.Views
 {
@@ -19,21 +7,20 @@ namespace SimpleImageResizer.Views
     /// </summary>
     public partial class BatchWindow : Window
     {
-        public BatchWindow()
+        public BatchWindow(ViewModels.BatchWindowViewModel viewModel)
         {
             InitializeComponent();
 
-            // There is an CloseAction property on the VM that needs to be wired up so the window can be closed from the VM.
-            if (((ViewModels.BatchWindowViewModel)DataContext).CloseAction == null)
-            {
-                ((ViewModels.BatchWindowViewModel)DataContext).CloseAction = new Action(() => Close());
-            }
+            DataContext = viewModel;
+
+            // There is a CloseAction property on the VM that needs to be wired up so the window can be closed from the VM.
+            viewModel.CloseAction ??= Close;
         }
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
-            this.Close();
+            DialogResult = true;
+            Close();
         }
     }
 }

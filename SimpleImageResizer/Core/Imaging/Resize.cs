@@ -57,7 +57,7 @@ public class Resize
         bitmap.BeginInit();
         bitmap.CacheOption = BitmapCacheOption.None; // this one is YUGE! Significantly reduces memory usage.
         bitmap.CreateOptions = BitmapCreateOptions.DelayCreation;
-        bitmap.UriSource = new Uri(file);
+        bitmap.UriSource = new Uri(file, UriKind.Absolute);
         bitmap.EndInit();
 
         double newWidth = bitmap.PixelWidth;
@@ -79,7 +79,7 @@ public class Resize
         }
 
         // Transform the bitmap frame
-        TransformedBitmap transformedBitmap = new TransformedBitmap();
+        TransformedBitmap transformedBitmap = new();
         transformedBitmap.BeginInit();
         transformedBitmap.Source = bitmap;
         transformedBitmap.Transform = new ScaleTransform(newWidth / bitmap.PixelWidth, newHeight / bitmap.PixelHeight);
@@ -100,7 +100,7 @@ public class Resize
         bitmap.BeginInit();
         bitmap.CacheOption = BitmapCacheOption.None; // this one is YUGE! Significantly reduces memory usage.
         bitmap.CreateOptions = BitmapCreateOptions.DelayCreation;
-        bitmap.UriSource = new Uri(file);
+        bitmap.UriSource = new Uri(file, UriKind.Absolute);
         bitmap.EndInit();
 
         double d = (double)percentage / 100;

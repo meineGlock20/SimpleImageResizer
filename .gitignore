@@ -6,5 +6,8 @@
 /SimpleImageResizer/bin/
 /SimpleImageResizer/Properties/PublishProfiles/
 /.vs/
-/.git/
+/git/
 /Documentation/
+
+# User preference: keep all .github files out of git
+/.github/

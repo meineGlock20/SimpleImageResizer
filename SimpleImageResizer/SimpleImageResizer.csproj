@@ -2,15 +2,15 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows7.0</TargetFramework>
+		<TargetFramework>net10.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>SIR.ico</ApplicationIcon>
 		<Authors>meineGlock20</Authors>
 		<Product>Simple Image Resizer</Product>
 		<Description>SIR! The fast, simple, and FREE image resizer.</Description>
-		<Copyright>2009-2022</Copyright>
-		<Version>5.0.1</Version>
+		<Copyright>2009-2026</Copyright>
+		<Version>5.1.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,18 +26,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <COMReference Include="Shell32">
-	    <VersionMinor>0</VersionMinor>
-	    <VersionMajor>1</VersionMajor>
-	    <Guid>50a7e9b0-70ef-11d1-b75a-00a0c90564fe</Guid>
-	    <Lcid>0</Lcid>
-	    <WrapperTool>tlbimp</WrapperTool>
-	    <Isolated>false</Isolated>
-	    <EmbedInteropTypes>False</EmbedInteropTypes>
-	  </COMReference>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Content Include="SIR.db">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
@@ -45,7 +33,8 @@
 
 	<ItemGroup>
 	  <PackageReference Include="CsvHelper" Version="30.0.1" />
-	  <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.2" />
+	  <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.5" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,11 +60,6 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>MainWindow.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Properties\Settings.Designer.cs">
-	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Settings.settings</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 

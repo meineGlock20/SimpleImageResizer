@@ -120,7 +120,7 @@ public sealed class BatchWindowViewModel : BaseModel, INotifyDataErrorInfo
     {
         if (!errorList.ContainsKey(propertyName))
         {
-            errorList[propertyName] = new List<string>();
+            errorList[propertyName] = [];
         }
 
         if (!errorList[propertyName].Contains(error))
