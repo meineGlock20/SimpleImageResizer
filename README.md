@@ -12,14 +12,12 @@ Simple mode allows quick resizing to small, medium, or large and outputs as the 
 
 Advanced output mode allows a choice of resizing by percentage, absolute, or aspect ratio. JPG quality can be adjusted. Can output to any other supported format.
 
-Originally created in 2008 as a windows forms app for the .NET framework. The latest verion (5.0.1) is a WPF app running on .NET 7.
+Originally created in 2008 as a windows forms app for the .NET framework. The latest verion (5.1.0) is a WPF app running on .NET 10.
 
 For those new to WPF and C#, this small application demonstrates alot of the common functionality you might need to implement in an application.
 -	How to draw on a WPF element.
 -	How to resize and save images as any supported format using pure WPF. (Not System.Drawing GDI+).
 -- BMP, GIF, JFIF, JPG, PNG, and TIFF.
--	How to implement a Browse folder dialog.
--- Requires a reference to Shell32.dll.
 -	How to implement a custom Message Box and call as a service.
 -	How to handle UI drag and drop operations with MVVM.
 -	How to implement MVVM Commands, NotifyDataErrorInfo, and NotifyPropertyChanged without using a third-party framework.
